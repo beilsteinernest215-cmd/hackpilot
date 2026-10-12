@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Enterprise Reporting System for HackGPT
+Enterprise Reporting System for HackPilot
 Dynamic report generation with analytics and trend analysis
 """
 

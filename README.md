@@ -222,7 +222,7 @@ environment = production
 max_sessions = 100
 
 [database]
-url = postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt
+url = postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot
 pool_size = 20
 backup_enabled = true
 
@@ -259,11 +259,11 @@ Over 100 environment variables for enterprise deployment:
 
 ```bash
 # Core Services
-DATABASE_URL=postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt
+DATABASE_URL=postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot
 REDIS_URL=redis://localhost:6379/0
 
 # AI Configuration — Multi-Provider
-HACKPILOT_MODEL=gpt-5              # (HACKGPT_MODEL also supported)               # Any model from ai_engine/model_registry.py
+HACKPILOT_MODEL=gpt-5              # (HACKPILOT_MODEL also supported)               # Any model from ai_engine/model_registry.py
 OPENAI_API_KEY=your_openai_api_key
 ANTHROPIC_API_KEY=your_anthropic_api_key
 GOOGLE_API_KEY=your_google_api_key
@@ -441,7 +441,7 @@ python3 advance_hackpilot.py --voice
 ```bash
 # Access Grafana dashboard
 http://localhost:3000
-# Login: admin / hackgpt123
+# Login: admin / hackpilot123
 
 # Pre-configured dashboards:
 # - HackPilot System Overview
@@ -571,7 +571,7 @@ aws ecs create-service --service-name hackpilot-api
 #### Azure Deployment  
 ```bash
 # ACI deployment
-az container create --resource-group hackpilot --name hackgpt-api
+az container create --resource-group hackpilot --name hackpilot-api
 ```
 
 #### GCP Deployment

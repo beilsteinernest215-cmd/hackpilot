@@ -274,7 +274,7 @@ def ping_host(user_supplied_ip):
     }
 
     function processCommand(cmd) {
-        writeLine(`<span class="t-cyan">guest@hackgpt:~$</span> ${cmd}`);
+        writeLine(`<span class="t-cyan">guest@hackpilot:~$</span> ${cmd}`);
         const lowerCmd = cmd.toLowerCase().trim();
 
         if (lowerCmd === 'clear') {

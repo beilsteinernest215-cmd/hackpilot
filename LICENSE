@@ -1,14 +1,14 @@
-# HackGPT License
-HackGPT Enterprise License
+# HackPilot License
+HackPilot Enterprise License
 
-Copyright (c) 2025 HackGPT Enterprise Team
+Copyright (c) 2025 HackPilot Enterprise Team
 All rights reserved.
 
 ENTERPRISE SOFTWARE LICENSE AGREEMENT
 
 This Enterprise Software License Agreement ("Agreement") is a legal agreement 
-between you (either an individual or a single entity) and the HackGPT Enterprise 
-Team ("Licensor") for the HackGPT Enterprise AI-Powered Penetration Testing 
+between you (either an individual or a single entity) and the HackPilot Enterprise 
+Team ("Licensor") for the HackPilot Enterprise AI-Powered Penetration Testing 
 Platform software ("Software").
 
 BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE BOUND 
@@ -58,135 +58,128 @@ Users MUST:
 5. ENTERPRISE SUPPORT AND SERVICES
 
 This license includes:
-- Community support through public channels
-- Access to documentation and user guides
-- Software updates and security patches
-- Bug fixes and maintenance releases
+- Access to community updates and bug fixes
+- Basic documentation and implementation guides
+- Standard issue reporting through official channels
 
-Premium enterprise support is available separately and may include:
-- Priority technical support
-- Professional services and implementation assistance
-- Custom development and integration services
-- Training and certification programs
-- Service level agreements (SLA)
+Enterprise support packages, custom development, and professional services 
+are available separately through commercial agreements.
 
-6. DATA PROTECTION AND PRIVACY
+6. INTELLECTUAL PROPERTY RIGHTS
 
-The Software:
-- Processes security assessment data locally by default
-- May integrate with third-party services (OpenAI, cloud providers) if configured
-- Includes built-in data encryption and protection mechanisms
-- Supports compliance with GDPR, CCPA, and other privacy regulations
-- Maintains audit logs for compliance and forensic purposes
+The Software is protected by copyright laws and international copyright treaties, 
+as well as other intellectual property laws and treaties. The Software is licensed, 
+not sold.
 
-Users are responsible for:
-- Configuring appropriate data protection settings
-- Ensuring compliance with applicable privacy laws
-- Securing credentials and sensitive assessment data
-- Implementing proper access controls and user management
+All title and intellectual property rights in and to the Software (including but 
+not limited to any images, photographs, animations, video, audio, music, text, 
+and "applets" incorporated into the Software), the accompanying printed materials, 
+and any copies of the Software are owned by Licensor or its suppliers.
 
-7. LIABILITY AND WARRANTIES
+7. DISCLAIMER OF WARRANTIES
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT.
 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR
-OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH YOU. 
+SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY 
+SERVICING, REPAIR, OR CORRECTION.
 
-LIMITATION OF LIABILITY:
-- Licensor's total liability shall not exceed the amount paid for enterprise support services
-- Licensor is not liable for indirect, incidental, or consequential damages
-- Users assume full responsibility for proper and lawful use of the Software
-- This limitation applies even if Licensor has been advised of the possibility of such damages
+8. LIMITATION OF LIABILITY
 
-8. INDEMNIFICATION
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT, OR 
+CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR 
+LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, 
+OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE 
+THE SOFTWARE, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
+DAMAGES.
 
-You agree to indemnify, defend, and hold harmless the Licensor from and against
-any and all claims, damages, obligations, losses, liabilities, costs, or debt,
-and expenses (including but not limited to attorney's fees) arising from:
-- Your use of the Software
-- Your violation of any term of this Agreement
-- Your violation of any third-party rights, including privacy and intellectual property rights
-- Any unauthorized or illegal use of the Software
+9. INDEMNIFICATION
 
-9. INTELLECTUAL PROPERTY
+You agree to indemnify, defend, and hold harmless Licensor, its officers, 
+directors, employees, agents, and third parties, for any losses, costs, 
+liabilities, and expenses (including reasonable attorney's fees) relating 
+to or arising out of:
+a) Your use of the Software
+b) Your violation of any terms of this Agreement
+c) Your violation of any rights of a third party
+d) Your violation of any applicable laws, rules, or regulations
 
-The Software and its original features, functionality, and general appearance are 
-and will remain the exclusive property of the Licensor and its licensors. The 
-Software is protected by copyright, trademark, and other intellectual property laws.
+10. TERMINATION
 
-You acknowledge that:
-- No title to or ownership of the Software is transferred to you
-- This license does not grant you any rights to trademarks or service marks
-- Any feedback or contributions you provide may be used by Licensor without restriction
+Without prejudice to any other rights, Licensor may terminate this Agreement 
+if you fail to comply with the terms and conditions of this Agreement. In such 
+event, you must destroy all copies of the Software and all of its component parts.
 
-10. COMPLIANCE FRAMEWORKS
+11. GOVERNING LAW
 
-The Software is designed to support compliance with industry standards including:
-- OWASP Testing Guide and Top 10
-- NIST Cybersecurity Framework
-- ISO 27001 Information Security Management
-- SOC 2 Security and Availability
-- PCI DSS Data Security Standard
-- GDPR and other privacy regulations
+This Agreement shall be governed by and construed in accordance with the laws 
+of the jurisdiction in which Licensor operates, without regard to its conflict 
+of law provisions.
 
-Users are responsible for ensuring their use of the Software meets applicable 
-compliance requirements for their industry and jurisdiction.
+12. ENTIRE AGREEMENT
 
-11. EXPORT RESTRICTIONS
+This Agreement constitutes the entire agreement between you and Licensor 
+concerning the Software and supersedes all prior or contemporaneous oral or 
+written communications, proposals, and representations with respect to the 
+Software or any other subject matter covered by this Agreement.
 
-The Software may be subject to export restrictions. You agree to comply with all
-applicable export and re-export control laws and regulations, including the U.S.
-Export Administration Regulations and international export control regimes.
+13. EXPORT RESTRICTIONS
 
-12. TERMINATION
+You acknowledge that the Software may be subject to export control laws and 
+regulations. You agree to comply with all applicable international and national 
+laws that apply to the Software, including export control regulations.
 
-This license is effective until terminated. Your rights under this license will
-terminate automatically without notice if you fail to comply with any term(s)
-of this Agreement. Upon termination, you must cease all use of the Software
-and destroy all copies in your possession.
+14. SECURITY ASSESSMENT SPECIFIC TERMS
 
-13. GOVERNING LAW
+HackPilot Enterprise is designed exclusively for authorized security testing, 
+research, and educational purposes. By using this tool, you explicitly agree:
 
-This Agreement shall be governed by and construed in accordance with the laws
-of the jurisdiction where the Licensor is established, without regard to its
-conflict of law provisions.
+a) Authorization: You have received explicit written permission from authorized 
+   representatives before testing any systems, networks, or applications.
+b) Non-Destructive Testing: You will use testing methods that avoid causing 
+   damage, disruption, or denial of service to target systems.
+c) Data Protection: You will handle any sensitive data discovered during testing 
+   with strict confidentiality and in compliance with applicable privacy laws.
+d) Responsible Disclosure: You will coordinate the disclosure of any discovered 
+   vulnerabilities through responsible channels.
+e) Compliance: You will adhere to relevant standards and regulations, including 
+   OWASP, NIST, ISO27001, SOC2, and PCI-DSS requirements.
 
-14. ENTIRE AGREEMENT
+15. CONTRIBUTION TERMS
 
-This Agreement constitutes the entire agreement between you and Licensor relating
-to the Software and supersedes all prior or contemporaneous agreements, whether
-oral or written, relating to the subject matter hereof.
+Any contributions made to the HackPilot Enterprise project are subject to 
+the terms outlined in the CONTRIBUTING.md file and will become part of the 
+licensed software under these terms.
 
-15. SEVERABILITY
+16. SEVERABILITY
 
-If any provision of this Agreement is held to be invalid or unenforceable, such
-provision shall be struck and the remaining provisions shall be enforced to the
-fullest extent under applicable law.
+If any provision of this Agreement is held to be unenforceable or invalid, 
+such provision will be changed and interpreted to accomplish the objectives 
+of such provision to the greatest extent possible under applicable law and 
+the remaining provisions will continue in full force and effect.
 
-16. UPDATES AND MODIFICATIONS
+17. WAIVER
 
-Licensor reserves the right to update this license with new releases of the
-Software. Continued use of updated Software constitutes acceptance of any
-license modifications.
+The failure of Licensor to enforce any right or provision in this Agreement 
+shall not constitute a waiver of such right or provision unless acknowledged 
+and agreed to by Licensor in writing.
+
+18. UPDATES AND MODIFICATIONS
+
+Licensor reserves the right to modify this Agreement at any time. Updated 
+versions will be distributed with new releases of the Software. Your continued 
+use of the Software after any such modifications constitutes your acceptance 
+of the modified Agreement.
 
 ---
 
-IMPORTANT LEGAL NOTICES:
-
-SECURITY TESTING DISCLAIMER:
-HackGPT Enterprise is designed exclusively for authorized security testing,
-penetration testing, and security research purposes. Any use of this software
-for unauthorized access to computer systems, networks, or data is strictly
-prohibited and may violate applicable laws.
-
-PROFESSIONAL USE:
-This software is intended for use by qualified security professionals,
-penetration testers, and authorized security researchers. Users should have
-appropriate training and expertise in cybersecurity practices.
+IMPORTANT SECURITY NOTICE:
+This tool is intended for use by cybersecurity professionals, penetration testers, 
+security researchers, and system administrators with authorized access to test 
+systems. Misuse of this software may violate computer crime laws in various 
+jurisdictions.
 
 RESPONSIBLE DISCLOSURE:
 Users are expected to follow responsible disclosure practices when discovering
@@ -194,10 +187,10 @@ vulnerabilities, including coordinating with affected parties and allowing
 reasonable time for remediation before public disclosure.
 
 CONTACT INFORMATION:
-- General Inquiries: info@hackgpt.dev
-- Enterprise Support: enterprise@hackgpt.dev
-- Security Issues: security@hackgpt.dev
-- Legal Matters: legal@hackgpt.dev
+- General Inquiries: info@hackpilot.dev
+- Enterprise Support: enterprise@hackpilot.dev
+- Security Issues: security@hackpilot.dev
+- Legal Matters: legal@hackpilot.dev
 
 Last Updated: August 18, 2025
 Version: 2.0.0 Enterprise Edition

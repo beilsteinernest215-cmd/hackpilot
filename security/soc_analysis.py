@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Advanced SOC (Security Operations Center) Analysis Engine for HackGPT
+Advanced SOC (Security Operations Center) Analysis Engine for HackPilot
 
 Provides enterprise-grade SOC capabilities:
 - Multi-format log ingestion & normalization (syslog, JSON, CEF, CSV, Windows Event)
@@ -2255,7 +2255,7 @@ class SIEMConnector:
         raise NotImplementedError
 
     def forward_alert(self, alert: SOCAlert) -> Tuple[bool, str]:
-        """Send a correlated HackGPT SOC alert to the SIEM index/receiver."""
+        """Send a correlated HackPilot SOC alert to the SIEM index/receiver."""
         raise NotImplementedError
 
 
@@ -2364,7 +2364,7 @@ class SplunkConnector(SIEMConnector):
                     "description": alert.description,
                     "recommended_actions": alert.recommended_actions
                 },
-                "sourcetype": "hackgpt:soc:alert"
+                "sourcetype": "hackpilot:soc:alert"
             }
             response = requests.post(
                 f"{self.url}/services/collector/event",
@@ -2476,14 +2476,14 @@ class QRadarConnector(SIEMConnector):
             }
             payload = {
                 "alert_id": alert.alert_id,
-                "title": f"HackGPT-SOC: {alert.title}",
+                "title": f"HackPilot-SOC: {alert.title}",
                 "severity": alert.severity.value,
                 "category": alert.category,
                 "score": alert.score,
                 "description": alert.description,
                 "mitre_techniques": [m.technique_id for m in alert.mitre_mappings],
                 "recommended_actions": alert.recommended_actions,
-                "generator": "HackGPT"
+                "generator": "HackPilot"
             }
             # Custom HTTP receiver endpoint for QRadar
             response = requests.post(
@@ -2591,14 +2591,14 @@ class ElasticsearchConnector(SIEMConnector):
                 "@timestamp": alert.timestamp.isoformat() if alert.timestamp else None
             }
             response = requests.post(
-                f"{self.url}/hackgpt-soc-alerts/_doc",
+                f"{self.url}/hackpilot-soc-alerts/_doc",
                 headers={k: v for k, v in headers.items() if v is not None},
                 json=payload,
                 verify=self.verify_ssl,
                 timeout=5
             )
             if response.status_code in (200, 201):
-                return True, "Alert posted to Elasticsearch index 'hackgpt-soc-alerts'."
+                return True, "Alert posted to Elasticsearch index 'hackpilot-soc-alerts'."
             return False, f"Elasticsearch rejected alert: Status {response.status_code}"
         except Exception as e:
             return False, f"Elasticsearch forward failed: {str(e)}"
@@ -2631,7 +2631,7 @@ class WebhookConnector(SIEMConnector):
         try:
             # Format custom payload based on webhook endpoint target (detect Slack/Teams)
             payload = {
-                "text": f"🚨 *HackGPT SOC Alert: {alert.title}* ({alert.severity.value.upper()})\n"
+                "text": f"🚨 *HackPilot SOC Alert: {alert.title}* ({alert.severity.value.upper()})\n"
                         f"Score: {alert.score:.1f}/100 | Category: {alert.category}\n"
                         f"Description: {alert.description}\n"
                         f"Recommended Actions:\n" + "\n".join(f"- {a}" for a in alert.recommended_actions[:3])

@@ -1,5 +1,5 @@
--- HackGPT SQL schema
--- HackGPT PostgreSQL initialization script
+-- HackPilot SQL schema
+-- HackPilot PostgreSQL initialization script
 -- Runs once on first container start (postgres:15-alpine) via
 -- /docker-entrypoint-initdb.d. The application uses SQLAlchemy and
 -- creates/migrates its own tables, so this script intentionally stays

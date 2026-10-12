@@ -112,18 +112,18 @@ class Config:
         self.DATABASE_URL = os.getenv("DATABASE_URL", self.config.get("database", "url", fallback=""))
         self.REDIS_URL = os.getenv("REDIS_URL", self.config.get("cache", "redis_url", fallback="redis://localhost:6379/0"))
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", self.config.get("ai", "openai_api_key", fallback=""))
-        self.HACKPILOT_MODEL = os.getenv("HACKPILOT_MODEL", os.getenv("HACKGPT_MODEL", self.config.get("ai", "model", fallback="gpt-4o")))
-        self.HACKGPT_MODEL = self.HACKPILOT_MODEL
-        self.HACKPILOT_PROVIDER = os.getenv("HACKPILOT_PROVIDER", os.getenv("HACKGPT_PROVIDER", self.config.get("ai", "provider", fallback="")))
-        self.HACKGPT_PROVIDER = self.HACKPILOT_PROVIDER
+        self.HACKPILOT_MODEL = os.getenv("HACKPILOT_MODEL", os.getenv("HACKPILOT_MODEL", self.config.get("ai", "model", fallback="gpt-4o")))
+        self.HACKPILOT_MODEL = self.HACKPILOT_MODEL
+        self.HACKPILOT_PROVIDER = os.getenv("HACKPILOT_PROVIDER", os.getenv("HACKPILOT_PROVIDER", self.config.get("ai", "provider", fallback="")))
+        self.HACKPILOT_PROVIDER = self.HACKPILOT_PROVIDER
         self.HACKPILOT_CUSTOM_ROUTE = os.getenv(
             "HACKPILOT_CUSTOM_ROUTE",
             os.getenv(
-                "HACKGPT_CUSTOM_ROUTE",
+                "HACKPILOT_CUSTOM_ROUTE",
                 os.getenv("CUSTOM_ROUTER_BASE_URL", self.config.get("ai", "custom_route", fallback="")),
             ),
         )
-        self.HACKGPT_CUSTOM_ROUTE = self.HACKPILOT_CUSTOM_ROUTE
+        self.HACKPILOT_CUSTOM_ROUTE = self.HACKPILOT_CUSTOM_ROUTE
         self.OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", self.config.get("ai", "openrouter_base_url", fallback="https://openrouter.ai/api/v1"))
         self.OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", self.config.get("ai", "openrouter_api_key", fallback=""))
         self.NINEBROUTER_BASE_URL = os.getenv("NINEBROUTER_BASE_URL", self.config.get("ai", "ninebrouter_base_url", fallback="http://localhost:8000/v1"))
@@ -216,9 +216,9 @@ class EnterpriseHackPilot:
     
     def __init__(self, model: str = None, provider: str = None, custom_route: str = None):
         self.config = config
-        self.model_id = model or config.HACKGPT_MODEL
-        self.provider_name = provider or config.HACKGPT_PROVIDER
-        self.custom_route = custom_route or config.HACKGPT_CUSTOM_ROUTE
+        self.model_id = model or config.HACKPILOT_MODEL
+        self.provider_name = provider or config.HACKPILOT_PROVIDER
+        self.custom_route = custom_route or config.HACKPILOT_CUSTOM_ROUTE
         self.console = Console()
         self.logger = logging.getLogger('hackpilot.main')
         
@@ -257,7 +257,7 @@ class EnterpriseHackPilot:
                 or os.getenv("OPENROUTER_API_KEY")
                 or os.getenv("NINEBROUTER_BASE_URL")
                 or os.getenv("CUSTOM_ROUTER_BASE_URL")
-                or os.getenv("HACKGPT_CUSTOM_ROUTE")
+                or os.getenv("HACKPILOT_CUSTOM_ROUTE")
                 or os.getenv("ANTHROPIC_API_KEY")
                 or os.getenv("GOOGLE_API_KEY")
                 or os.getenv("DEEPSEEK_API_KEY")
@@ -452,7 +452,7 @@ class EnterpriseHackPilot:
         signal.signal(signal.SIGTERM, signal_handler)
     
     def show_banner(self):
-        """Display the HackGPT banner with system status"""
+        """Display the HackPilot banner with system status"""
         self.console.print(BANNER)
         
         # System status
@@ -733,7 +733,7 @@ class EnterpriseHackPilot:
     
     def deploy_hackpilot_stack(self):
         """Deploy HackPilot microservices stack"""
-        """Deploy HackGPT microservices stack"""
+        """Deploy HackPilot microservices stack"""
         if not self.docker_manager:
             return
         
@@ -744,26 +744,26 @@ class EnterpriseHackPilot:
         
         services = [
             ServiceDefinition(
-                service_name="hackgpt-api",
+                service_name="hackpilot-api",
                 container_config=ContainerConfig(
-                    name="hackgpt-api",
-                    image="hackgpt/api:latest",
+                    name="hackpilot-api",
+                    image="hackpilot/api:latest",
                     ports={"8000": 8000},
                     environment={"DATABASE_URL": config.DATABASE_URL, "REDIS_URL": config.REDIS_URL},
-                    volumes={"/app/logs": "/var/log/hackgpt"}
+                    volumes={"/app/logs": "/var/log/hackpilot"}
                 ),
                 dependencies=[],
                 health_check={"test": ["CMD", "curl", "-f", "http://localhost:8000/health"]},
                 scaling={"min_replicas": 1, "max_replicas": 5}
             ),
             ServiceDefinition(
-                service_name="hackgpt-worker",
+                service_name="hackpilot-worker",
                 container_config=ContainerConfig(
-                    name="hackgpt-worker",
-                    image="hackgpt/worker:latest",
+                    name="hackpilot-worker",
+                    image="hackpilot/worker:latest",
                     environment={"DATABASE_URL": config.DATABASE_URL, "REDIS_URL": config.REDIS_URL}
                 ),
-                dependencies=["hackgpt-database", "hackgpt-redis"],
+                dependencies=["hackpilot-database", "hackpilot-redis"],
                 health_check={"test": ["CMD", "python", "-c", "import sys; sys.exit(0)"]},
                 scaling={"min_replicas": 2, "max_replicas": 10}
             )
@@ -773,7 +773,7 @@ class EnterpriseHackPilot:
         compose_content = self.docker_manager.generate_docker_compose(services)
         
         # Deploy stack
-        success = self.docker_manager.deploy_stack(compose_content, "hackgpt-enterprise")
+        success = self.docker_manager.deploy_stack(compose_content, "hackpilot-enterprise")
         
         if success:
             self.console.print("[green]✓ HackPilot Enterprise Stack deployed successfully[/green]")
@@ -781,7 +781,7 @@ class EnterpriseHackPilot:
             self.console.print("[red]✗ Failed to deploy HackPilot Enterprise Stack[/red]")
     
     def start_api_server(self):
-        """Start HackGPT API server"""
+        """Start HackPilot API server"""
         if not flask:
             self.console.print("[red]Flask not available for API server[/red]")
             return
@@ -795,9 +795,9 @@ class EnterpriseHackPilot:
 
             def generate_latest():
                 return (
-                    b"# HELP hackgpt_app_up HackGPT API metrics endpoint status\n"
-                    b"# TYPE hackgpt_app_up gauge\n"
-                    b"hackgpt_app_up 1\n"
+                    b"# HELP hackpilot_app_up HackPilot API metrics endpoint status\n"
+                    b"# TYPE hackpilot_app_up gauge\n"
+                    b"hackpilot_app_up 1\n"
                 )
         
         app = Flask(__name__)
@@ -865,7 +865,7 @@ class EnterpriseHackPilot:
         app.run(host='0.0.0.0', port=8000, debug=config.DEBUG)
     
     def launch_web_dashboard(self):
-        """Start HackGPT Web Dashboard server"""
+        """Start HackPilot Web Dashboard server"""
         if not self.web_dashboard:
             self.console.print("[red]Web Dashboard is not initialized (enable in config or missing flask)[/red]")
             return
@@ -1139,7 +1139,7 @@ class EnterpriseHackPilot:
         """SIEM Configuration Menu"""
         while True:
             self.console.print(Panel("[bold cyan]Configure External SIEM Connections[/bold cyan]\n"
-                                     "Connect HackGPT SOC to Splunk, QRadar, Elasticsearch, or Generic Webhooks."))
+                                     "Connect HackPilot SOC to Splunk, QRadar, Elasticsearch, or Generic Webhooks."))
 
             siem_menu = Table(title="Registered Connections & Actions")
             siem_menu.add_column("Connection ID", style="cyan")
@@ -1941,9 +1941,9 @@ class EnterpriseToolManager:
         return segments
 
 # Alias for backward compatibility
-EnterpriseHackGPT = EnterpriseHackPilot
+EnterpriseHackPilot = EnterpriseHackPilot
 ToolManager = EnterpriseToolManager
-HackGPT = EnterpriseHackPilot
+HackPilot = EnterpriseHackPilot
 HackPilot = EnterpriseHackPilot
 EnterpriseToolManager = EnterpriseToolManager
 
@@ -2278,12 +2278,8 @@ class EnterpriseVoiceInterface:
 class EnterpriseWebDashboard:
     """Enterprise web dashboard"""
     
-    def __init__(self, hackpilot_instance=None, hackgpt_instance=None):
-        instance = hackpilot_instance or hackgpt_instance
-        self.hackpilot = instance
-        self.hackgpt = instance
-        self.hackgpt = hackgpt_instance
-        self.hackpilot = hackgpt_instance
+    def __init__(self, hackpilot_instance):
+        self.hackpilot = hackpilot_instance
         self.app = None
         self.setup_app()
         
@@ -2305,10 +2301,10 @@ class EnterpriseWebDashboard:
             
         @app.route('/api/sessions', methods=['GET'])
         def get_sessions():
-            if not self.hackgpt.db:
+            if not self.hackpilot.db:
                 return jsonify([])
             try:
-                sessions = self.hackgpt.db.get_recent_sessions(limit=50)
+                sessions = self.hackpilot.db.get_recent_sessions(limit=50)
                 return jsonify([{
                     "session_id": s.id,
                     "target": s.target,
@@ -2324,16 +2320,16 @@ class EnterpriseWebDashboard:
 
         @app.route('/api/session/<session_id>', methods=['GET'])
         def get_session_detail(session_id):
-            if not self.hackgpt.db:
+            if not self.hackpilot.db:
                 return jsonify({"error": "Database not initialized"}), 500
             
             try:
-                session_obj = self.hackgpt.db.get_pentest_session(session_id)
+                session_obj = self.hackpilot.db.get_pentest_session(session_id)
                 if not session_obj:
                     return jsonify({"error": "Session not found"}), 404
                     
-                vulns = self.hackgpt.db.get_vulnerabilities_by_session(session_id)
-                phases = self.hackgpt.db.get_phase_results(session_id)
+                vulns = self.hackpilot.db.get_vulnerabilities_by_session(session_id)
+                phases = self.hackpilot.db.get_phase_results(session_id)
                 
                 # Fetch assessment type stored in created_by (or default)
                 ast_type = session_obj.created_by if session_obj.created_by in ['black-box', 'white-box', 'gray-box'] else 'black-box'
@@ -2391,7 +2387,7 @@ class EnterpriseWebDashboard:
                 
                 # Start pentest in background thread
                 thread = threading.Thread(
-                    target=self.hackgpt.run_full_enterprise_pentest,
+                    target=self.hackpilot.run_full_enterprise_pentest,
                     args=(target_info,)
                 )
                 thread.daemon = True
@@ -2409,11 +2405,11 @@ class EnterpriseWebDashboard:
 
         @app.route('/api/session/<session_id>/cancel', methods=['POST'])
         def cancel_pentest(session_id):
-            if not self.hackgpt.db:
+            if not self.hackpilot.db:
                 return jsonify({"error": "Database not initialized"}), 500
             
             try:
-                self.hackgpt.db.update_session_status(session_id, 'cancelled', 'system')
+                self.hackpilot.db.update_session_status(session_id, 'cancelled', 'system')
                 return jsonify({"status": "cancelled", "session_id": session_id})
             except Exception as e:
                 return jsonify({"error": str(e)}), 500
@@ -2436,7 +2432,7 @@ class BasicReportGenerator:
         return {"report": "Basic report generated"}
 
 def main():
-    """Entry point for HackGPT Enterprise"""
+    """Entry point for HackPilot Enterprise"""
     parser = argparse.ArgumentParser(description="HackPilot Enterprise - AI-Powered Penetration Testing Platform")
     parser.add_argument('--target', help='Target IP or domain')
     parser.add_argument('--scope', help='Scope description')
@@ -2467,24 +2463,24 @@ def main():
         provider=args.provider,
         custom_route=args.custom_route,
     )
-    hackgpt = hackpilot
+    hackpilot = hackpilot
     
     if args.fetch_models:
-        hackgpt.show_banner()
-        hackgpt.fetch_and_show_models()
+        hackpilot.show_banner()
+        hackpilot.fetch_and_show_models()
         return
     elif args.list_models:
-        hackgpt.show_banner()
-        hackgpt.list_and_show_models()
+        hackpilot.show_banner()
+        hackpilot.list_and_show_models()
         return
     elif args.api:
-        hackgpt.start_api_server()
+        hackpilot.start_api_server()
     elif args.web:
-        hackgpt.launch_web_dashboard()
+        hackpilot.launch_web_dashboard()
     elif args.realtime:
-        hackgpt.start_realtime_dashboard()
+        hackpilot.start_realtime_dashboard()
     elif args.voice:
-        hackgpt.voice_command_mode()
+        hackpilot.voice_command_mode()
     elif all([args.target, args.scope, args.auth_key]):
         # Direct execution mode
         target_info = {
@@ -2496,11 +2492,11 @@ def main():
             "parallel_execution": True,
             "ai_enhanced": True
         }
-        hackgpt.show_banner()
-        hackgpt.run_full_enterprise_pentest(target_info)
+        hackpilot.show_banner()
+        hackpilot.run_full_enterprise_pentest(target_info)
     else:
         # Interactive mode
-        hackgpt.run()
+        hackpilot.run()
 
 if __name__ == "__main__":
     main()

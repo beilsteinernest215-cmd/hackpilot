@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 """Shared pytest fixtures."""
 
 import sys

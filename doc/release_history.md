@@ -39,8 +39,8 @@ We are proud to present **HackPilot Enterprise Version 2026.09.26**! This releas
 
 #### 3. Cross-Platform Reliability & Launcher Hardening
 * **Multi-Platform Launchers**: Native launch scripts for Linux, macOS (`workbench/start.command`), and Windows (`workbench/start.cmd`, `workbench/start.py`).
-* **Container vs Host Installer Context**: Hardened `install.sh` supporting `HACKGPT_INSTALL_CONTEXT` (`host` vs `container`) to prevent side effects during Docker builds.
-* **Backward-Compatible Legacy Entrypoints**: Retained `hackgpt.py` and `hackgpt_v2.py` alongside `advance_hackgpt.py` to preserve legacy tooling and automation workflows.
+* **Container vs Host Installer Context**: Hardened `install.sh` supporting `HACKPILOT_INSTALL_CONTEXT` (`host` vs `container`) to prevent side effects during Docker builds.
+* **Backward-Compatible Legacy Entrypoints**: Retained `hackpilot.py` and `hackpilot_v2.py` alongside `advance_hackpilot.py` to preserve legacy tooling and automation workflows.
 
 #### 4. Hardened CI/CD & Automated Testing Matrix
 * **Multi-Tier CI Matrix**: Added bounded Python 3.8 CI profile (`requirements-ci-py38.txt`) for legacy core contracts alongside full Python 3.9-3.11 test matrices.
@@ -140,13 +140,13 @@ We are excited to announce the release of **HackPilot Enterprise Version 2026.07
 #### 2. Native SIEM Integration Connectors
 * **Splunk Connector**:
   * Pulls logs via Splunk REST API search job creation (`/services/search/jobs` and results retrieval `/services/search/jobs/{sid}/results`).
-  * Forwards correlated alerts to Splunk HTTP Event Collector (HEC) via the `sourcetype` `hackgpt:soc:alert` to `services/collector/event`.
+  * Forwards correlated alerts to Splunk HTTP Event Collector (HEC) via the `sourcetype` `hackpilot:soc:alert` to `services/collector/event`.
 * **QRadar Connector**:
   * Ingests event logs by executing Ariel Query Language (AQL) search jobs via QRadar REST API (`/api/ariel/searches`).
   * Forwards alerts to QRadar API endpoint (`/api/custom_events`) to register them as custom security offenses.
 * **Elasticsearch Connector**:
   * Pulls logs using Elasticsearch search Query DSL (`/_search`).
-  * Posts alert JSON payloads to index `/hackgpt-soc-alerts/_doc`.
+  * Posts alert JSON payloads to index `/hackpilot-soc-alerts/_doc`.
 * **Generic Webhook Connector**:
   * Pushes notifications to incoming webhooks like Slack, MS Teams, or custom SOAR solutions.
   * Auto-formats rich markdown messaging blocks for Slack/Teams, or sends full alert JSON structure depending on destination host name.
@@ -228,7 +228,7 @@ We are excited to announce the release of **HackPilot Enterprise Version 2026.07
 1. **Configure Environment**:
    Copy `.env.example` to `.env` and provide your API keys:
    ```bash
-   HACKGPT_MODEL=gpt-5
+   HACKPILOT_MODEL=gpt-5
    ANTHROPIC_API_KEY=your_key
    GOOGLE_API_KEY=your_key
    DEEPSEEK_API_KEY=your_key

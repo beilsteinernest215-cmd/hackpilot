@@ -49,14 +49,14 @@ class ReleaseEvidenceTests(unittest.TestCase):
         bom = cyclonedx_bom()
         self.assertEqual(bom["bomFormat"], "CycloneDX")
         self.assertEqual(
-            bom["metadata"]["component"]["name"], "HackGPT Evidence Workbench"
+            bom["metadata"]["component"]["name"], "HackPilot Evidence Workbench"
         )
         properties = {
             item["name"]: item["value"]
             for item in bom["metadata"]["component"]["properties"]
         }
-        self.assertEqual(properties["hackgpt:bundled-scanners"], "none")
-        self.assertEqual(properties["hackgpt:optional-scanner-runners"], "semgrep-ce")
+        self.assertEqual(properties["hackpilot:bundled-scanners"], "none")
+        self.assertEqual(properties["hackpilot:optional-scanner-runners"], "semgrep-ce")
         self.assertEqual(len(bom["components"]), 1)
         semgrep = bom["components"][0]
         self.assertEqual(semgrep["type"], "container")

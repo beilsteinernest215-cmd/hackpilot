@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Load Balancer for HackGPT Enterprise
+Load Balancer for HackPilot Enterprise
 Distributes traffic across multiple instances for scalability
 """
 

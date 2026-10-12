@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Provider client implementations for HackGPT multi-model AI support.
+Provider client implementations for HackPilot multi-model AI support.
 
 Implements a unified interface to call different AI providers through a
 common abstract base class. Supports OpenAI, Anthropic, Google Gemini,
@@ -862,8 +862,8 @@ class OpenRouterProvider(BaseProvider):
                 api_key=self.api_key,
                 base_url=self.base_url,
                 default_headers={
-                    "HTTP-Referer": "https://hackgpt.dev",
-                    "X-Title": "HackGPT",
+                    "HTTP-Referer": "https://hackpilot.dev",
+                    "X-Title": "HackPilot",
                 },
             )
         return self._client  # type: ignore[return-value]
@@ -1072,7 +1072,7 @@ class NineBRouterProvider(BaseProvider):
                 base_url=self.base_url,
                 default_headers={
                     "X-Router-Type": "9B-Dispatcher",
-                    "X-Title": "HackGPT-9B-Router",
+                    "X-Title": "HackPilot-9B-Router",
                 },
             )
         return self._client  # type: ignore[return-value]
@@ -1210,7 +1210,7 @@ class CustomRouterProvider(BaseProvider):
     LiteLLM proxy, Portkey, Cloudflare AI Gateway, vLLM, or custom internal route).
 
     Configured via:
-        - ``CUSTOM_ROUTER_BASE_URL`` or ``HACKGPT_CUSTOM_ROUTE``
+        - ``CUSTOM_ROUTER_BASE_URL`` or ``HACKPILOT_CUSTOM_ROUTE``
         - ``CUSTOM_ROUTER_API_KEY``
     """
 
@@ -1227,7 +1227,7 @@ class CustomRouterProvider(BaseProvider):
         resolved_url = (
             base_url
             or os.getenv("CUSTOM_ROUTER_BASE_URL")
-            or os.getenv("HACKGPT_CUSTOM_ROUTE")
+            or os.getenv("HACKPILOT_CUSTOM_ROUTE")
             or os.getenv("CUSTOM_ROUTE_URL")
             or self._DEFAULT_BASE_URL
         )
@@ -1245,7 +1245,7 @@ class CustomRouterProvider(BaseProvider):
                 api_key=self.api_key,
                 base_url=self.base_url,
                 default_headers={
-                    "X-Title": "HackGPT-Custom-Router",
+                    "X-Title": "HackPilot-Custom-Router",
                 },
             )
         return self._client  # type: ignore[return-value]
@@ -1310,7 +1310,7 @@ class CustomRouterProvider(BaseProvider):
         """Available when custom route URL or API key is set."""
         return bool(
             os.getenv("CUSTOM_ROUTER_BASE_URL")
-            or os.getenv("HACKGPT_CUSTOM_ROUTE")
+            or os.getenv("HACKPILOT_CUSTOM_ROUTE")
             or os.getenv("CUSTOM_ROUTER_API_KEY")
             or (self.base_url and self.base_url != self._DEFAULT_BASE_URL)
         )
@@ -1432,11 +1432,11 @@ class ProviderFactory:
         """
         model_info = get_model_info(model_id)
         if model_info is None:
-            # Check for custom route or HACKGPT_PROVIDER setting
-            custom_provider_name = os.getenv("HACKGPT_PROVIDER", "").lower()
+            # Check for custom route or HACKPILOT_PROVIDER setting
+            custom_provider_name = os.getenv("HACKPILOT_PROVIDER", "").lower()
             resolved_route = (
                 custom_route
-                or os.getenv("HACKGPT_CUSTOM_ROUTE")
+                or os.getenv("HACKPILOT_CUSTOM_ROUTE")
                 or os.getenv("CUSTOM_ROUTER_BASE_URL")
             )
             if resolved_route or custom_provider_name in ("custom", "custom_router"):
@@ -1478,7 +1478,7 @@ class ProviderFactory:
         base_url_override = custom_route
         if model_info.provider == ModelProvider.CUSTOM_ROUTER and not base_url_override:
             base_url_override = (
-                os.getenv("HACKGPT_CUSTOM_ROUTE")
+                os.getenv("HACKPILOT_CUSTOM_ROUTE")
                 or os.getenv("CUSTOM_ROUTER_BASE_URL")
             )
         provider = cls.get_provider(

@@ -26,7 +26,7 @@ def semgrep_output(*, vulnerable: bool = True):
     if vulnerable:
         results.append(
             {
-                "check_id": "hackgpt.python.dynamic-eval",
+                "check_id": "hackpilot.python.dynamic-eval",
                 "path": "app.py",
                 "start": {"line": 2},
                 "end": {"line": 2},
@@ -105,7 +105,7 @@ class SemgrepRunnerTests(unittest.TestCase):
             root = self.fixture(directory)
             adapter = SemgrepContainerAdapter()
             command = adapter._build_command(
-                "/usr/bin/docker", root.resolve(), "hackgpt-semgrep-test"
+                "/usr/bin/docker", root.resolve(), "hackpilot-semgrep-test"
             )
         joined = " ".join(command)
         self.assertIn("--pull never", joined)
@@ -204,7 +204,7 @@ class SemgrepRunnerTests(unittest.TestCase):
 
 
 @unittest.skipUnless(
-    os.environ.get("HACKGPT_RUN_REAL_SEMGREP") == "1",
+    os.environ.get("HACKPILOT_RUN_REAL_SEMGREP") == "1",
     "real pinned Semgrep container integration is opt-in",
 )
 class SemgrepContainerIntegrationTests(unittest.TestCase):
@@ -212,7 +212,7 @@ class SemgrepContainerIntegrationTests(unittest.TestCase):
     def _owned_fixture_diagnostic(adapter, directory):
         """Return bounded stderr only for the synthetic CI fixture if runner startup fails."""
         command = adapter._build_command(
-            "docker", Path(directory).resolve(), "hackgpt-semgrep-diagnostic"
+            "docker", Path(directory).resolve(), "hackpilot-semgrep-diagnostic"
         )
         completed = subprocess.run(
             command,
@@ -253,7 +253,7 @@ class SemgrepContainerIntegrationTests(unittest.TestCase):
 
         self.assertTrue(
             any(
-                item["rule"] == "hackgpt.python.dynamic-eval"
+                item["rule"] == "hackpilot.python.dynamic-eval"
                 for item in vulnerable["findings"]
             )
         )

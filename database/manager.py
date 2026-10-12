@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Database manager for HackGPT
+Database manager for HackPilot
 Handles database connections, migrations, and operations
 """
 
@@ -23,7 +23,7 @@ class DatabaseManager:
     def __init__(self, database_url: str = None):
         if database_url is None:
             # Default to PostgreSQL, fallback to SQLite for development
-            database_url = os.getenv('DATABASE_URL', 'sqlite:///hackgpt.db')
+            database_url = os.getenv('DATABASE_URL', 'sqlite:///hackpilot.db')
         
         self.database_url = database_url
         self.engine = create_engine(database_url, echo=False)

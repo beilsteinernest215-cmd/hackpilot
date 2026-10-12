@@ -105,7 +105,7 @@ class Config:
             self.config.get(
                 "database",
                 "url",
-                fallback="postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt",
+                fallback="postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot",
             ),
         )
         self.REDIS_URL = os.getenv(
@@ -167,7 +167,7 @@ class Config:
         sections = {
             "app": {"debug": "false", "log_level": "INFO"},
             "database": {
-                "url": "postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt"
+                "url": "postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot"
             },
             "cache": {"redis_url": "redis://localhost:6379/0"},
             "ai": {"openai_api_key": "", "local_model": "llama2:7b"},
@@ -209,7 +209,7 @@ if not log_dir.exists() or not os.access(log_dir, os.W_OK):
 logging.basicConfig(
     level=getattr(logging, config.LOG_LEVEL),
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(log_dir / "hackgpt.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler(log_dir / "hackpilot.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger("hackpilot")
 
@@ -234,7 +234,7 @@ class EnterpriseHackPilot:
     def __init__(self):
         self.config = config
         self.console = Console()
-        self.logger = logging.getLogger("hackgpt.main")
+        self.logger = logging.getLogger("hackpilot.main")
 
         self.initialize_components()
 
@@ -442,7 +442,7 @@ class EnterpriseHackPilot:
         signal.signal(signal.SIGTERM, signal_handler)
 
     def show_banner(self):
-        """Display the HackGPT banner with system status"""
+        """Display the HackPilot banner with system status"""
         self.console.print(BANNER)
 
         status_table = Table(title="System Status", show_header=True)
@@ -700,7 +700,7 @@ class EnterpriseHackPilot:
 
         cloud_options = [
             ("1", "View Docker Containers"),
-            ("2", "Deploy HackGPT Stack"),
+            ("2", "Deploy HackPilot Stack"),
             ("3", "Kubernetes Management"),
             ("4", "Service Registry Status"),
             ("5", "Scale Services"),
@@ -719,7 +719,7 @@ class EnterpriseHackPilot:
         if choice == "1":
             self.show_docker_status()
         elif choice == "2":
-            self.deploy_hackgpt_stack()
+            self.deploy_hackpilot_stack()
         elif choice == "3":
             self.manage_kubernetes()
         elif choice == "4":
@@ -774,27 +774,27 @@ class EnterpriseHackPilot:
         except Exception as e:
             self.console.print(f"[red]Error accessing Docker: {e}[/red]")
 
-    def deploy_hackgpt_stack(self):
-        """Deploy HackGPT microservices stack"""
+    def deploy_hackpilot_stack(self):
+        """Deploy HackPilot microservices stack"""
         if not self.docker_manager:
             return
 
-        self.console.print("[cyan]Deploying HackGPT Enterprise Stack...[/cyan]")
+        self.console.print("[cyan]Deploying HackPilot Enterprise Stack...[/cyan]")
 
         from cloud.docker_manager import ServiceDefinition, ContainerConfig
 
         services = [
             ServiceDefinition(
-                service_name="hackgpt-api",
+                service_name="hackpilot-api",
                 container_config=ContainerConfig(
-                    name="hackgpt-api",
-                    image="hackgpt/api:latest",
+                    name="hackpilot-api",
+                    image="hackpilot/api:latest",
                     ports={"8000": 8000},
                     environment={
                         "DATABASE_URL": config.DATABASE_URL,
                         "REDIS_URL": config.REDIS_URL,
                     },
-                    volumes={"/app/logs": "/var/log/hackgpt"},
+                    volumes={"/app/logs": "/var/log/hackpilot"},
                 ),
                 dependencies=[],
                 health_check={
@@ -803,16 +803,16 @@ class EnterpriseHackPilot:
                 scaling={"min_replicas": 1, "max_replicas": 5},
             ),
             ServiceDefinition(
-                service_name="hackgpt-worker",
+                service_name="hackpilot-worker",
                 container_config=ContainerConfig(
-                    name="hackgpt-worker",
-                    image="hackgpt/worker:latest",
+                    name="hackpilot-worker",
+                    image="hackpilot/worker:latest",
                     environment={
                         "DATABASE_URL": config.DATABASE_URL,
                         "REDIS_URL": config.REDIS_URL,
                     },
                 ),
-                dependencies=["hackgpt-database", "hackgpt-redis"],
+                dependencies=["hackpilot-database", "hackpilot-redis"],
                 health_check={
                     "test": ["CMD", "python", "-c", "import sys; sys.exit(0)"]
                 },
@@ -823,18 +823,18 @@ class EnterpriseHackPilot:
         compose_content = self.docker_manager.generate_docker_compose(services)
 
         success = self.docker_manager.deploy_stack(
-            compose_content, "hackgpt-enterprise"
+            compose_content, "hackpilot-enterprise"
         )
 
         if success:
             self.console.print(
-                "[green]✓ HackGPT Enterprise Stack deployed successfully[/green]"
+                "[green]✓ HackPilot Enterprise Stack deployed successfully[/green]"
             )
         else:
-            self.console.print("[red]✗ Failed to deploy HackGPT Enterprise Stack[/red]")
+            self.console.print("[red]✗ Failed to deploy HackPilot Enterprise Stack[/red]")
 
     def start_api_server(self):
-        """Start HackGPT API server"""
+        """Start HackPilot API server"""
         if not flask:
             self.console.print("[red]Flask not available for API server[/red]")
             return
@@ -903,7 +903,7 @@ class EnterpriseHackPilot:
             )
 
         self.console.print(
-            "[cyan]Starting HackGPT API Server on http://0.0.0.0:8000[/cyan]"
+            "[cyan]Starting HackPilot API Server on http://0.0.0.0:8000[/cyan]"
         )
         app.run(host="0.0.0.0", port=8000, debug=config.DEBUG)
 
@@ -920,7 +920,7 @@ class EnterpriseHackPilot:
 
                 if choice == "0":
                     self.console.print(
-                        "[green]Shutting down HackGPT Enterprise...[/green]"
+                        "[green]Shutting down HackPilot Enterprise...[/green]"
                     )
                     self.shutdown()
                     break
@@ -1112,8 +1112,8 @@ class EnterpriseVoiceInterface:
 class EnterpriseWebDashboard:
     """Enterprise web dashboard"""
 
-    def __init__(self, hackgpt_instance):
-        self.hackgpt = hackgpt_instance
+    def __init__(self, hackpilot_instance):
+        self.hackpilot = hackpilot_instance
 
     def run(self):
         pass
@@ -1130,7 +1130,7 @@ class BasicReportGenerator:
 
 
 def main():
-    """Entry point for HackGPT Enterprise"""
+    """Entry point for HackPilot Enterprise"""
     parser = argparse.ArgumentParser(
         description="HackPilot Enterprise - AI-Powered Penetration Testing Platform"
     )
@@ -1161,14 +1161,14 @@ def main():
         config = Config(args.config)
 
     hackpilot = EnterpriseHackPilot()
-    hackgpt = hackpilot
+    hackpilot = hackpilot
 
     if args.api:
-        hackgpt.start_api_server()
+        hackpilot.start_api_server()
     elif args.web:
-        hackgpt.launch_web_dashboard()
+        hackpilot.launch_web_dashboard()
     elif args.realtime:
-        hackgpt.start_realtime_dashboard()
+        hackpilot.start_realtime_dashboard()
     elif all([args.target, args.scope, args.auth_key]):
         target_info = {
             "target": args.target,
@@ -1179,16 +1179,16 @@ def main():
             "parallel_execution": True,
             "ai_enhanced": True,
         }
-        hackgpt.show_banner()
-        hackgpt.run_full_enterprise_pentest(target_info)
+        hackpilot.show_banner()
+        hackpilot.run_full_enterprise_pentest(target_info)
     else:
-        hackgpt.run()
+        hackpilot.run()
 
 
 if __name__ == "__main__":
     main()
 
 # Backward compatibility aliases
-EnterpriseHackGPT = EnterpriseHackPilot
+EnterpriseHackPilot = EnterpriseHackPilot
 HackPilot = EnterpriseHackPilot
-HackGPT = EnterpriseHackPilot
+HackPilot = EnterpriseHackPilot

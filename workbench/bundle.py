@@ -38,7 +38,7 @@ def build_bundle(
         ).encode()
 
     manifest = {
-        "schema": "hackgpt.evidence-bundle/v1",
+        "schema": "hackpilot.evidence-bundle/v1",
         "run_id": report["id"],
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "signed": False,

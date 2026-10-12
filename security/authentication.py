@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Enhanced Security and Authentication System for HackGPT
+Enhanced Security and Authentication System for HackPilot
 Enterprise-grade authentication, RBAC, and audit logging
 """
 
@@ -124,7 +124,7 @@ class ComplianceAuditLogger:
         self.logger = logging.getLogger('audit')
         
         # Setup file logging for audit trail with fallback
-        audit_log_path = os.getenv('AUDIT_LOG_FILE', '/var/log/hackgpt/audit.log')
+        audit_log_path = os.getenv('AUDIT_LOG_FILE', '/var/log/hackpilot/audit.log')
         audit_file = Path(audit_log_path)
         try:
             audit_file.parent.mkdir(parents=True, exist_ok=True)
@@ -364,11 +364,11 @@ class LDAPAuthenticator:
         groups = [str(group).lower() for group in member_of]
         
         # Check for admin groups
-        if any('hackgpt-admin' in group or 'pentest-admin' in group for group in groups):
+        if any('hackpilot-admin' in group or 'pentest-admin' in group for group in groups):
             return Role.ADMIN.value
-        elif any('hackgpt-senior' in group or 'pentest-senior' in group for group in groups):
+        elif any('hackpilot-senior' in group or 'pentest-senior' in group for group in groups):
             return Role.SENIOR_ANALYST.value
-        elif any('hackgpt-analyst' in group or 'pentest-analyst' in group for group in groups):
+        elif any('hackpilot-analyst' in group or 'pentest-analyst' in group for group in groups):
             return Role.ANALYST.value
         else:
             return Role.VIEWER.value

@@ -11,14 +11,14 @@ HackPilot is an AI-powered penetration-testing automation platform (Python). It 
 
 There are **two independent CLI applications** that do not import each other:
 
-- **`hackpilot.py`** / **`hackgpt.py`** (v1) — self-contained single file. Classes: `HackPilot` / `HackGPT`, `AIEngine`, `ToolManager`, `PentestingPhases`, `VoiceInterface`, `WebDashboard`. This is what the `ci.yml` workflow imports/tests and what `install.sh` symlinks to `/usr/local/bin/hackpilot`.
-- **`advance_hackpilot.py`** / **`advance_hackgpt.py`** (v2, "Enterprise") — the actively-developed version. Classes: `EnterpriseHackPilot` / `EnterpriseHackGPT`, `EnterpriseToolManager`, `EnterprisePentestingPhases`, etc. Unlike v1, it depends on the seven internal packages (below). `docker-compose`, the README deployment instructions, and `enterprise-ci.yml` target v2.
+- **`hackpilot.py`** / **`hackpilot.py`** (v1) — self-contained single file. Classes: `HackPilot` / `HackPilot`, `AIEngine`, `ToolManager`, `PentestingPhases`, `VoiceInterface`, `WebDashboard`. This is what the `ci.yml` workflow imports/tests and what `install.sh` symlinks to `/usr/local/bin/hackpilot`.
+- **`advance_hackpilot.py`** / **`advance_hackpilot.py`** (v2, "Enterprise") — the actively-developed version. Classes: `EnterpriseHackPilot` / `EnterpriseHackPilot`, `EnterpriseToolManager`, `EnterprisePentestingPhases`, etc. Unlike v1, it depends on the seven internal packages (below). `docker-compose`, the README deployment instructions, and `enterprise-ci.yml` target v2.
 
 When fixing a bug, determine which entry point the user means — logic is often duplicated across both files (each is ~44 KB). A change in one does **not** propagate to the other.
 
 ## Architecture (v2)
 
-`advance_hackgpt.py` wires together seven internal packages, each exposing a factory getter via its `__init__.py`. Use the getters rather than constructing classes directly:
+`advance_hackpilot.py` wires together seven internal packages, each exposing a factory getter via its `__init__.py`. Use the getters rather than constructing classes directly:
 
 | Package | Getter / key exports | Responsibility |
 |---|---|---|

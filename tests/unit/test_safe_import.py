@@ -1,10 +1,10 @@
-# HackGPT core module
-"""advance_hackgpt optional-import helper."""
+# HackPilot core module
+"""advance_hackpilot optional-import helper."""
 
-import advance_hackgpt
+import advance_hackpilot
 
 def test_safe_import_missing_module_returns_none():
-    assert advance_hackgpt.safe_import("this_module_definitely_does_not_exist_xyz") is None
+    assert advance_hackpilot.safe_import("this_module_definitely_does_not_exist_xyz") is None
 
 def test_safe_import_existing_module():
-    assert advance_hackgpt.safe_import("json") is not None
+    assert advance_hackpilot.safe_import("json") is not None

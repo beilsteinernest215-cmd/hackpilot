@@ -1,5 +1,5 @@
-# HackGPT YAML configuration
-# HackGPT Prometheus scrape configuration
+# HackPilot YAML configuration
+# HackPilot Prometheus scrape configuration
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -10,7 +10,7 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  # HackGPT application metrics
-  - job_name: 'hackgpt-app'
+  # HackPilot application metrics
+  - job_name: 'hackpilot-app'
     static_configs:
-      - targets: ['hackgpt-app:8000']
+      - targets: ['hackpilot-app:8000']

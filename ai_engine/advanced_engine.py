@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Advanced AI Engine for HackGPT
+Advanced AI Engine for HackPilot
 Context-aware analysis with memory and pattern recognition
 """
 
@@ -436,9 +436,9 @@ class AdvancedAIEngine:
         self.api_key = os.getenv('OPENAI_API_KEY')
         
         # Multi-provider model selection
-        self.model_id = model_id or os.getenv('HACKGPT_MODEL', os.getenv('OPENAI_MODEL', 'gpt-4o'))
-        self.provider_name = provider or os.getenv('HACKGPT_PROVIDER', None)
-        self.custom_route = custom_route or os.getenv('HACKGPT_CUSTOM_ROUTE') or os.getenv('CUSTOM_ROUTER_BASE_URL')
+        self.model_id = model_id or os.getenv('HACKPILOT_MODEL', os.getenv('OPENAI_MODEL', 'gpt-4o'))
+        self.provider_name = provider or os.getenv('HACKPILOT_PROVIDER', None)
+        self.custom_route = custom_route or os.getenv('HACKPILOT_CUSTOM_ROUTE') or os.getenv('CUSTOM_ROUTER_BASE_URL')
         self.active_provider = None
         self.active_model_info = None
         
@@ -566,7 +566,7 @@ class AdvancedAIEngine:
                 pattern_summary += f"- {pattern.pattern_type}: {pattern.pattern_id} (confidence: {confidence:.2f})\n"
         
         prompt = f"""
-You are HackGPT, an expert penetration testing AI assistant with advanced pattern recognition.
+You are HackPilot, an expert penetration testing AI assistant with advanced pattern recognition.
 
 Current Phase: {phase}
 Data to Analyze: {data}

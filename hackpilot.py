@@ -92,7 +92,7 @@ try:
     from cloud import DockerManager, KubernetesManager, ServiceRegistry
     from performance import get_cache_manager, get_parallel_processor
 except ImportError as e:
-    print(f"Missing HackGPT modules: {e}")
+    print(f"Missing HackPilot modules: {e}")
     print("Please ensure all modules are properly installed")
     sys.exit(1)
 
@@ -115,7 +115,7 @@ class Config:
             self.config.get(
                 "database",
                 "url",
-                fallback="postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt",
+                fallback="postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot",
             ),
         )
         self.REDIS_URL = os.getenv(
@@ -183,7 +183,7 @@ class Config:
 
         self.config.add_section("database")
         self.config.set(
-            "database", "url", "postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt"
+            "database", "url", "postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot"
         )
 
         self.config.add_section("cache")
@@ -293,7 +293,7 @@ class AIEngine:
     def _create_prompt(self, context, data, phase):
         """Create appropriate prompt based on phase"""
         base_prompt = f"""
-        You are HackGPT, an expert penetration testing AI assistant. 
+        You are HackPilot, an expert penetration testing AI assistant. 
         
         Context: {context}
         Phase: {phase}
@@ -858,9 +858,9 @@ class VoiceInterface:
 class WebDashboard:
     """Flask web dashboard"""
 
-    def __init__(self, hackgpt_instance):
+    def __init__(self, hackpilot_instance):
         self.app = Flask(__name__)
-        self.hackgpt = hackgpt_instance
+        self.hackpilot = hackpilot_instance
         self.setup_routes()
 
     def setup_routes(self):
@@ -879,7 +879,7 @@ class WebDashboard:
             data = request.json
             # Run pentest in background thread
             thread = threading.Thread(
-                target=self.hackgpt.run_full_pentest,
+                target=self.hackpilot.run_full_pentest,
                 args=(data["target"], data["scope"], data["auth_key"]),
             )
             thread.start()
@@ -901,7 +901,7 @@ class HackPilot:
         self.web_dashboard = None
 
     def show_banner(self):
-        """Display the HackGPT banner"""
+        """Display the HackPilot banner"""
         self.console.print(BANNER)
 
     def show_menu(self):
@@ -1064,7 +1064,7 @@ class HackPilot:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HackGPT Dashboard</title>
+    <title>HackPilot Dashboard</title>
     <style>
         body { background: #000; color: #0f0; font-family: monospace; }
         .container { margin: 20px; }
@@ -1075,7 +1075,7 @@ class HackPilot:
 </head>
 <body>
     <div class="container">
-        <h1>HackGPT - AI-Powered Penetration Testing</h1>
+        <h1>HackPilot - AI-Powered Penetration Testing</h1>
         
         <div class="panel">
             <h2>Start Pentest</h2>
@@ -1192,22 +1192,22 @@ def main():
     args = parser.parse_args()
 
     hackpilot = HackPilot()
-    hackgpt = hackpilot
+    hackpilot = hackpilot
 
     if args.web:
-        hackgpt.start_web_dashboard()
+        hackpilot.start_web_dashboard()
     elif args.voice:
-        hackgpt.show_banner()
-        hackgpt.voice_command_mode()
+        hackpilot.show_banner()
+        hackpilot.voice_command_mode()
     elif args.target and args.scope and args.auth_key:
-        hackgpt.show_banner()
-        hackgpt.run_full_pentest(args.target, args.scope, args.auth_key)
+        hackpilot.show_banner()
+        hackpilot.run_full_pentest(args.target, args.scope, args.auth_key)
     else:
-        hackgpt.run()
+        hackpilot.run()
 
 
 if __name__ == "__main__":
     main()
 
 # Backward compatibility alias
-HackGPT = HackPilot
+HackPilot = HackPilot

@@ -1,15 +1,15 @@
-# HackGPT YAML configuration
+# HackPilot YAML configuration
 version: '3.8'
 
 services:
   # PostgreSQL Database
-  hackgpt-database:
+  hackpilot-database:
     image: postgres:15-alpine
-    container_name: hackgpt-db
+    container_name: hackpilot-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-hackgpt}
-      POSTGRES_USER: ${POSTGRES_USER:-hackgpt}
+      POSTGRES_DB: ${POSTGRES_DB:-hackpilot}
+      POSTGRES_USER: ${POSTGRES_USER:-hackpilot}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env file}
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     volumes:
@@ -18,17 +18,17 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - hackgpt-network
+      - hackpilot-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U hackgpt -d hackgpt"]
+      test: ["CMD-SHELL", "pg_isready -U hackpilot -d hackpilot"]
       interval: 30s
       timeout: 10s
       retries: 5
 
   # Redis Cache
-  hackgpt-redis:
+  hackpilot-redis:
     image: redis:7-alpine
-    container_name: hackgpt-redis
+    container_name: hackpilot-redis
     restart: unless-stopped
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env file}
     volumes:
@@ -37,28 +37,28 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - hackgpt-network
+      - hackpilot-network
     healthcheck:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       interval: 30s
       timeout: 10s
       retries: 5
 
-  # HackGPT Main Application
-  hackgpt-app:
+  # HackPilot Main Application
+  hackpilot-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hackgpt-app
+    container_name: hackpilot-app
     restart: unless-stopped
     depends_on:
-      hackgpt-database:
+      hackpilot-database:
         condition: service_healthy
-      hackgpt-redis:
+      hackpilot-redis:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://hackgpt:${POSTGRES_PASSWORD}@hackgpt-database:5432/hackgpt
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackgpt-redis:6379/0
+      - DATABASE_URL=postgresql://hackpilot:${POSTGRES_PASSWORD}@hackpilot-database:5432/hackpilot
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackpilot-redis:6379/0
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - SECRET_KEY=${SECRET_KEY}
       - LOG_LEVEL=INFO
@@ -74,7 +74,7 @@ services:
       - "8000:8000"  # API Server
       - "8080:8080"  # Web Dashboard
     networks:
-      - hackgpt-network
+      - hackpilot-network
     security_opt:
       - seccomp:unconfined
     cap_add:
@@ -87,21 +87,21 @@ services:
       retries: 5
 
   # Celery Worker for Background Tasks
-  hackgpt-worker:
+  hackpilot-worker:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hackgpt-worker
+    container_name: hackpilot-worker
     restart: unless-stopped
     command: celery -A performance.parallel_processor worker --loglevel=info --concurrency=4
     depends_on:
-      hackgpt-database:
+      hackpilot-database:
         condition: service_healthy
-      hackgpt-redis:
+      hackpilot-redis:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://hackgpt:${POSTGRES_PASSWORD}@hackgpt-database:5432/hackgpt
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackgpt-redis:6379/0
+      - DATABASE_URL=postgresql://hackpilot:${POSTGRES_PASSWORD}@hackpilot-database:5432/hackpilot
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackpilot-redis:6379/0
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - SECRET_KEY=${SECRET_KEY}
       - LOG_LEVEL=INFO
@@ -111,38 +111,38 @@ services:
       - ./wordlists:/app/wordlists
       - ./tools:/app/tools
     networks:
-      - hackgpt-network
+      - hackpilot-network
     deploy:
       replicas: 2
 
   # Celery Beat Scheduler
-  hackgpt-scheduler:
+  hackpilot-scheduler:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hackgpt-scheduler
+    container_name: hackpilot-scheduler
     restart: unless-stopped
     command: celery -A performance.parallel_processor beat --loglevel=info
     depends_on:
-      hackgpt-database:
+      hackpilot-database:
         condition: service_healthy
-      hackgpt-redis:
+      hackpilot-redis:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://hackgpt:${POSTGRES_PASSWORD}@hackgpt-database:5432/hackgpt
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackgpt-redis:6379/0
+      - DATABASE_URL=postgresql://hackpilot:${POSTGRES_PASSWORD}@hackpilot-database:5432/hackpilot
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackpilot-redis:6379/0
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - SECRET_KEY=${SECRET_KEY}
       - LOG_LEVEL=INFO
     volumes:
       - ./logs:/app/logs
     networks:
-      - hackgpt-network
+      - hackpilot-network
 
   # Prometheus Monitoring
   prometheus:
     image: prom/prometheus:latest
-    container_name: hackgpt-prometheus
+    container_name: hackpilot-prometheus
     restart: unless-stopped
     ports:
       - "9090:9090"
@@ -157,12 +157,12 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     networks:
-      - hackgpt-network
+      - hackpilot-network
 
   # Grafana Dashboard
   grafana:
     image: grafana/grafana:latest
-    container_name: hackgpt-grafana
+    container_name: hackpilot-grafana
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -174,14 +174,14 @@ services:
       - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
     networks:
-      - hackgpt-network
+      - hackpilot-network
     depends_on:
       - prometheus
 
   # Elasticsearch for Logging
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
-    container_name: hackgpt-elasticsearch
+    container_name: hackpilot-elasticsearch
     restart: unless-stopped
     environment:
       - discovery.type=single-node
@@ -194,26 +194,26 @@ services:
       - "9200:9200"
       - "9300:9300"
     networks:
-      - hackgpt-network
+      - hackpilot-network
 
   # Kibana for Log Visualization
   kibana:
     image: docker.elastic.co/kibana/kibana:8.11.0
-    container_name: hackgpt-kibana
+    container_name: hackpilot-kibana
     restart: unless-stopped
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - "5601:5601"
     networks:
-      - hackgpt-network
+      - hackpilot-network
     depends_on:
       - elasticsearch
 
   # Consul for Service Discovery
   consul:
     image: hashicorp/consul:latest
-    container_name: hackgpt-consul
+    container_name: hackpilot-consul
     restart: unless-stopped
     command: agent -server -bootstrap-expect=1 -ui -client=0.0.0.0 -data-dir=/consul/data
     ports:
@@ -222,12 +222,12 @@ services:
     volumes:
       - consul_data:/consul/data
     networks:
-      - hackgpt-network
+      - hackpilot-network
 
   # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
-    container_name: hackgpt-nginx
+    container_name: hackpilot-nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -236,26 +236,26 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro
     networks:
-      - hackgpt-network
+      - hackpilot-network
     depends_on:
-      - hackgpt-app
+      - hackpilot-app
 
   # Flower for Celery Monitoring
   flower:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hackgpt-flower
+    container_name: hackpilot-flower
     restart: unless-stopped
-    command: celery -A performance.parallel_processor flower --port=5555 --broker=redis://:${REDIS_PASSWORD}@hackgpt-redis:6379/0
+    command: celery -A performance.parallel_processor flower --port=5555 --broker=redis://:${REDIS_PASSWORD}@hackpilot-redis:6379/0
     ports:
       - "5555:5555"
     environment:
-      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackgpt-redis:6379/0
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@hackpilot-redis:6379/0
     networks:
-      - hackgpt-network
+      - hackpilot-network
     depends_on:
-      - hackgpt-redis
+      - hackpilot-redis
 
 volumes:
   postgres_data:
@@ -272,7 +272,7 @@ volumes:
     driver: local
 
 networks:
-  hackgpt-network:
+  hackpilot-network:
     driver: bridge
     ipam:
       config:

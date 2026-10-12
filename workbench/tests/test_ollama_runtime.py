@@ -422,7 +422,7 @@ class ConfigurationTests(unittest.TestCase):
         with patch.dict(
             os.environ,
             {
-                "HACKGPT_OLLAMA_PORT": "12345",
+                "HACKPILOT_OLLAMA_PORT": "12345",
                 "OLLAMA_HOST": "https://example.invalid",
                 "HTTP_PROXY": "https://example.invalid",
             },

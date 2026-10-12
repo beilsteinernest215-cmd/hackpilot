@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Optimization Module for HackGPT Enterprise
+Optimization Module for HackPilot Enterprise
 Query optimization and resource optimization utilities
 """
 

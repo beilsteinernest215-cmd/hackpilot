@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Performance Monitor for HackGPT Enterprise
+Performance Monitor for HackPilot Enterprise
 Monitors system and application performance metrics
 """
 

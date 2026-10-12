@@ -36,7 +36,7 @@ def test_legacy_entrypoints_import_without_network_calls():
         [
             sys.executable,
             "-c",
-            "from hackgpt import HackGPT, AIEngine, ToolManager; print('ok')",
+            "from hackpilot import HackPilot, AIEngine, ToolManager; print('ok')",
         ],
         cwd=str(REPO_ROOT),
         env=_offline_env(),

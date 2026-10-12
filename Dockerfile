@@ -1,4 +1,4 @@
-# HackGPT configuration file
+# HackPilot configuration file
 FROM kalilinux/kali-rolling
 
 # Set environment variables
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Create working directory
-WORKDIR /hackgpt
+WORKDIR /hackpilot
 
 # Copy requirements first for better caching
 COPY requirements.txt .
@@ -35,14 +35,14 @@ COPY . .
 # Preserve the full host installer while using its deterministic container mode here.
 # Container builds must not upgrade the base distribution, run a background model
 # daemon, fetch a model, or create host-style global command links.
-RUN chmod +x install.sh && HACKGPT_INSTALL_CONTEXT=container ./install.sh
+RUN chmod +x install.sh && HACKPILOT_INSTALL_CONTEXT=container ./install.sh
 
 # Keep both the historical external report path and the application-local runtime dirs.
-RUN mkdir -p /reports /hackgpt/reports /hackgpt/logs /hackgpt/templates /hackgpt/database/migrations \
-    && chmod 755 /reports /hackgpt/reports /hackgpt/logs /hackgpt/templates /hackgpt/database/migrations
+RUN mkdir -p /reports /hackpilot/reports /hackpilot/logs /hackpilot/templates /hackpilot/database/migrations \
+    && chmod 755 /reports /hackpilot/reports /hackpilot/logs /hackpilot/templates /hackpilot/database/migrations
 
 # Expose web dashboard port
 EXPOSE 5000
 
 # Set entry point
-ENTRYPOINT ["python3", "advance_hackgpt.py"]
+ENTRYPOINT ["python3", "advance_hackpilot.py"]

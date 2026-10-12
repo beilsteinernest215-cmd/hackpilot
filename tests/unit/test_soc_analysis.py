@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 """
 Unit tests for Advanced SOC Analysis Engine
 """

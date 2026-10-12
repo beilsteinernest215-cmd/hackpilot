@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Service Registry for HackGPT Microservices
+Service Registry for HackPilot Microservices
 Handles service discovery, registration, and health checking
 """
 

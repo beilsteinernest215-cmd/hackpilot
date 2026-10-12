@@ -1,8 +1,8 @@
-# HackGPT core module
+# HackPilot core module
 """
 Cloud and Microservices Architecture Module
 
-This module provides cloud-native and microservices capabilities for HackGPT,
+This module provides cloud-native and microservices capabilities for HackPilot,
 including Docker containerization, Kubernetes deployment, and service decomposition.
 """
 

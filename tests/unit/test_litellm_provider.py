@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 """Unit tests for the LiteLLM AI gateway provider."""
 
 import sys

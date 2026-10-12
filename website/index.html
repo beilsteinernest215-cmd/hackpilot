@@ -134,7 +134,7 @@
                         <!-- Tab 1: Terminal Log Stream -->
                         <div class="tab-content active" id="tab-terminal">
                             <div class="terminal-body" id="heroTerminal">
-                                <div class="line"><span class="t-cyan">guest@hackgpt:~$</span> python3 advance_hackpilot.py --target production-api.net --api --web</div>
+                                <div class="line"><span class="t-cyan">guest@hackpilot:~$</span> python3 advance_hackpilot.py --target production-api.net --api --web</div>
                                 <div class="line t-green">[+] HackPilot Enterprise Framework v2026.09.26 initialized</div>
                                 <div class="line t-green">[+] Database connection active (PostgreSQL cluster)</div>
                                 <div class="line t-purple">[i] Multi-LLM Router: Provider initialized [OpenAI GPT-4o / Ollama Fallback]</div>
@@ -413,7 +413,7 @@ app.get('/api/users/search', async (req, res) => {
                     <div class="code-box">
                         <button class="copy-btn" onclick="copyText('qs-cmd-1', this)"><i class="fa-regular fa-copy"></i></button>
                         <pre><code id="qs-cmd-1">git clone https://github.com/yashab-cyber/hackpilot.git
-cd HackGpt
+cd HackPilot
 pip install -r requirements-dev.txt</code></pre>
                     </div>
                 </div>
@@ -461,13 +461,13 @@ python advance_hackpilot.py --target target-domain.com --api --web</code></pre>
                         <span class="dot dot-yellow"></span>
                         <span class="dot dot-green"></span>
                     </div>
-                    <div class="terminal-title"><i class="fa-solid fa-terminal"></i> hackgpt-shell-v2026.09 (bash)</div>
+                    <div class="terminal-title"><i class="fa-solid fa-terminal"></i> hackpilot-shell-v2026.09 (bash)</div>
                 </div>
                 <div class="terminal-body" id="interactiveTerminal">
                     <div class="line t-green">Welcome to HackPilot Shell Simulator v2026.09.26</div>
                     <div class="line">Type <span class="t-cyan">help</span> to view available security commands. Try: <span class="t-yellow">run</span>, <span class="t-yellow">ai-analyze</span>, <span class="t-yellow">zero-day</span>, or <span class="t-yellow">compliance</span>.</div>
                     <div class="terminal-input-line">
-                        <span class="t-cyan">guest@hackgpt:~$</span>
+                        <span class="t-cyan">guest@hackpilot:~$</span>
                         <input type="text" id="terminalInput" autofocus autocomplete="off" placeholder="Type command here (e.g. help)...">
                     </div>
                 </div>

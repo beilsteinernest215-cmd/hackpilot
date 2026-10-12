@@ -270,33 +270,33 @@ class RealTimeDashboard:
 version: '3.8'
 services:
   api-gateway:
-    image: hackgpt/api-gateway
+    image: hackpilot/api-gateway
     ports: ["8080:8080"]
     
   ai-service:
-    image: hackgpt/ai-service
+    image: hackpilot/ai-service
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - MODEL_PATH=/models/custom-pentest-model
     
   scanning-service:
-    image: hackgpt/scanning-service
+    image: hackpilot/scanning-service
     privileged: true
     volumes:
       - /usr/share/wordlists:/wordlists
     
   exploitation-service:
-    image: hackgpt/exploitation-service
+    image: hackpilot/exploitation-service
     privileged: true
     
   reporting-service:
-    image: hackgpt/reporting-service
+    image: hackpilot/reporting-service
     
   database:
     image: postgres:14
     environment:
-      - POSTGRES_DB=hackgpt
-      - POSTGRES_USER=hackgpt
+      - POSTGRES_DB=hackpilot
+      - POSTGRES_USER=hackpilot
       - POSTGRES_PASSWORD=${DB_PASSWORD}
 ```
 

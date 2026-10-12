@@ -1,8 +1,8 @@
-# HackGPT core module
+# HackPilot core module
 """
 Performance and Scalability Module
 
-This module provides performance optimization and scalability features for HackGPT,
+This module provides performance optimization and scalability features for HackPilot,
 including caching, parallel processing, load balancing, and performance monitoring.
 """
 

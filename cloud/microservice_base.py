@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Microservice Base Class for HackGPT
+Microservice Base Class for HackPilot
 Provides common functionality for all microservices
 """
 
@@ -59,7 +59,7 @@ class ServiceConfig:
 
 
 class MicroserviceBase(ABC):
-    """Base class for all HackGPT microservices"""
+    """Base class for all HackPilot microservices"""
 
     def __init__(self, config: ServiceConfig):
         self.config = config
@@ -127,8 +127,8 @@ class MicroserviceBase(ABC):
     def _setup_fastapi(self):
         """Setup FastAPI application"""
         self.app = FastAPI(
-            title=f"HackGPT {self.config.service_name.title()} Service",
-            description=f"HackGPT {self.config.service_type} microservice",
+            title=f"HackPilot {self.config.service_name.title()} Service",
+            description=f"HackPilot {self.config.service_type} microservice",
             version="1.0.0",
         )
 
@@ -257,7 +257,7 @@ class MicroserviceBase(ABC):
                         "version": "1.0.0",
                         "start_time": self.start_time.isoformat(),
                     },
-                    tags=[self.config.service_type, "hackgpt"],
+                    tags=[self.config.service_type, "hackpilot"],
                 )
 
                 self.registry.register_service(service_instance)

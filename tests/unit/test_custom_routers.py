@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 """Unit tests for new models (gpt-astra, etc.) and custom routing (openrouter, 9brouter, custom_router)."""
 
 import os

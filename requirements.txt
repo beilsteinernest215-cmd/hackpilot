@@ -1,5 +1,5 @@
-# HackGPT configuration file
-# HackGPT Enterprise Requirements
+# HackPilot configuration file
+# HackPilot Enterprise Requirements
 # Production-ready dependencies for enterprise penetration testing platform
 # NOTE: For fully reproducible builds, generate a lockfile with pip-tools (pip-compile) or `pip freeze`. Upper bounds below only guard against breaking major bumps.
 

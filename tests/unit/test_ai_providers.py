@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 """Unit tests for the multi-provider AI model registry and client factory."""
 
 import os

@@ -10,8 +10,8 @@ def test_docker_build_uses_explicit_side_effect_free_install_context():
     dockerfile = DOCKERFILE.read_text(encoding="utf-8")
     installer = INSTALLER.read_text(encoding="utf-8")
 
-    assert "HACKGPT_INSTALL_CONTEXT=container ./install.sh" in dockerfile
-    assert 'INSTALL_CONTEXT="${HACKGPT_INSTALL_CONTEXT:-host}"' in installer
+    assert "HACKPILOT_INSTALL_CONTEXT=container ./install.sh" in dockerfile
+    assert 'INSTALL_CONTEXT="${HACKPILOT_INSTALL_CONTEXT:-host}"' in installer
     assert 'if [ "$INSTALL_CONTEXT" = "host" ]; then' in installer
     assert "apt-get upgrade -y" in installer
     assert "ollama pull llama2:7b" in installer
@@ -29,8 +29,8 @@ def test_docker_build_keeps_cached_requirements_layer_and_runtime_directories():
     requirements_install = dockerfile.index("pip3 install -r requirements.txt")
     source_copy = dockerfile.index("COPY . .")
     assert requirements_copy < requirements_install < source_copy
-    assert "/hackgpt/logs" in dockerfile
-    assert "/hackgpt/reports" in dockerfile
+    assert "/hackpilot/logs" in dockerfile
+    assert "/hackpilot/reports" in dockerfile
 
 
 def test_dockerignore_excludes_local_secrets_and_generated_state_but_keeps_template():
@@ -52,9 +52,9 @@ def test_dockerignore_excludes_local_secrets_and_generated_state_but_keeps_templ
 def test_container_mode_does_not_change_host_mode_default():
     installer = INSTALLER.read_text(encoding="utf-8")
 
-    assert "HACKGPT_INSTALL_CONTEXT:-host" in installer
+    assert "HACKPILOT_INSTALL_CONTEXT:-host" in installer
     assert "ROOT=(sudo)" in installer
-    assert 'run_root ln -sf "$(pwd)/hackgpt.py" /usr/local/bin/hackgpt' in installer
+    assert 'run_root ln -sf "$(pwd)/hackpilot.py" /usr/local/bin/hackpilot' in installer
 
 
 def test_container_install_mode_has_no_model_download_or_privilege_escalation(tmp_path):
@@ -66,8 +66,8 @@ def test_container_install_mode_has_no_model_download_or_privilege_escalation(tm
     installer.chmod(0o755)
 
     for filename in (
-        "hackgpt.py",
-        "hackgpt_v2.py",
+        "hackpilot.py",
+        "hackpilot_v2.py",
         "usage_examples.sh",
         "test_installation.py",
         "requirements.txt",
@@ -89,7 +89,7 @@ def test_container_install_mode_has_no_model_download_or_privilege_escalation(tm
         path.chmod(0o755)
 
     env = os.environ.copy()
-    env["HACKGPT_INSTALL_CONTEXT"] = "container"
+    env["HACKPILOT_INSTALL_CONTEXT"] = "container"
     env["PATH"] = f"{fake_bin}{os.pathsep}{env['PATH']}"
     completed = subprocess.run(
         ["bash", str(installer)],

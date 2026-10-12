@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Real-time Analytics Dashboard for HackGPT
+Real-time Analytics Dashboard for HackPilot
 WebSocket-based real-time monitoring and metrics
 """
 
@@ -538,7 +538,7 @@ class RealTimeDashboard:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HackGPT Real-Time Dashboard</title>
+    <title>HackPilot Real-Time Dashboard</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -619,7 +619,7 @@ class RealTimeDashboard:
     <div id="connection-status" class="disconnected">Disconnected</div>
     
     <div class="header">
-        <h1>HackGPT Real-Time Dashboard</h1>
+        <h1>HackPilot Real-Time Dashboard</h1>
         <p>Live monitoring of penetration testing activities</p>
     </div>
     

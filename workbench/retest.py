@@ -369,7 +369,7 @@ def compare_reports(
             )
 
     return {
-        "schema": "hackgpt.retest-diff/v1",
+        "schema": "hackpilot.retest-diff/v1",
         "previous_run": previous["id"],
         "current_run": current["id"],
         "comparable_scope": comparable_scope,

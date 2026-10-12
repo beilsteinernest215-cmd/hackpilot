@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 from .advanced_engine import (
     AdvancedAIEngine,
     AnalysisResult,

@@ -19,8 +19,8 @@ WORKFLOW = (
     / "workbench-release-package.yml"
 )
 REVISION = "a" * 40
-BASENAME = "hackgpt-evidence-workbench-" + REVISION
-REPOSITORY = "HostX0/HackGpt"
+BASENAME = "hackpilot-evidence-workbench-" + REVISION
+REPOSITORY = "HostX0/HackPilot"
 PROVENANCE = "https://slsa.dev/provenance/v1"
 SBOM = "https://cyclonedx.org/bom"
 
@@ -232,7 +232,7 @@ class ReleaseWorkflowTests(unittest.TestCase):
         self.assertEqual(calls, [])
 
     def test_wrong_revision_fails_before_verifier(self):
-        result, calls = self.replay(package="hackgpt-evidence-workbench-" + "b" * 40)
+        result, calls = self.replay(package="hackpilot-evidence-workbench-" + "b" * 40)
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(calls, [])
 

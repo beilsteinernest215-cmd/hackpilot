@@ -1,1 +1,1 @@
-# HackGPT core module
+# HackPilot core module

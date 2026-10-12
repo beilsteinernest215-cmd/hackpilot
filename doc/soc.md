@@ -74,7 +74,7 @@ Choose Option **`5` (Configure SIEM Connections)** in the SOC Console to registe
 
 ### 3.3 Elasticsearch Integration
 * **Search / Query Endpoint**: Search Query DSL (`/_search`).
-* **Alert Forwarding Endpoint**: Document indexer `/hackgpt-soc-alerts/_doc`.
+* **Alert Forwarding Endpoint**: Document indexer `/hackpilot-soc-alerts/_doc`.
 * **Configuration Parameters**:
   * **Endpoint URL**: e.g., `http://localhost:9200`.
   * **API Key**: Elasticsearch authorization key.

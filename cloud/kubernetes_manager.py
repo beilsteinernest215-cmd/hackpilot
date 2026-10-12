@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Kubernetes Management for HackGPT
+Kubernetes Management for HackPilot
 Handles Kubernetes deployment, scaling, and orchestration
 """
 
@@ -60,7 +60,7 @@ class ServiceConfig:
 
 
 class KubernetesManager:
-    """Manages Kubernetes resources for HackGPT microservices"""
+    """Manages Kubernetes resources for HackPilot microservices"""
 
     def __init__(self, kubeconfig_path: Optional[str] = None):
         self.logger = logging.getLogger(__name__)
@@ -68,7 +68,7 @@ class KubernetesManager:
         self.v1 = None
         self.apps_v1 = None
         self.networking_v1 = None
-        self.namespace = "hackgpt"
+        self.namespace = "hackpilot"
 
         if KUBERNETES_AVAILABLE:
             try:
@@ -712,8 +712,8 @@ class KubernetesManager:
             self.logger.error(f"Error applying resource with kubectl: {e}")
             raise
 
-    def generate_hackgpt_manifests(self) -> Dict[str, str]:
-        """Generate Kubernetes manifests for HackGPT microservices"""
+    def generate_hackpilot_manifests(self) -> Dict[str, str]:
+        """Generate Kubernetes manifests for HackPilot microservices"""
 
         manifests = {}
 
@@ -722,9 +722,9 @@ class KubernetesManager:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: hackgpt
+  name: hackpilot
   labels:
-    name: hackgpt
+    name: hackpilot
 """
 
         # API Service
@@ -732,35 +732,35 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hackgpt-api
-  namespace: hackgpt
+  name: hackpilot-api
+  namespace: hackpilot
   labels:
-    app: hackgpt-api
+    app: hackpilot-api
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hackgpt-api
+      app: hackpilot-api
   template:
     metadata:
       labels:
-        app: hackgpt-api
+        app: hackpilot-api
     spec:
       containers:
       - name: api
-        image: hackgpt/api:latest
+        image: hackpilot/api:latest
         ports:
         - containerPort: 8000
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: hackgpt-secrets
+              name: hackpilot-secrets
               key: database-url
         - name: REDIS_URL
           valueFrom:
             secretKeyRef:
-              name: hackgpt-secrets
+              name: hackpilot-secrets
               key: redis-url
         resources:
           requests:
@@ -785,11 +785,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hackgpt-api
-  namespace: hackgpt
+  name: hackpilot-api
+  namespace: hackpilot
 spec:
   selector:
-    app: hackgpt-api
+    app: hackpilot-api
   ports:
   - port: 80
     targetPort: 8000
@@ -801,33 +801,33 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hackgpt-worker
-  namespace: hackgpt
+  name: hackpilot-worker
+  namespace: hackpilot
   labels:
-    app: hackgpt-worker
+    app: hackpilot-worker
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: hackgpt-worker
+      app: hackpilot-worker
   template:
     metadata:
       labels:
-        app: hackgpt-worker
+        app: hackpilot-worker
     spec:
       containers:
       - name: worker
-        image: hackgpt/worker:latest
+        image: hackpilot/worker:latest
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: hackgpt-secrets
+              name: hackpilot-secrets
               key: database-url
         - name: REDIS_URL
           valueFrom:
             secretKeyRef:
-              name: hackgpt-secrets
+              name: hackpilot-secrets
               key: redis-url
         resources:
           requests:
@@ -845,32 +845,32 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hackgpt-database
-  namespace: hackgpt
+  name: hackpilot-database
+  namespace: hackpilot
   labels:
-    app: hackgpt-database
+    app: hackpilot-database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hackgpt-database
+      app: hackpilot-database
   template:
     metadata:
       labels:
-        app: hackgpt-database
+        app: hackpilot-database
     spec:
       containers:
       - name: postgres
         image: postgres:15-alpine
         env:
         - name: POSTGRES_DB
-          value: hackgpt
+          value: hackpilot
         - name: POSTGRES_USER
-          value: hackgpt
+          value: hackpilot
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: hackgpt-secrets
+              name: hackpilot-secrets
               key: database-password
         ports:
         - containerPort: 5432
@@ -887,16 +887,16 @@ spec:
       volumes:
       - name: postgres-storage
         persistentVolumeClaim:
-          claimName: hackgpt-database-pvc
+          claimName: hackpilot-database-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hackgpt-database
-  namespace: hackgpt
+  name: hackpilot-database
+  namespace: hackpilot
 spec:
   selector:
-    app: hackgpt-database
+    app: hackpilot-database
   ports:
   - port: 5432
     targetPort: 5432
@@ -905,8 +905,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hackgpt-database-pvc
-  namespace: hackgpt
+  name: hackpilot-database-pvc
+  namespace: hackpilot
 spec:
   accessModes:
   - ReadWriteOnce
@@ -920,19 +920,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hackgpt-redis
-  namespace: hackgpt
+  name: hackpilot-redis
+  namespace: hackpilot
   labels:
-    app: hackgpt-redis
+    app: hackpilot-redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hackgpt-redis
+      app: hackpilot-redis
   template:
     metadata:
       labels:
-        app: hackgpt-redis
+        app: hackpilot-redis
     spec:
       containers:
       - name: redis
@@ -950,11 +950,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hackgpt-redis
-  namespace: hackgpt
+  name: hackpilot-redis
+  namespace: hackpilot
 spec:
   selector:
-    app: hackgpt-redis
+    app: hackpilot-redis
   ports:
   - port: 6379
     targetPort: 6379
@@ -966,23 +966,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hackgpt-web
-  namespace: hackgpt
+  name: hackpilot-web
+  namespace: hackpilot
   labels:
-    app: hackgpt-web
+    app: hackpilot-web
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: hackgpt-web
+      app: hackpilot-web
   template:
     metadata:
       labels:
-        app: hackgpt-web
+        app: hackpilot-web
     spec:
       containers:
       - name: web
-        image: hackgpt/web:latest
+        image: hackpilot/web:latest
         ports:
         - containerPort: 80
         resources:
@@ -996,11 +996,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hackgpt-web
-  namespace: hackgpt
+  name: hackpilot-web
+  namespace: hackpilot
 spec:
   selector:
-    app: hackgpt-web
+    app: hackpilot-web
   ports:
   - port: 80
     targetPort: 80
@@ -1012,32 +1012,32 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hackgpt-ingress
-  namespace: hackgpt
+  name: hackpilot-ingress
+  namespace: hackpilot
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
   - hosts:
-    - hackgpt.example.com
-    secretName: hackgpt-tls
+    - hackpilot.example.com
+    secretName: hackpilot-tls
   rules:
-  - host: hackgpt.example.com
+  - host: hackpilot.example.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: hackgpt-web
+            name: hackpilot-web
             port:
               number: 80
       - path: /api
         pathType: Prefix
         backend:
           service:
-            name: hackgpt-api
+            name: hackpilot-api
             port:
               number: 80
 """

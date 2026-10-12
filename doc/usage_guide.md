@@ -30,7 +30,7 @@ Welcome to the official user manual for **HackPilot Enterprise**, the state-of-t
 ```bash
 # Clone the repository
 git clone https://github.com/yashab-cyber/hackpilot.git
-cd HackGpt
+cd HackPilot
 
 # Create and activate a virtual environment
 python3 -m venv venv
@@ -70,10 +70,10 @@ GLM_API_KEY=...
 OPENROUTER_API_KEY=sk-or-...
 
 # Database Settings
-DATABASE_URL=postgresql://hackgpt:hackgpt_secure_pass@localhost:5432/hackgpt
+DATABASE_URL=postgresql://hackpilot:hackpilot_secure_pass@localhost:5432/hackpilot
 
 # Platform Config
-HACKGPT_MODEL=gpt-5
+HACKPILOT_MODEL=gpt-5
 SECRET_KEY=supersecretjwtkey123!
 ```
 
@@ -141,7 +141,7 @@ When executed without arguments (`python3 advance_hackpilot.py`), HackPilot open
 
 ```
   ┌────────────────────────────────────────────────────────┐
-  │              HACKGPT ENTERPRISE CONSOLE                │
+  │              HACKPILOT ENTERPRISE CONSOLE                │
   └────────────────────────────────────────────────────────┘
 ```
 

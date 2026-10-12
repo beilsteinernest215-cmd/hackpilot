@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 """ToolManager command execution (no shell=True)."""
 
 import sys
@@ -8,7 +8,7 @@ import pytest
 
 @pytest.fixture
 def tool_manager():
-    from advance_hackgpt import ToolManager
+    from advance_hackpilot import ToolManager
 
     return ToolManager()
 

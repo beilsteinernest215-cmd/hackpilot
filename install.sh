@@ -1,5 +1,5 @@
 #!/bin/bash
-# HackGPT shell script
+# HackPilot shell script
 
 # HackPilot Enterprise Installation Script
 # Installs all dependencies for enterprise penetration testing platform
@@ -33,7 +33,7 @@ info() {
     echo -e "${BLUE}[$(date +'%Y-%m-%d %H:%M:%S')] INFO:${NC} $1"
 }
 
-INSTALL_CONTEXT="${HACKGPT_INSTALL_CONTEXT:-host}"
+INSTALL_CONTEXT="${HACKPILOT_INSTALL_CONTEXT:-host}"
 case "$INSTALL_CONTEXT" in
     host)
         ROOT=(sudo)
@@ -42,7 +42,7 @@ case "$INSTALL_CONTEXT" in
         ROOT=()
         ;;
     *)
-        error "Unsupported HACKGPT_INSTALL_CONTEXT: $INSTALL_CONTEXT (expected host or container)"
+        error "Unsupported HACKPILOT_INSTALL_CONTEXT: $INSTALL_CONTEXT (expected host or container)"
         exit 2
         ;;
 esac
@@ -155,7 +155,7 @@ debug = false
 log_level = INFO
 
 [database]
-url = postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt
+url = postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot
 
 [cache]
 redis_url = redis://localhost:6379/0
@@ -180,9 +180,9 @@ fi
 # Create .env template if it doesn't exist
 if [ ! -f ".env.example" ]; then
     cat > .env.example << 'EOF'
-# HackGPT Enterprise Environment Variables
+# HackPilot Enterprise Environment Variables
 OPENAI_API_KEY=your_openai_api_key_here
-DATABASE_URL=postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt
+DATABASE_URL=postgresql://hackpilot:hackpilot123@localhost:5432/hackpilot
 REDIS_URL=redis://localhost:6379/0
 SECRET_KEY=your_secret_key_here
 JWT_SECRET_KEY=your_jwt_secret_key_here
@@ -194,18 +194,18 @@ EOF
 fi
 
 # Make scripts executable
-chmod +x hackgpt.py hackgpt_v2.py install.sh usage_examples.sh test_installation.py
+chmod +x hackpilot.py hackpilot_v2.py install.sh usage_examples.sh test_installation.py
 [ -f hackpilot.py ] && chmod +x hackpilot.py || true
 [ -f hackpilot_v2.py ] && chmod +x hackpilot_v2.py || true
 [ -f advance_hackpilot.py ] && chmod +x advance_hackpilot.py || true
-[ -f advance_hackgpt.py ] && chmod +x advance_hackgpt.py || true
+[ -f advance_hackpilot.py ] && chmod +x advance_hackpilot.py || true
 
 # Host installs keep the historical global command. Container entrypoints are declared
 # by the image itself and do not need a host-style symlink.
 if [ "$INSTALL_CONTEXT" = "host" ]; then
     echo "[+] Creating global command..."
     run_root ln -sf "$(pwd)/hackpilot.py" /usr/local/bin/hackpilot || warn "Failed to create global symlink"
-    run_root ln -sf "$(pwd)/hackgpt.py" /usr/local/bin/hackgpt || warn "Failed to create global symlink"
+    run_root ln -sf "$(pwd)/hackpilot.py" /usr/local/bin/hackpilot || warn "Failed to create global symlink"
 else
     info "Container install: using the Docker entrypoint instead of a global symlink"
 fi

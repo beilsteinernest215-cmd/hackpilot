@@ -15,9 +15,9 @@ sys.path.insert(0, ".")
 
 try:
     try:
-        from advance_hackpilot import HackPilot as HackGPT, AIEngine, ToolManager, PentestingPhases
+        from advance_hackpilot import HackPilot as HackPilot, AIEngine, ToolManager, PentestingPhases
     except ImportError:
-        from advance_hackgpt import HackGPT, AIEngine, ToolManager, PentestingPhases
+        from advance_hackpilot import HackPilot, AIEngine, ToolManager, PentestingPhases
     from rich.console import Console
     from rich.panel import Panel
     from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -94,7 +94,7 @@ def demo_tool_manager():
 
     # Test safe command execution
     console.print("\n[yellow]Testing safe command execution:[/yellow]")
-    result = tools.run_command("echo 'HackGPT Demo Test'")
+    result = tools.run_command("echo 'HackPilot Demo Test'")
 
     if result["success"]:
         console.print(f"  ✅ Command output: {result['stdout'].strip()}")
@@ -166,7 +166,7 @@ def demo_web_dashboard():
     console.print("  ⚙️  Configuration management")
 
     console.print("\n[cyan]To start web dashboard:[/cyan]")
-    console.print("  ./advance_hackgpt.py --web")
+    console.print("  ./advance_hackpilot.py --web")
     console.print("  Then open: http://localhost:5000")
     console.print()
 
@@ -183,7 +183,7 @@ def demo_voice_interface():
     console.print("  🎤 'Exit'")
 
     console.print("\n[cyan]To start voice mode:[/cyan]")
-    console.print("  ./advance_hackgpt.py --voice")
+    console.print("  ./advance_hackpilot.py --voice")
     console.print()
 
 
@@ -238,8 +238,8 @@ def main():
     """Main demo function"""
     demo_banner()
 
-    console.print("[bold yellow]Welcome to the HackGPT demonstration![/bold yellow]")
-    console.print("This demo showcases HackGPT's capabilities in a safe environment.\n")
+    console.print("[bold yellow]Welcome to the HackPilot demonstration![/bold yellow]")
+    console.print("This demo showcases HackPilot's capabilities in a safe environment.\n")
 
     demos = [
         ("AI Engine", demo_ai_engine),

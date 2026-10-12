@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-Compliance Framework for HackGPT
+Compliance Framework for HackPilot
 Maps findings to various compliance frameworks and generates reports
 """
 

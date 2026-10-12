@@ -1,6 +1,6 @@
 # Evidence Workbench threat model
 
-Status: review-preview threat model for the isolated `workbench/` package. This is not a security certification of the legacy HackGPT application.
+Status: review-preview threat model for the isolated `workbench/` package. This is not a security certification of the legacy HackPilot application.
 
 ## Security objectives
 

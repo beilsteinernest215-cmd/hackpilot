@@ -17,7 +17,7 @@ from typing import Any
 
 from . import __version__
 
-RELEASE_EVIDENCE_SCHEMA = "hackgpt.review-release-evidence/v1"
+RELEASE_EVIDENCE_SCHEMA = "hackpilot.review-release-evidence/v1"
 CYCLONEDX_SPEC_VERSION = "1.5"
 _REQUIRED_REVIEW_DOCS = (
     "README.md",
@@ -141,7 +141,7 @@ def cyclonedx_bom() -> dict[str, Any]:
     from .semgrep_runner import SEMGREP_IMAGE, SEMGREP_IMAGE_DIGEST, SEMGREP_VERSION
 
     serial = uuid.uuid5(
-        uuid.NAMESPACE_URL, f"https://github.com/HostX0/HackGpt/workbench/{__version__}"
+        uuid.NAMESPACE_URL, f"https://github.com/HostX0/HackPilot/workbench/{__version__}"
     )
     digest_hex = SEMGREP_IMAGE_DIGEST.removeprefix("sha256:")
     return {
@@ -152,17 +152,17 @@ def cyclonedx_bom() -> dict[str, Any]:
         "metadata": {
             "component": {
                 "type": "application",
-                "name": "HackGPT Evidence Workbench",
+                "name": "HackPilot Evidence Workbench",
                 "version": __version__,
-                "bom-ref": f"pkg:generic/hackgpt-evidence-workbench@{__version__}",
+                "bom-ref": f"pkg:generic/hackpilot-evidence-workbench@{__version__}",
                 "properties": [
-                    {"name": "hackgpt:scope", "value": "isolated-workbench-only"},
+                    {"name": "hackpilot:scope", "value": "isolated-workbench-only"},
                     {
-                        "name": "hackgpt:third-party-python-runtime-packages",
+                        "name": "hackpilot:third-party-python-runtime-packages",
                         "value": "none",
                     },
-                    {"name": "hackgpt:bundled-scanners", "value": "none"},
-                    {"name": "hackgpt:optional-scanner-runners", "value": "semgrep-ce"},
+                    {"name": "hackpilot:bundled-scanners", "value": "none"},
+                    {"name": "hackpilot:optional-scanner-runners", "value": "semgrep-ce"},
                 ],
             }
         },
@@ -176,12 +176,12 @@ def cyclonedx_bom() -> dict[str, Any]:
                 "hashes": [{"alg": "SHA-256", "content": digest_hex}],
                 "licenses": [{"license": {"id": "LGPL-2.1-or-later"}}],
                 "properties": [
-                    {"name": "hackgpt:image-reference", "value": SEMGREP_IMAGE},
-                    {"name": "hackgpt:bundled", "value": "false"},
-                    {"name": "hackgpt:automatic-pull", "value": "false"},
-                    {"name": "hackgpt:validated-platform", "value": "linux/amd64"},
-                    {"name": "hackgpt:container-network", "value": "none"},
-                    {"name": "hackgpt:rules-source", "value": "repository-authored"},
+                    {"name": "hackpilot:image-reference", "value": SEMGREP_IMAGE},
+                    {"name": "hackpilot:bundled", "value": "false"},
+                    {"name": "hackpilot:automatic-pull", "value": "false"},
+                    {"name": "hackpilot:validated-platform", "value": "linux/amd64"},
+                    {"name": "hackpilot:container-network", "value": "none"},
+                    {"name": "hackpilot:rules-source", "value": "repository-authored"},
                 ],
             }
         ],

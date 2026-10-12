@@ -7,7 +7,7 @@ HackPilot is a production-ready AI-powered penetration testing automation tool d
 ## 📁 Project Structure
 ```
 HackPilot/
-├── advance_hackgpt.py              # Main application (2,000+ lines)
+├── advance_hackpilot.py              # Main application (2,000+ lines)
 ├── requirements.txt        # Python dependencies
 ├── install.sh             # Automated installation script
 ├── test_installation.py   # Installation validation
@@ -98,16 +98,16 @@ chmod +x install.sh
 
 ### Usage Modes
 ```bash
-./advance_hackgpt.py                              # Interactive CLI
-./advance_hackgpt.py --target example.com --scope "Web app" --auth-key "AUTH123"
-./advance_hackgpt.py --web                        # Web dashboard
-./advance_hackgpt.py --voice                      # Voice commands
+./advance_hackpilot.py                              # Interactive CLI
+./advance_hackpilot.py --target example.com --scope "Web app" --auth-key "AUTH123"
+./advance_hackpilot.py --web                        # Web dashboard
+./advance_hackpilot.py --voice                      # Voice commands
 ```
 
 ### Docker Deployment
 ```bash
-docker-compose up hackgpt                 # Web dashboard
-docker-compose run hackgpt-cli            # CLI mode
+docker-compose up hackpilot                 # Web dashboard
+docker-compose run hackpilot-cli            # CLI mode
 ```
 
 ## 🧪 Testing & Quality Assurance

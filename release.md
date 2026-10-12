@@ -33,8 +33,8 @@ We are excited to announce the release of **HackPilot Enterprise Version 2026.09
 
 ### 3. Cross-Platform Reliability & Launcher Hardening
 * **Multi-Platform Launchers**: Native launch scripts for Linux, macOS (`workbench/start.command`), and Windows (`workbench/start.cmd`, `workbench/start.py`).
-* **Container vs Host Installer Context**: Hardened `install.sh` supporting `HACKGPT_INSTALL_CONTEXT` (`host` vs `container`) to avoid side effects during Docker builds.
-* **Backward-Compatible Legacy Entrypoints**: Retained `hackgpt.py` and `hackgpt_v2.py` alongside `advance_hackgpt.py` to preserve legacy tooling and automation workflows.
+* **Container vs Host Installer Context**: Hardened `install.sh` supporting `HACKPILOT_INSTALL_CONTEXT` (`host` vs `container`) to avoid side effects during Docker builds.
+* **Backward-Compatible Legacy Entrypoints**: Retained `hackpilot.py` and `hackpilot_v2.py` alongside `advance_hackpilot.py` to preserve legacy tooling and automation workflows.
 
 ### 4. Hardened CI/CD & Automated Testing Matrix
 * **Multi-Tier CI Matrix**: Added bounded Python 3.8 CI profile (`requirements-ci-py38.txt`) for legacy core contracts alongside full Python 3.9-3.11 test matrices.

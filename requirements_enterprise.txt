@@ -1,5 +1,5 @@
-# HackGPT configuration file
-# HackGPT Enterprise Requirements
+# HackPilot configuration file
+# HackPilot Enterprise Requirements
 # Production-ready dependencies for enterprise penetration testing platform
 
 # Core Dependencies

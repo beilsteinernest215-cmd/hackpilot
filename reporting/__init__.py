@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 from .dynamic_reports import DynamicReportGenerator, ReportTemplate, ChartGenerator
 from .realtime_dashboard import RealTimeDashboard
 

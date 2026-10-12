@@ -302,7 +302,7 @@ class CloudProtocolTests(unittest.TestCase):
 
             try:
                 with patch.dict(
-                    os.environ, {"HACKGPT_OLLAMA_PORT": str(self.server.server_port)}
+                    os.environ, {"HACKPILOT_OLLAMA_PORT": str(self.server.server_port)}
                 ):
                     status, response = request(
                         "/api/runs",

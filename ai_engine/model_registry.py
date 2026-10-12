@@ -1,5 +1,5 @@
-# HackGPT core module
-"""Model registry and provider abstraction layer for HackGPT.
+# HackPilot core module
+"""Model registry and provider abstraction layer for HackPilot.
 
 Provides a centralized catalog of supported AI models across multiple
 providers, along with helper functions for querying model metadata,

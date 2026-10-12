@@ -1,4 +1,4 @@
-# HackGPT core module
+# HackPilot core module
 from .authentication import (
     EnterpriseAuth,
     RoleBasedAccessControl,

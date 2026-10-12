@@ -102,7 +102,7 @@ def inspect_remote(
     watcher = None
     if cancel is not None:
         watcher = threading.Thread(
-            target=cancel_watcher, name="hackgpt-http-cancel", daemon=True
+            target=cancel_watcher, name="hackpilot-http-cancel", daemon=True
         )
         watcher.start()
     connection = http.client.HTTPConnection(host, port, timeout=deadline.remaining(8))
@@ -121,7 +121,7 @@ def inspect_remote(
             "HEAD",
             parsed.path or "/",
             headers={
-                "User-Agent": "HackGPT-Workbench/" + engine.__version__,
+                "User-Agent": "HackPilot-Workbench/" + engine.__version__,
                 "Connection": "close",
             },
         )
