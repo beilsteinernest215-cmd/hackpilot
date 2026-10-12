@@ -1186,3 +1186,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Forward compatibility aliases
+EnterpriseHackPilot = EnterpriseHackGPT
+HackPilot = EnterpriseHackGPT

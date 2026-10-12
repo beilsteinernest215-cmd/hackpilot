@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# HackGPT core module
+# HackPilot core module
 """
-HackGPT Demo Script
-Demonstrates HackGPT capabilities against a test target
+HackPilot Demo Script
+Demonstrates HackPilot capabilities against a test target
 """
 
 import os
@@ -14,12 +14,15 @@ from pathlib import Path
 sys.path.insert(0, ".")
 
 try:
-    from advance_hackgpt import HackGPT, AIEngine, ToolManager, PentestingPhases
+    try:
+        from advance_hackpilot import HackPilot as HackGPT, AIEngine, ToolManager, PentestingPhases
+    except ImportError:
+        from advance_hackgpt import HackGPT, AIEngine, ToolManager, PentestingPhases
     from rich.console import Console
     from rich.panel import Panel
     from rich.progress import Progress, SpinnerColumn, TextColumn
 except ImportError as e:
-    print(f"Error importing HackGPT: {e}")
+    print(f"Error importing HackPilot: {e}")
     print("Please run: pip install -r requirements.txt")
     sys.exit(1)
 
@@ -37,7 +40,7 @@ def demo_banner():
  ██████╔╝███████╗██║ ╚═╝ ██║╚██████╔╝
  ╚═════╝ ╚══════╝╚═╝     ╚═╝ ╚═════╝ 
 [/bold red]
-[bold cyan]    HackGPT Demonstration[/bold cyan]
+[bold cyan]    HackPilot Demonstration[/bold cyan]
 [dim]Safe Testing Against Test Targets[/dim]
 """
     console.print(banner)
@@ -259,11 +262,11 @@ def main():
             console.print(f"[red]Error in {demo_name} demo: {e}[/red]")
 
     console.print("[bold green]Demo completed![/bold green]")
-    console.print("\n[cyan]Ready to use HackGPT? Run:[/cyan]")
-    console.print("  ./advance_hackgpt.py                    # Interactive mode")
-    console.print("  ./advance_hackgpt.py --web             # Web dashboard")
-    console.print("  ./advance_hackgpt.py --voice           # Voice commands")
-    console.print("  ./advance_hackgpt.py --help            # Show all options")
+    console.print("\n[cyan]Ready to use HackPilot? Run:[/cyan]")
+    console.print("  ./advance_hackpilot.py                  # Interactive mode")
+    console.print("  ./advance_hackpilot.py --web            # Web dashboard")
+    console.print("  ./advance_hackpilot.py --voice          # Voice commands")
+    console.print("  ./advance_hackpilot.py --help           # Show all options")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
-<!-- HackGPT document -->
-# 🔧 HackGPT Improvement Roadmap
+<!-- HackPilot document -->
+# 🔧 HackPilot Improvement Roadmap
 
 ## 1. 🗄️ Database Integration & Data Persistence
 
@@ -520,4 +520,4 @@ const Dashboard: React.FC<DashboardProps> = ({ sessionId }) => {
 - 📈 **Predictive vulnerability management**
 - 🌍 **Global threat intelligence** integration
 
-This roadmap transforms HackGPT from a standalone tool into an enterprise-grade platform capable of supporting large-scale penetration testing operations.
+This roadmap transforms HackPilot from a standalone tool into an enterprise-grade platform capable of supporting large-scale penetration testing operations.

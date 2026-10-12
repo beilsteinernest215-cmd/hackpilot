@@ -1,4 +1,4 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 # Pull Request
 
 ## 📝 Description
@@ -35,7 +35,7 @@
 **Test Configuration:**
 - OS: 
 - Python version: 
-- HackGPT version: 
+- HackPilot version: 
 
 ## 📋 Checklist
 **Before submitting this PR, please check all applicable boxes:**

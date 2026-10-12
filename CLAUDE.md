@@ -1,18 +1,18 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
-HackGPT is an AI-powered penetration-testing automation platform (Python). It is **authorized-use security tooling**: it orchestrates real offensive tools (nmap, sqlmap, hydra, metasploit, etc.) driven by an LLM through a structured 6-phase pentest methodology. Treat changes here as security-sensitive.
+HackPilot is an AI-powered penetration-testing automation platform (Python). It is **authorized-use security tooling**: it orchestrates real offensive tools (nmap, sqlmap, hydra, metasploit, etc.) driven by an LLM through a structured 6-phase pentest methodology. Treat changes here as security-sensitive.
 
 ## Two entry points — they are separate, not layered
 
 There are **two independent CLI applications** that do not import each other:
 
-- **`advance_hackgpt.py`** (v1) — self-contained single file. Classes: `HackGPT`, `AIEngine`, `ToolManager`, `PentestingPhases`, `VoiceInterface`, `WebDashboard`. This is what the `ci.yml` workflow imports/tests and what `install.sh` symlinks to `/usr/local/bin/hackgpt`.
-- **`advance_hackgpt.py`** (v2, "Enterprise") — the actively-developed version. Classes: `EnterpriseHackGPT`, `EnterpriseToolManager`, `EnterprisePentestingPhases`, etc. Unlike v1, it depends on the seven internal packages (below). `docker-compose`, the README deployment instructions, and `enterprise-ci.yml` target v2.
+- **`hackpilot.py`** / **`hackgpt.py`** (v1) — self-contained single file. Classes: `HackPilot` / `HackGPT`, `AIEngine`, `ToolManager`, `PentestingPhases`, `VoiceInterface`, `WebDashboard`. This is what the `ci.yml` workflow imports/tests and what `install.sh` symlinks to `/usr/local/bin/hackpilot`.
+- **`advance_hackpilot.py`** / **`advance_hackgpt.py`** (v2, "Enterprise") — the actively-developed version. Classes: `EnterpriseHackPilot` / `EnterpriseHackGPT`, `EnterpriseToolManager`, `EnterprisePentestingPhases`, etc. Unlike v1, it depends on the seven internal packages (below). `docker-compose`, the README deployment instructions, and `enterprise-ci.yml` target v2.
 
 When fixing a bug, determine which entry point the user means — logic is often duplicated across both files (each is ~44 KB). A change in one does **not** propagate to the other.
 
@@ -40,17 +40,17 @@ The Celery app lives in `performance/parallel_processor.py` (referenced as `-A p
 ## Running it
 
 ```bash
-python3 advance_hackgpt.py                       # interactive enterprise menu (default)
-python3 advance_hackgpt.py --api                 # REST API only, :8000
-python3 advance_hackgpt.py --web                 # web dashboard only, :8080
-python3 advance_hackgpt.py --realtime            # real-time dashboard only
-python3 advance_hackgpt.py --config myconfig.ini # override config file
+python3 advance_hackpilot.py                       # interactive enterprise menu (default)
+python3 advance_hackpilot.py --api                 # REST API only, :8000
+python3 advance_hackpilot.py --web                 # web dashboard only, :8080
+python3 advance_hackpilot.py --realtime            # real-time dashboard only
+python3 advance_hackpilot.py --config myconfig.ini # override config file
 # Direct (non-interactive) assessment — requires all three:
-python3 advance_hackgpt.py --target example.com --scope "Web app" --auth-key KEY \
+python3 advance_hackpilot.py --target example.com --scope "Web app" --auth-key KEY \
   --assessment-type black-box --compliance OWASP
 ```
 
-Configuration precedence: **environment variables (`.env`) override `config.ini`** (see the `Config` class in `advance_hackgpt.py`). Copy `.env.example` → `.env` before running with external services.
+Configuration precedence: **environment variables (`.env`) override `config.ini`** (see the `Config` class in `advance_hackpilot.py`). Copy `.env.example` → `.env` before running with external services.
 
 ## Build, test, lint
 

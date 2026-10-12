@@ -1,5 +1,5 @@
-# HackGPT YAML configuration
-name: Deploy HackGPT Website to Pages
+# HackPilot YAML configuration
+name: Deploy HackPilot Website to Pages
 
 on:
   push:

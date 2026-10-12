@@ -1,11 +1,11 @@
-<!-- HackGPT document -->
-# 🚀 HackGPT Enterprise Release Notes — Version 2026.09.26
+<!-- HackPilot document -->
+# 🚀 HackPilot Enterprise Release Notes — Version 2026.09.26
 
 > [!IMPORTANT]
 > ### 💖 Critical Notice: Support, Donations & Sponsorship Required
-> HackGPT Enterprise is an independent open-source cybersecurity and AI penetration testing research project. To continuously maintain the platform, support multi-provider frontier AI integrations, and sustain security research infrastructure, **we require funds, donations, and sponsorships to maintain this project**.
+> HackPilot Enterprise is an independent open-source cybersecurity and AI penetration testing research project. To continuously maintain the platform, support multi-provider frontier AI integrations, and sustain security research infrastructure, **we require funds, donations, and sponsorships to maintain this project**.
 >
-> **Please consider donating and sponsoring HackGPT development!**
+> **Please consider donating and sponsoring HackPilot development!**
 > - **GitHub Sponsors (Active)**: [Sponsor @yashab-cyber on GitHub Sponsors](https://github.com/sponsors/yashab-cyber)
 > - **Cryptocurrency Transfers**: For crypto donations (Solana, Bitcoin, Ethereum, USDT, etc.), please email: **yashabalam707@gmail.com**
 > - **Sponsorships & Inquiries**: Contact creator at: **yashabalam707@gmail.com**
@@ -13,7 +13,7 @@
 
 ---
 
-We are excited to announce the release of **HackGPT Enterprise Version 2026.09.26**! This release integrates the new **Evidence Workbench**, cross-platform reliability hardening, reviewable AI and adapter lifecycles, and a hardened CI pipeline contributed by **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) in Pull Request [#21](https://github.com/yashab-cyber/HackGpt/pull/21).
+We are excited to announce the release of **HackPilot Enterprise Version 2026.09.26**! This release integrates the new **Evidence Workbench**, cross-platform reliability hardening, reviewable AI and adapter lifecycles, and a hardened CI pipeline contributed by **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) in Pull Request [#21](https://github.com/yashab-cyber/hackpilot/pull/21).
 
 ---
 
@@ -42,17 +42,17 @@ We are excited to announce the release of **HackGPT Enterprise Version 2026.09.2
 * **Expanded Verification**: 90+ core unit tests, comprehensive contract suites (`test_docker_contract.py`, `test_enterprise_ci_contract.py`, `test_requirements_compat.py`), and workbench E2E tests.
 
 ### 5. Community & Contributor Recognition
-* **Special Thanks**: Full credit and gratitude to **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) for designing, implementing, and contributing Pull Request [#21](https://github.com/yashab-cyber/HackGpt/pull/21).
+* **Special Thanks**: Full credit and gratitude to **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) for designing, implementing, and contributing Pull Request [#21](https://github.com/yashab-cyber/hackpilot/pull/21).
 
 ---
 
 ## 🛠️ Quick Start with Version 2026.09.26
 
-1. **Launch Advance HackGPT**:
+1. **Launch Advance HackPilot**:
    ```bash
-   python advance_hackgpt.py
-   python advance_hackgpt.py --web
-   python advance_hackgpt.py --api
+   python advance_hackpilot.py
+   python advance_hackpilot.py --web
+   python advance_hackpilot.py --api
    ```
 
 2. **Launch Evidence Workbench**:

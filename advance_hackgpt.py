@@ -112,12 +112,18 @@ class Config:
         self.DATABASE_URL = os.getenv("DATABASE_URL", self.config.get("database", "url", fallback=""))
         self.REDIS_URL = os.getenv("REDIS_URL", self.config.get("cache", "redis_url", fallback="redis://localhost:6379/0"))
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", self.config.get("ai", "openai_api_key", fallback=""))
-        self.HACKGPT_MODEL = os.getenv("HACKGPT_MODEL", self.config.get("ai", "model", fallback="gpt-4o"))
-        self.HACKGPT_PROVIDER = os.getenv("HACKGPT_PROVIDER", self.config.get("ai", "provider", fallback=""))
-        self.HACKGPT_CUSTOM_ROUTE = os.getenv(
-            "HACKGPT_CUSTOM_ROUTE",
-            os.getenv("CUSTOM_ROUTER_BASE_URL", self.config.get("ai", "custom_route", fallback="")),
+        self.HACKPILOT_MODEL = os.getenv("HACKPILOT_MODEL", os.getenv("HACKGPT_MODEL", self.config.get("ai", "model", fallback="gpt-4o")))
+        self.HACKGPT_MODEL = self.HACKPILOT_MODEL
+        self.HACKPILOT_PROVIDER = os.getenv("HACKPILOT_PROVIDER", os.getenv("HACKGPT_PROVIDER", self.config.get("ai", "provider", fallback="")))
+        self.HACKGPT_PROVIDER = self.HACKPILOT_PROVIDER
+        self.HACKPILOT_CUSTOM_ROUTE = os.getenv(
+            "HACKPILOT_CUSTOM_ROUTE",
+            os.getenv(
+                "HACKGPT_CUSTOM_ROUTE",
+                os.getenv("CUSTOM_ROUTER_BASE_URL", self.config.get("ai", "custom_route", fallback="")),
+            ),
         )
+        self.HACKGPT_CUSTOM_ROUTE = self.HACKPILOT_CUSTOM_ROUTE
         self.OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", self.config.get("ai", "openrouter_base_url", fallback="https://openrouter.ai/api/v1"))
         self.OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", self.config.get("ai", "openrouter_api_key", fallback=""))
         self.NINEBROUTER_BASE_URL = os.getenv("NINEBROUTER_BASE_URL", self.config.get("ai", "ninebrouter_base_url", fallback="http://localhost:8000/v1"))
@@ -1936,6 +1942,8 @@ class EnterpriseToolManager:
 # Alias for backward compatibility
 ToolManager = EnterpriseToolManager
 HackGPT = EnterpriseHackGPT
+EnterpriseHackPilot = EnterpriseHackGPT
+HackPilot = EnterpriseHackGPT
 
 class AIEngine:
     """Wrapper AI Engine for backward compatibility"""
@@ -2270,6 +2278,7 @@ class EnterpriseWebDashboard:
     
     def __init__(self, hackgpt_instance):
         self.hackgpt = hackgpt_instance
+        self.hackpilot = hackgpt_instance
         self.app = None
         self.setup_app()
         

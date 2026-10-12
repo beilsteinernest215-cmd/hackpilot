@@ -1,14 +1,14 @@
-<!-- HackGPT document -->
-# 🎨 HackGPT Enterprise Brand Assets
+<!-- HackPilot document -->
+# 🎨 HackPilot Enterprise Brand Assets
 
-This folder contains the official brand assets for HackGPT Enterprise.
+This folder contains the official brand assets for HackPilot Enterprise.
 
 ## 📁 Files
 
 ### 🖼️ Logo Files
-- **`hackgpt-logo.png`** - Main logo (high resolution)
-- **`hackgpt-logo-social.png`** - Social media optimized version
-- **`hackgpt-favicon.png`** - Favicon/icon version
+- **`hackpilot-logo.png`** - Main logo (high resolution)
+- **`hackpilot-logo-social.png`** - Social media optimized version
+- **`hackpilot-favicon.png`** - Favicon/icon version
 
 ## 📏 Usage Guidelines
 
@@ -43,25 +43,25 @@ This folder contains the official brand assets for HackGPT Enterprise.
 ### README Headers
 ```markdown
 <div align="center">
-  <img src="public/hackgpt-logo.png" alt="HackGPT Enterprise Logo" width="300" height="auto">
+  <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="300" height="auto">
 </div>
 ```
 
 ### Social Media
 ```markdown
-![HackGPT Enterprise](public/hackgpt-logo-social.png)
+![HackPilot Enterprise](public/hackpilot-logo-social.png)
 ```
 
 ### Documentation
 ```markdown
-<img src="../public/hackgpt-logo.png" alt="HackGPT Enterprise" width="200">
+<img src="../public/hackpilot-logo.png" alt="HackPilot Enterprise" width="200">
 ```
 
 ## 📞 Contact for Brand Guidelines
 
 **For brand usage questions or permissions:**
 - **Email**: yashabalam707@gmail.com
-- **Subject**: "HackGPT Brand Usage Request"
+- **Subject**: "HackPilot Brand Usage Request"
 
 ## ⚖️ Legal Information
 
@@ -69,7 +69,7 @@ This folder contains the official brand assets for HackGPT Enterprise.
 © 2025 Yashab Alam. All rights reserved.
 
 ### License
-The HackGPT Enterprise logo is proprietary. Usage is permitted for:
+The HackPilot Enterprise logo is proprietary. Usage is permitted for:
 - Open source contributions to this project
 - Educational and non-commercial purposes
 - Social media sharing with proper attribution
@@ -78,7 +78,7 @@ The HackGPT Enterprise logo is proprietary. Usage is permitted for:
 
 ### Attribution
 When using the logo, please include:
-"HackGPT Enterprise logo © Yashab Alam"
+"HackPilot Enterprise logo © Yashab Alam"
 
 ## 🔗 Brand Resources
 
@@ -89,7 +89,7 @@ When using the logo, please include:
 ### Style Guide
 For complete brand guidelines and additional assets:
 - Contact: yashabalam707@gmail.com
-- Subject: "HackGPT Brand Guidelines Request"
+- Subject: "HackPilot Brand Guidelines Request"
 
 ---
 

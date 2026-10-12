@@ -82,4 +82,5 @@ jobs:
 
     - name: Test Docker image
       run: |
+        docker run --rm hackgpt:test --help
         docker run --rm --entrypoint python3 hackgpt:test -c "import hackgpt; print('Docker image OK')"

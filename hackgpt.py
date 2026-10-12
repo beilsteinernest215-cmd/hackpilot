@@ -1207,3 +1207,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Forward compatibility alias
+HackPilot = HackGPT

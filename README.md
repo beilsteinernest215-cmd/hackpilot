@@ -1,8 +1,8 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 <div align="center">
-  <img src="public/hackgpt-logo.png" alt="HackGPT Enterprise Logo" width="400" height="auto">
+  <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="400" height="auto">
   
-  <h1>🚀 HackGPT Enterprise</h1>
+  <h1>🚀 HackPilot Enterprise</h1>
   <h3>AI-Powered Penetration Testing Platform</h3>
   
   <p>
@@ -20,11 +20,11 @@
   </p>
 </div>
 
-**HackGPT Enterprise** is a production-ready, cloud-native AI-powered penetration testing platform designed for enterprise security teams. It combines advanced AI, machine learning, microservices architecture, and comprehensive security frameworks to deliver professional-grade cybersecurity assessments.
+**HackPilot Enterprise** is a production-ready, cloud-native AI-powered penetration testing platform designed for enterprise security teams. It combines advanced AI, machine learning, microservices architecture, and comprehensive security frameworks to deliver professional-grade cybersecurity assessments.
 
 **Created by [Yashab Alam](https://github.com/yashab-cyber)**
 
-> 💰 **Support the Project**: [Donate to HackGPT Development](DONATE.md) | Help us build the future of AI-powered penetration testing!
+> 💰 **Support the Project**: [Donate to HackPilot Development](DONATE.md) | Help us build the future of AI-powered penetration testing!
 
 ## 🏢 Enterprise Features
 
@@ -84,8 +84,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yashab-cyber/HackGPT.git
-cd HackGPT
+git clone https://github.com/yashab-cyber/hackpilot.git
+cd hackpilot
 
 # Run enterprise installer (sets up all services)
 chmod +x install.sh
@@ -108,13 +108,13 @@ python3 test_installation.py
 source venv/bin/activate
 
 # Run enterprise application
-python3 advance_hackgpt.py
+python3 advance_hackpilot.py
 ```
 
 #### 2. API Server Mode
 ```bash
 # Start REST API server
-python3 advance_hackgpt.py --api
+python3 advance_hackpilot.py --api
 
 # API available at: http://localhost:8000
 # Health check: http://localhost:8000/api/health
@@ -123,7 +123,7 @@ python3 advance_hackgpt.py --api
 #### 3. Web Dashboard Mode
 ```bash
 # Start web dashboard
-python3 advance_hackgpt.py --web
+python3 advance_hackpilot.py --web
 
 # Dashboard available at: http://localhost:8080
 ```
@@ -144,7 +144,7 @@ docker-compose up -d
 #### 5. Direct Assessment Mode
 ```bash
 # Run immediate assessment
-python3 advance_hackgpt.py \
+python3 advance_hackpilot.py \
   --target example.com \
   --scope "Web application and API" \
   --auth-key "ENTERPRISE-2025-AUTH" \
@@ -158,7 +158,7 @@ python3 advance_hackgpt.py \
 
 ```mermaid
 graph TD
-    A[Load Balancer/Nginx] --> B[HackGPT API Gateway]
+    A[Load Balancer/Nginx] --> B[HackPilot API Gateway]
     B --> C[Authentication Service]
     B --> D[AI Engine Service] 
     B --> E[Exploitation Service]
@@ -197,11 +197,11 @@ graph TD
 
 | Service | Purpose | Port | Technology |
 |---------|---------|------|------------|
-| **hackgpt-app** | Main application | 8000, 8080 | Python/Flask |
-| **hackgpt-soc** | SOC & SIEM Correlation Engine | - | Python / Log Normalizer |
-| **hackgpt-worker** | Background tasks | - | Celery |
-| **hackgpt-database** | Data persistence | 5432 | PostgreSQL 15 |
-| **hackgpt-redis** | Cache & queues | 6379 | Redis 7 |
+| **hackpilot-app** | Main application | 8000, 8080 | Python/Flask |
+| **hackpilot-soc** | SOC & SIEM Correlation Engine | - | Python / Log Normalizer |
+| **hackpilot-worker** | Background tasks | - | Celery |
+| **hackpilot-database** | Data persistence | 5432 | PostgreSQL 15 |
+| **hackpilot-redis** | Cache & queues | 6379 | Redis 7 |
 | **prometheus** | Metrics collection | 9090 | Prometheus |
 | **grafana** | Monitoring dashboard | 3000 | Grafana |
 | **elasticsearch** | Log aggregation | 9200 | Elasticsearch |
@@ -263,7 +263,7 @@ DATABASE_URL=postgresql://hackgpt:hackgpt123@localhost:5432/hackgpt
 REDIS_URL=redis://localhost:6379/0
 
 # AI Configuration — Multi-Provider
-HACKGPT_MODEL=gpt-5               # Any model from ai_engine/model_registry.py
+HACKPILOT_MODEL=gpt-5              # (HACKGPT_MODEL also supported)               # Any model from ai_engine/model_registry.py
 OPENAI_API_KEY=your_openai_api_key
 ANTHROPIC_API_KEY=your_anthropic_api_key
 GOOGLE_API_KEY=your_google_api_key
@@ -345,7 +345,7 @@ ELASTICSEARCH_ENDPOINT=http://localhost:9200
 ### 1. Command Line Interface (CLI)
 ```bash
 # Interactive enterprise mode
-python3 advance_hackgpt.py
+python3 advance_hackpilot.py
 
 # Available options:
 # 1. Full Enterprise Pentest (All 6 Phases)
@@ -363,7 +363,7 @@ python3 advance_hackgpt.py
 ### 2. REST API Server
 ```bash
 # Start API server
-python3 advance_hackgpt.py --api
+python3 advance_hackpilot.py --api
 
 # Available endpoints:
 # GET  /api/health - Health check
@@ -377,7 +377,7 @@ python3 advance_hackgpt.py --api
 ### 3. Web Dashboard
 ```bash
 # Start web dashboard
-python3 advance_hackgpt.py --web
+python3 advance_hackpilot.py --web
 
 # Features:
 # - Real-time assessment monitoring
@@ -391,7 +391,7 @@ python3 advance_hackgpt.py --web
 ### 4. Voice Commands (Enterprise)
 ```bash
 # Voice command mode
-python3 advance_hackgpt.py --voice
+python3 advance_hackpilot.py --voice
 
 # Supported commands:
 # "Start enterprise assessment of example.com"
@@ -444,7 +444,7 @@ http://localhost:3000
 # Login: admin / hackgpt123
 
 # Pre-configured dashboards:
-# - HackGPT System Overview
+# - HackPilot System Overview
 # - Assessment Performance Metrics  
 # - Vulnerability Trend Analysis
 # - User Activity Dashboard
@@ -495,13 +495,13 @@ kubectl apply -f k8s/
 ### Multi-Cloud Deployment
 ```bash
 # Deploy to AWS
-python3 advance_hackgpt.py --deploy aws
+python3 advance_hackpilot.py --deploy aws
 
 # Deploy to Azure  
-python3 advance_hackgpt.py --deploy azure
+python3 advance_hackpilot.py --deploy azure
 
 # Deploy to GCP
-python3 advance_hackgpt.py --deploy gcp
+python3 advance_hackpilot.py --deploy gcp
 ```
 
 ## 🧪 Testing & Development
@@ -544,19 +544,19 @@ mypy .
 docker swarm init
 
 # Deploy stack
-docker stack deploy -c docker-compose.yml hackgpt
+docker stack deploy -c docker-compose.yml hackpilot
 ```
 
 ### Kubernetes
 ```bash
 # Create namespace
-kubectl create namespace hackgpt
+kubectl create namespace hackpilot
 
 # Deploy applications
 kubectl apply -f k8s/
 
 # Scale workers
-kubectl scale deployment hackgpt-worker --replicas=10
+kubectl scale deployment hackpilot-worker --replicas=10
 ```
 
 ### Cloud Platforms
@@ -564,20 +564,20 @@ kubectl scale deployment hackgpt-worker --replicas=10
 #### AWS Deployment
 ```bash
 # ECS deployment
-aws ecs create-cluster --cluster-name hackgpt
-aws ecs create-service --service-name hackgpt-api
+aws ecs create-cluster --cluster-name hackpilot
+aws ecs create-service --service-name hackpilot-api
 ```
 
 #### Azure Deployment  
 ```bash
 # ACI deployment
-az container create --resource-group hackgpt --name hackgpt-api
+az container create --resource-group hackpilot --name hackgpt-api
 ```
 
 #### GCP Deployment
 ```bash
 # GKE deployment
-gcloud container clusters create hackgpt-cluster
+gcloud container clusters create hackpilot-cluster
 kubectl apply -f k8s/
 ```
 
@@ -589,7 +589,7 @@ kubectl apply -f k8s/
 ```bash
 # Check PostgreSQL status
 systemctl status postgresql
-docker logs hackgpt-database
+docker logs hackpilot-database
 
 # Test connection
 python3 -c "from database import get_db_manager; print(get_db_manager().test_connection())"
@@ -599,7 +599,7 @@ python3 -c "from database import get_db_manager; print(get_db_manager().test_con
 ```bash
 # Check Redis status
 redis-cli ping
-docker logs hackgpt-redis
+docker logs hackpilot-redis
 
 # Clear cache
 redis-cli FLUSHALL
@@ -624,7 +624,7 @@ ollama run llama3.3:70b
 celery -A performance.parallel_processor inspect active
 
 # Restart workers
-docker-compose restart hackgpt-worker
+docker-compose restart hackpilot-worker
 ```
 
 ### Performance Optimization
@@ -636,7 +636,7 @@ python3 -c "from database import optimize_database; optimize_database()"
 python3 -c "from performance.cache_manager import warm_cache; warm_cache()"
 
 # Worker scaling
-docker-compose up --scale hackgpt-worker=10
+docker-compose up --scale hackpilot-worker=10
 ```
 
 ## 📄 Enterprise License
@@ -652,8 +652,8 @@ This project is licensed under the MIT License with additional enterprise terms:
 
 ### Support Channels
 - **Enterprise Support**: yashabalam707@gmail.com
-- **Technical Issues**: https://github.com/yashab-cyber/HackGPT/issues
-- **Feature Requests**: https://github.com/yashab-cyber/HackGPT/discussions
+- **Technical Issues**: https://github.com/yashab-cyber/hackpilot/issues
+- **Feature Requests**: https://github.com/yashab-cyber/hackpilot/discussions
 - **Security Issues**: yashabalam707@gmail.com
 - **WhatsApp Business**: [Join Channel](https://whatsapp.com/channel/0029Vaoa1GfKLaHlL0Kc8k1q)
 
@@ -722,7 +722,7 @@ This project is licensed under the MIT License with additional enterprise terms:
 - Security research community
 - Open source tool developers
 
-### 💰 Support HackGPT Development
+### 💰 Support HackPilot Development
 Your support accelerates development, research infrastructure, and frontier AI model integrations:
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/yashab-cyber)
@@ -735,7 +735,7 @@ Your support accelerates development, research infrastructure, and frontier AI m
 
 **⚠️ IMPORTANT LEGAL NOTICE**
 
-HackGPT Enterprise is designed for authorized security testing only:
+HackPilot Enterprise is designed for authorized security testing only:
 
 - ✅ **Authorized Use**: Only use against systems you own or have explicit written permission
 - ✅ **Compliance**: Follow all applicable laws, regulations, and industry standards
@@ -751,13 +751,13 @@ HackGPT Enterprise is designed for authorized security testing only:
 ---
 
 <div align="center">
-  <img src="public/hackgpt-logo.png" alt="HackGPT Enterprise" width="150" height="auto">
+  <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise" width="150" height="auto">
   
-  <h3>🚀 HackGPT Enterprise - Transforming Cybersecurity Through AI 🚀</h3>
+  <h3>🚀 HackPilot Enterprise - Transforming Cybersecurity Through AI 🚀</h3>
   <p><em>Made with ❤️ by Yashab Alam for enterprise security teams worldwide</em></p>
   
   <p>
-    <a href="https://github.com/yashab-cyber/HackGPT">⭐ Star us on GitHub</a> |
+    <a href="https://github.com/yashab-cyber/hackpilot">⭐ Star us on GitHub</a> |
     <a href="DONATE.md">💰 Support Development</a> |
     <a href="#-enterprise-support">📞 Get Support</a> |
     <a href="#-contributors">🤝 Contribute</a> |

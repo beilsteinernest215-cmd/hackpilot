@@ -1,18 +1,18 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 <div align="center">
-  <img src="public/hackgpt-logo.png" alt="HackGPT Enterprise Logo" width="250" height="auto">
+  <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="250" height="auto">
 </div>
 
-# 🤝 Contributors to HackGPT Enterprise
+# 🤝 Contributors to HackPilot Enterprise
 
-Thank you to all the amazing people who have contributed to making HackGPT Enterprise the leading AI-powered penetration testing platform!
+Thank you to all the amazing people who have contributed to making HackPilot Enterprise the leading AI-powered penetration testing platform!
 
 ## 🏆 Core Development Team
 
 ### 👨‍💼 Founder & Lead Developer
 **Yashab Alam** - [@yashab-cyber](https://github.com/yashab-cyber)
 - 🏢 **Role**: Founder, CEO & Lead Developer
-- 🏛️ **Company**: HackGPT
+- 🏛️ **Company**: HackPilot
 - 💡 **Contributions**: Project architecture, AI integration, security frameworks, enterprise features
 - 🌐 **Connect**: [LinkedIn](https://linkedin.com/in/yashab-alam) | [Instagram](https://instagram.com/yashabcyber) | [X (Twitter)](https://x.com/Yashab_cyber) | [Threads](https://www.threads.com/@yashabcyber) | [Email](mailto:yashabalam9@gmail.com)
 - 🎯 **Specialties**: AI/ML, Cybersecurity, Penetration Testing, Enterprise Architecture
@@ -22,7 +22,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 ## 💰 Financial Contributors & Sponsors
 
 ### 💎 Platinum Sponsors ($500+ monthly)
-*Thank you to our platinum sponsors who make significant contributions to HackGPT development!*
+*Thank you to our platinum sponsors who make significant contributions to HackPilot development!*
 
 *🚀 Be the first Platinum Sponsor! [Learn more about sponsorship](DONATE.md)*
 
@@ -32,9 +32,9 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 *🌟 Become a Gold Sponsor! [Sponsorship Information](DONATE.md)*
 
 ### 🥈 Silver Sponsors ($25-99 monthly)
-*Silver sponsors who help accelerate HackGPT development.*
+*Silver sponsors who help accelerate HackPilot development.*
 
-*💫 Join as a Silver Sponsor! [Support HackGPT](DONATE.md)*
+*💫 Join as a Silver Sponsor! [Support HackPilot](DONATE.md)*
 
 ### 🥉 Bronze Supporters ($5-24 monthly)
 *Bronze supporters who contribute to the community and project sustainability.*
@@ -47,13 +47,13 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 *Developers who have made significant code contributions to the project.*
 
 - **Abdulazeez A. Noaman** - [@HostX0](https://github.com/HostX0)
-  - 💡 **Contributions**: Author of PR [#21](https://github.com/yashab-cyber/HackGpt/pull/21) — introduced the Evidence Workbench, deterministic adapter lifecycle & execution receipts (Semgrep, Nuclei, Trivy), cross-platform reliability contracts, and hardened CI test matrices.
+  - 💡 **Contributions**: Author of PR [#21](https://github.com/yashab-cyber/hackpilot/pull/21) — introduced the Evidence Workbench, deterministic adapter lifecycle & execution receipts (Semgrep, Nuclei, Trivy), cross-platform reliability contracts, and hardened CI test matrices.
 
 
 ### 🐛 Bug Hunters
 *Contributors who have helped identify and fix bugs.*
 
-*🔍 Help us improve! Report bugs through [GitHub Issues](https://github.com/yashab-cyber/HackGPT/issues)*
+*🔍 Help us improve! Report bugs through [GitHub Issues](https://github.com/yashab-cyber/hackpilot/issues)*
 
 ### 📚 Documentation Contributors
 *People who have improved documentation, tutorials, and guides.*
@@ -61,7 +61,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 *📝 Contribute to documentation! See [CONTRIBUTING.md](.github/CONTRIBUTING.md)*
 
 ### 🌍 Translation Contributors
-*Contributors who help make HackGPT available in multiple languages.*
+*Contributors who help make HackPilot available in multiple languages.*
 
 **Currently Seeking Translators For:**
 - 🇪🇸 Spanish (Español)
@@ -73,7 +73,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 - 🇵🇹 Portuguese (Português)
 - 🇮🇹 Italian (Italiano)
 
-*🌐 Help translate HackGPT! Contact: yashabalam707@gmail.com*
+*🌐 Help translate HackPilot! Contact: yashabalam707@gmail.com*
 
 ## 🔒 Security Contributors
 
@@ -92,7 +92,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 ### 🎨 UI/UX Designers
 *Designers who have contributed to the user interface and experience.*
 
-*🎨 Help improve HackGPT's design! Contact us to contribute.*
+*🎨 Help improve HackPilot's design! Contact us to contribute.*
 
 ### 📸 Media Contributors
 *Contributors of logos, graphics, screenshots, and promotional materials.*
@@ -114,19 +114,19 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 ## 📢 Community Contributors
 
 ### 🎤 Evangelists & Advocates
-*Community members who promote HackGPT through talks, blogs, and social media.*
+*Community members who promote HackPilot through talks, blogs, and social media.*
 
-*📣 Become a HackGPT advocate! Share your experience and help grow the community.*
+*📣 Become a HackPilot advocate! Share your experience and help grow the community.*
 
 ### 📝 Content Creators
-*Bloggers, YouTubers, and content creators featuring HackGPT.*
+*Bloggers, YouTubers, and content creators featuring HackPilot.*
 
-*🎬 Create HackGPT content! We'd love to feature your work.*
+*🎬 Create HackPilot content! We'd love to feature your work.*
 
 ### 🎓 Educational Contributors
-*Educators and trainers incorporating HackGPT into curricula and training programs.*
+*Educators and trainers incorporating HackPilot into curricula and training programs.*
 
-*🏫 Use HackGPT for education! Contact us for educational partnerships.*
+*🏫 Use HackPilot for education! Contact us for educational partnerships.*
 
 ## 🤝 Corporate Partners
 
@@ -141,7 +141,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 *🌩️ Support our infrastructure! See partnership opportunities in [CONTRIBUTING.md](.github/CONTRIBUTING.md)*
 
 ### 🎯 Training Partners
-*Organizations offering HackGPT training and certification programs.*
+*Organizations offering HackPilot training and certification programs.*
 
 *📚 Become a training partner! Educational partnerships available.*
 
@@ -160,7 +160,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 ### 💡 Innovation Awards
 *Recognition for innovative features, ideas, and implementations.*
 
-*🚀 Contribute innovative features! Your creativity drives HackGPT forward.*
+*🚀 Contribute innovative features! Your creativity drives HackPilot forward.*
 
 ## 📊 Contribution Statistics
 
@@ -186,7 +186,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 
 #### 🌟 All Contributors Receive:
 - Name listed in CONTRIBUTORS.md
-- HackGPT contributor badge
+- HackPilot contributor badge
 - Access to private contributor channels
 - Early access to new features
 - Direct line to development team
@@ -238,8 +238,8 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 ## 📞 Community Channels
 
 ### 💬 Communication Platforms
-- **GitHub Issues**: [Bug reports and feature requests](https://github.com/yashab-cyber/HackGPT/issues)
-- **GitHub Discussions**: [Community discussions](https://github.com/yashab-cyber/HackGPT/discussions)
+- **GitHub Issues**: [Bug reports and feature requests](https://github.com/yashab-cyber/hackpilot/issues)
+- **GitHub Discussions**: [Community discussions](https://github.com/yashab-cyber/hackpilot/discussions)
 - **Email**: yashabalam9@gmail.com | yashabalam707@gmail.com
 - **WhatsApp**: [Business Channel](https://whatsapp.com/channel/0029Vaoa1GfKLaHlL0Kc8k1q)
 - **Discord**: [Discussion Server](https://discord.gg/eXPjM3Hxwb)
@@ -265,7 +265,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 ### 🎯 Contribution Goals
 - **Stability**: Maintain high code quality and reliability
 - **Security**: Prioritize security in all contributions
-- **Accessibility**: Make HackGPT accessible to all users
+- **Accessibility**: Make HackPilot accessible to all users
 - **Performance**: Optimize for speed and efficiency
 - **Documentation**: Keep documentation current and comprehensive
 - **Community**: Build an inclusive and welcoming community
@@ -273,7 +273,7 @@ Thank you to all the amazing people who have contributed to making HackGPT Enter
 
 ## 🙏 Thank You!
 
-Every contribution, no matter how small, helps make HackGPT Enterprise better for everyone. Whether you've:
+Every contribution, no matter how small, helps make HackPilot Enterprise better for everyone. Whether you've:
 
 - 🐛 Fixed a bug
 - ✨ Added a feature
@@ -291,11 +291,11 @@ Every contribution, no matter how small, helps make HackGPT Enterprise better fo
 
 ## 📄 License
 
-By contributing to HackGPT Enterprise, you agree that your contributions will be licensed under the same license as the project (MIT License with additional enterprise terms).
+By contributing to HackPilot Enterprise, you agree that your contributions will be licensed under the same license as the project (MIT License with additional enterprise terms).
 
 ## 🔗 Links
 
-- **Main Repository**: [github.com/yashab-cyber/HackGPT](https://github.com/yashab-cyber/HackGPT)
+- **Main Repository**: [github.com/yashab-cyber/hackpilot](https://github.com/yashab-cyber/hackpilot)
 - **Documentation**: [README.md](../README.md)
 - **Contributing Guide**: [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 - **Code of Conduct**: [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md)
@@ -306,6 +306,6 @@ By contributing to HackGPT Enterprise, you agree that your contributions will be
 
 *This contributors list is updated regularly. If you believe you should be listed here, please contact us at yashabalam707@gmail.com*
 
-**Made with ❤️ by the HackGPT Enterprise community**
+**Made with ❤️ by the HackPilot Enterprise community**
 
 *Last Updated: August 18, 2025*

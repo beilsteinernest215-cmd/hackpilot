@@ -1,15 +1,15 @@
-<!-- HackGPT document -->
-# 🚀 HackGPT Enterprise Release History
+<!-- HackPilot document -->
+# 🚀 HackPilot Enterprise Release History
 
-This document logs the release updates, bug fixes, and feature integrations for HackGPT Enterprise.
+This document logs the release updates, bug fixes, and feature integrations for HackPilot Enterprise.
 
 ---
 
 > [!IMPORTANT]
 > ### 💖 Critical Notice: Project Sponsorship, Donations & Funding Required
-> HackGPT Enterprise is an independent, community-driven AI security assessment framework. Maintaining cutting-edge penetration testing tools, supporting multi-provider AI model integrations, and sustaining security research infrastructure requires continuous resources. **We urgently require funds, donations, and sponsorships to maintain and advance this project.**
+> HackPilot Enterprise is an independent, community-driven AI security assessment framework. Maintaining cutting-edge penetration testing tools, supporting multi-provider AI model integrations, and sustaining security research infrastructure requires continuous resources. **We urgently require funds, donations, and sponsorships to maintain and advance this project.**
 >
-> **Please consider donating and sponsoring HackGPT development!**
+> **Please consider donating and sponsoring HackPilot development!**
 > - **GitHub Sponsors (Active)**: [Sponsor @yashab-cyber on GitHub Sponsors](https://github.com/sponsors/yashab-cyber)
 > - **Cryptocurrency Transfers**: For crypto donations (Solana, Bitcoin, Ethereum, USDT, etc.), please email: **yashabalam707@gmail.com**
 > - **Sponsorships & Inquiries**: Contact creator directly at: **yashabalam707@gmail.com**
@@ -21,7 +21,7 @@ This document logs the release updates, bug fixes, and feature integrations for 
 
 *Release Date: September 26, 2026*
 
-We are proud to present **HackGPT Enterprise Version 2026.09.26**! This release marks a significant milestone with the integration of the **Evidence Workbench**, cross-platform reliability hardening, reviewable AI and adapter execution lifecycles, and hardened CI test matrices contributed by **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) via Pull Request [#21](https://github.com/yashab-cyber/HackGpt/pull/21).
+We are proud to present **HackPilot Enterprise Version 2026.09.26**! This release marks a significant milestone with the integration of the **Evidence Workbench**, cross-platform reliability hardening, reviewable AI and adapter execution lifecycles, and hardened CI test matrices contributed by **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) via Pull Request [#21](https://github.com/yashab-cyber/hackpilot/pull/21).
 
 ### 🌟 What's New in Version 2026.09.26
 
@@ -48,7 +48,7 @@ We are proud to present **HackGPT Enterprise Version 2026.09.26**! This release 
 * **Expanded Verification**: 90+ core unit tests, comprehensive contract suites (`test_docker_contract.py`, `test_enterprise_ci_contract.py`, `test_requirements_compat.py`), and workbench E2E tests.
 
 #### 5. Community & Contributor Recognition
-* **Special Thanks**: Full credit and gratitude to **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) for designing, implementing, and contributing Pull Request [#21](https://github.com/yashab-cyber/HackGpt/pull/21).
+* **Special Thanks**: Full credit and gratitude to **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) for designing, implementing, and contributing Pull Request [#21](https://github.com/yashab-cyber/hackpilot/pull/21).
 
 ---
 
@@ -56,7 +56,7 @@ We are proud to present **HackGPT Enterprise Version 2026.09.26**! This release 
 
 *Release Date: September 19, 2026*
 
-We are thrilled to announce **HackGPT Enterprise Version 2026.09.19**! This major release delivers dynamic multi-provider AI auto-fetching, frontier model registry expansion (`gpt-astra`, `gpt-6-astra`, `claude-3.7-sonnet`, `gemini-2.0`, `o1`, `deepseek-r1-zero`), custom routing gateways (including OpenRouter overrides and dedicated 9B task dispatchers), and comprehensive stability and bug fixes across the platform.
+We are thrilled to announce **HackPilot Enterprise Version 2026.09.19**! This major release delivers dynamic multi-provider AI auto-fetching, frontier model registry expansion (`gpt-astra`, `gpt-6-astra`, `claude-3.7-sonnet`, `gemini-2.0`, `o1`, `deepseek-r1-zero`), custom routing gateways (including OpenRouter overrides and dedicated 9B task dispatchers), and comprehensive stability and bug fixes across the platform.
 
 ### 🌟 What's New in Version 2026.09.19
 
@@ -105,7 +105,7 @@ We are thrilled to announce **HackGPT Enterprise Version 2026.09.19**! This majo
 
 ## 🚀 Version 2026.07.beta.4
 
-We are excited to announce the release of **HackGPT Enterprise Version 2026.07.beta.4**! This release introduces the Advanced SOC (Security Operations Center) Analysis Engine, native SIEM Integrations, and expanded Threat Model compliance mapping to include the latest OWASP Top 10 guidelines and major 2024–2026 CVE detection rules.
+We are excited to announce the release of **HackPilot Enterprise Version 2026.07.beta.4**! This release introduces the Advanced SOC (Security Operations Center) Analysis Engine, native SIEM Integrations, and expanded Threat Model compliance mapping to include the latest OWASP Top 10 guidelines and major 2024–2026 CVE detection rules.
 
 ### 🌟 What's New in Version 2026.07.beta.4
 
@@ -175,7 +175,7 @@ We are excited to announce the release of **HackGPT Enterprise Version 2026.07.b
 
 1. **Launch Interactive SOC Console**:
    ```bash
-   python advance_hackgpt.py
+   python advance_hackpilot.py
    ```
    Select option **`16`** from the main menu.
 
@@ -194,7 +194,7 @@ We are excited to announce the release of **HackGPT Enterprise Version 2026.07.b
 
 ## 🚀 Version 2026.07.beta.3
 
-We are excited to announce the release of **HackGPT Enterprise Version 2026.07.beta.3**! This release introduces multi-provider AI model support, runtime model switching, automatic provider fallback, and a comprehensive model catalog of 26+ advanced AI models.
+We are excited to announce the release of **HackPilot Enterprise Version 2026.07.beta.3**! This release introduces multi-provider AI model support, runtime model switching, automatic provider fallback, and a comprehensive model catalog of 26+ advanced AI models.
 
 ### 🌟 What's New in Version 2026.07.beta.3
 

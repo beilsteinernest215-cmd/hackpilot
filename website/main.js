@@ -1,5 +1,5 @@
-// HackGPT script module
-// HackGPT Landing Page Interactive Logic
+// HackPilot script module
+// HackPilot Landing Page Interactive Logic
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Navbar Scroll Effect & Mobile Navigation Toggle
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Discovers attack surfaces, identifies live subdomains, performs DNS enumeration, and catalogs exposed web ports and services using integrated tools.',
             module: 'ai_engine/providers.py & cloud/service_registry.py',
             caps: 'Subdomain discovery, Banner Grabbing, Port Scanning, Service Mapping',
-            code: 'python3 advance_hackgpt.py --target company.com --recon --verbose'
+            code: 'python3 advance_hackpilot.py --target company.com --recon --verbose'
         },
         2: {
             badge: 'PHASE 02 // VULNERABILITY SCANNING',
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Scans target endpoints for known CVEs, misconfigurations, outdated HTTP headers, exposed API routes, and SSL/TLS cipher vulnerabilities.',
             module: 'exploitation/zero_day_detector.py & database/manager.py',
             caps: 'CVE Matching, Nuclei Template Auditing, Directory Bruteforce, Header Checks',
-            code: 'python3 advance_hackgpt.py --target company.com --scan-level deep'
+            code: 'python3 advance_hackpilot.py --target company.com --scan-level deep'
         },
         3: {
             badge: 'PHASE 03 // AI THREAT INTELLIGENCE',
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Feeds vulnerability observations into OpenAI / Llama-3 model providers to generate context-aware threat models and non-destructive PoC verification strategies.',
             module: 'ai_engine/model_registry.py & ai_engine/advanced_engine.py',
             caps: 'AI Threat Graph Construction, Attack Path Synthesis, PoC Query Generation',
-            code: 'python3 advance_hackgpt.py --target company.com --ai-provider openai --model gpt-4o'
+            code: 'python3 advance_hackpilot.py --target company.com --ai-provider openai --model gpt-4o'
         },
         4: {
             badge: 'PHASE 04 // SAFE EXPLOITATION',
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Executes non-destructive exploits safely to confirm vulnerability exploitability without risking system downtime or using unsanitized shell calls.',
             module: 'exploitation/advanced_engine.py',
             caps: 'Safe Proof of Concept, Privilege Escalation Check, Zero shell=True Vulnerability',
-            code: 'python3 advance_hackgpt.py --target company.com --safe-exploit'
+            code: 'python3 advance_hackpilot.py --target company.com --safe-exploit'
         },
         5: {
             badge: 'PHASE 05 // ZERO-DAY ANOMALY ML',
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Applies Machine Learning algorithms to analyze access logs, network traffic, and system calls to flag unknown zero-day anomaly indicators.',
             module: 'exploitation/zero_day_detector.py',
             caps: 'DBSCAN Log Clustering, Isolation Forest Anomaly Detection, Outlier Scoring',
-            code: 'python3 advance_hackgpt.py --target company.com --zero-day-ml --log-file system.log'
+            code: 'python3 advance_hackpilot.py --target company.com --zero-day-ml --log-file system.log'
         },
         6: {
             badge: 'PHASE 06 // EXECUTIVE REPORTING',
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'Compiles technical findings, severity metrics, and remediation guidance into polished PDF and HTML audit reports mapped to OWASP, NIST, and PCI-DSS.',
             module: 'reporting/dynamic_reports.py & reporting/realtime_dashboard.py',
             caps: 'Executive PDF Generation, Compliance Mapping (OWASP/NIST), HTML Web Dashboard',
-            code: 'python3 advance_hackgpt.py --target company.com --report pdf,html --output audit-report.pdf'
+            code: 'python3 advance_hackpilot.py --target company.com --report pdf,html --output audit-report.pdf'
         }
     };
 
@@ -192,7 +192,7 @@ def ping_host(user_supplied_ip):
                 aiStatusBadge.style.borderColor = '#00f0ff';
             }
 
-            analyzerOutput.innerHTML = `<div class="line t-purple"><i class="fa-solid fa-spinner fa-spin"></i> HackGPT AI Router selecting optimal LLM provider (OpenAI GPT-4o)...</div>
+            analyzerOutput.innerHTML = `<div class="line t-purple"><i class="fa-solid fa-spinner fa-spin"></i> HackPilot AI Router selecting optimal LLM provider (OpenAI GPT-4o)...</div>
             <div class="line t-blue">[+] Synthesizing code semantics and vulnerability attack vectors...</div>`;
 
             setTimeout(() => {
@@ -207,7 +207,7 @@ def ping_host(user_supplied_ip):
 <div class="line t-cyan"><strong>[PoC Exploit Vector]</strong></div>
 <div class="line"><code>/api/users/search?query=admin' OR '1'='1</code></div>
 <br>
-<div class="line t-green"><strong>[HackGPT AI Remediation]</strong></div>
+<div class="line t-green"><strong>[HackPilot AI Remediation]</strong></div>
 <div class="line">Use parameterized SQL queries:</div>
 <div class="line"><code>const result = await db.query("SELECT * FROM users WHERE name = $1", [query]);</code></div>
 <br>
@@ -219,7 +219,7 @@ def ping_host(user_supplied_ip):
 <div class="line"><strong>CVSS v3.1 Base Score:</strong> <span class="t-red">8.8 (HIGH)</span></div>
 <div class="line"><strong>Attack Vector:</strong> Mounting <code class="inline-code">/var/run/docker.sock</code> into container grants host root access via Docker API call.</div>
 <br>
-<div class="line t-green"><strong>[HackGPT AI Remediation]</strong></div>
+<div class="line t-green"><strong>[HackPilot AI Remediation]</strong></div>
 <div class="line">Remove host socket mount or use rootless Docker sockets with strict RBAC access controls.</div>
 <br>
 <div class="line t-purple"><strong>Compliance Mapping:</strong> CIS Docker Benchmark 2.1 | NIST SP 800-190 Sec 4.2</div>`;
@@ -230,7 +230,7 @@ def ping_host(user_supplied_ip):
 <div class="line"><strong>CVSS v3.1 Base Score:</strong> <span class="t-yellow">8.1 (HIGH)</span></div>
 <div class="line"><strong>Attack Vector:</strong> Unsanitized input leads to privilege escalation or unauthorized security boundary bypass.</div>
 <br>
-<div class="line t-green"><strong>[HackGPT AI Remediation]</strong></div>
+<div class="line t-green"><strong>[HackPilot AI Remediation]</strong></div>
 <div class="line">Enforce strict input validation whitelist and enforce principle of least privilege.</div>
 <br>
 <div class="line t-purple"><strong>Compliance Mapping:</strong> OWASP Top 10 | NIST SP 800-53</div>`;
@@ -284,26 +284,26 @@ def ping_host(user_supplied_ip):
         }
 
         if (lowerCmd === 'help') {
-            writeLine('HackGPT Security Shell Commands:');
+            writeLine('HackPilot Security Shell Commands:');
             writeLine('  <span class="t-cyan">help</span>             - Show list of available commands');
-            writeLine('  <span class="t-cyan">about</span>            - Display HackGPT architecture overview');
+            writeLine('  <span class="t-cyan">about</span>            - Display HackPilot architecture overview');
             writeLine('  <span class="t-cyan">run</span>              - Simulate full 6-phase pentest session');
             writeLine('  <span class="t-cyan">ai-analyze</span>       - Run AI Threat Analysis module');
             writeLine('  <span class="t-cyan">zero-day</span>         - Execute DBSCAN ML anomaly detector');
             writeLine('  <span class="t-cyan">compliance</span>       - View OWASP / NIST / PCI-DSS compliance state');
-            writeLine('  <span class="t-cyan">version</span>          - Print HackGPT framework release info');
+            writeLine('  <span class="t-cyan">version</span>          - Print HackPilot framework release info');
             writeLine('  <span class="t-cyan">clear</span>            - Clear terminal screen');
             return;
         }
 
         if (lowerCmd === 'about') {
-            writeLine('<strong>HackGPT Enterprise Framework v2026.09.26</strong>');
-            writeLine('Created by Yashab Alam. HackGPT is an AI-driven penetration testing platform combining multi-provider LLMs, safe exploitation engines, and machine learning zero-day log clustering.');
+            writeLine('<strong>HackPilot Enterprise Framework v2026.09.26</strong>');
+            writeLine('Created by Yashab Alam. HackPilot is an AI-driven penetration testing platform combining multi-provider LLMs, safe exploitation engines, and machine learning zero-day log clustering.');
             return;
         }
 
         if (lowerCmd === 'run' || lowerCmd.startsWith('scan')) {
-            writeLine('[+] Initiating HackGPT 6-Phase Pentest Engine...', 't-blue');
+            writeLine('[+] Initiating HackPilot 6-Phase Pentest Engine...', 't-blue');
             setTimeout(() => writeLine('[+] Phase 1: Reconnaissance complete. Discovered 3 open ports (80, 443, 8080).', 't-green'), 400);
             setTimeout(() => writeLine('[+] Phase 2: Vulnerability Enumeration complete. 1 Critical SQLi found.', 't-yellow'), 800);
             setTimeout(() => writeLine('[!] Phase 3: AI Threat Intelligence synthesized non-destructive PoC.', 't-purple'), 1200);
@@ -344,7 +344,7 @@ def ping_host(user_supplied_ip):
         }
 
         if (lowerCmd === 'version') {
-            writeLine('HackGPT Enterprise v2026.09.26 (Python 3.14 / Node 18 runtime)', 't-green');
+            writeLine('HackPilot Enterprise v2026.09.26 (Python 3.14 / Node 18 runtime)', 't-green');
             return;
         }
 

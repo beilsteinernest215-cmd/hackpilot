@@ -1,7 +1,7 @@
 #!/bin/bash
 # HackGPT shell script
 
-# HackGPT Enterprise Installation Script
+# HackPilot Enterprise Installation Script
 # Installs all dependencies for enterprise penetration testing platform
 # Version: 2.0.0 (Production-Ready)
 
@@ -53,12 +53,12 @@ run_root() {
 
 # Banner
 echo -e "${PURPLE}"
-echo "██╗  ██╗ █████╗  ██████╗██╗  ██╗ ██████╗ ██████╗ ████████╗"
-echo "██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝ ██╔══██╗╚══██╔══╝"
-echo "███████║███████║██║     █████╔╝ ██║  ███╗██████╔╝   ██║   "
-echo "██╔══██║██╔══██║██║     ██╔═██╗ ██║   ██║██╔═══╝    ██║   "
-echo "██║  ██║██║  ██║╚██████╗██║  ██╗╚██████╔╝██║        ██║   "
-echo "╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝        ╚═╝   "
+echo "██╗  ██╗ █████╗  ██████╗██╗  ██╗██████╗ ██╗██╗      ██████╗ ████████╗"
+echo "██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔══██╗██║██║     ██╔═══██╗╚══██╔══╝"
+echo "███████║███████║██║     █████╔╝ ██████╔╝██║██║     ██║   ██║   ██║   "
+echo "██╔══██║██╔══██║██║     ██╔═██╗ ██╔═══╝ ██║██║     ██║   ██║   ██║   "
+echo "██║  ██║██║  ██║╚██████╗██║  ██╗██║     ██║███████╗╚██████╔╝   ██║   "
+echo "╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝ ╚═════╝    ╚═╝   "
 echo -e "${NC}"
 echo -e "${CYAN}Enterprise AI-Powered Penetration Testing Platform v2.0${NC}"
 echo -e "${GREEN}Production-Ready | Cloud-Native | AI-Enhanced${NC}"
@@ -195,12 +195,16 @@ fi
 
 # Make scripts executable
 chmod +x hackgpt.py hackgpt_v2.py install.sh usage_examples.sh test_installation.py
+[ -f hackpilot.py ] && chmod +x hackpilot.py || true
+[ -f hackpilot_v2.py ] && chmod +x hackpilot_v2.py || true
+[ -f advance_hackpilot.py ] && chmod +x advance_hackpilot.py || true
 [ -f advance_hackgpt.py ] && chmod +x advance_hackgpt.py || true
 
 # Host installs keep the historical global command. Container entrypoints are declared
 # by the image itself and do not need a host-style symlink.
 if [ "$INSTALL_CONTEXT" = "host" ]; then
     echo "[+] Creating global command..."
+    run_root ln -sf "$(pwd)/hackpilot.py" /usr/local/bin/hackpilot || warn "Failed to create global symlink"
     run_root ln -sf "$(pwd)/hackgpt.py" /usr/local/bin/hackgpt || warn "Failed to create global symlink"
 else
     info "Container install: using the Docker entrypoint instead of a global symlink"
@@ -216,13 +220,13 @@ echo ""
 echo -e "${CYAN}Next steps:${NC}"
 echo -e "  1. Copy ${YELLOW}.env.example${NC} to ${YELLOW}.env${NC} and configure your API keys"
 echo -e "  2. Edit ${YELLOW}config.ini${NC} to customize settings"
-echo -e "  3. Run HackGPT: ${YELLOW}python3 advance_hackgpt.py${NC}"
+echo -e "  3. Run HackPilot: ${YELLOW}python3 advance_hackpilot.py${NC}"
 echo ""
 echo "Usage:"
-echo "  ./advance_hackgpt.py             # Interactive mode"
-echo "  ./advance_hackgpt.py --web       # Web dashboard"
-echo "  ./advance_hackgpt.py --voice     # Voice command mode"
-echo "  hackgpt                        # Global command (if symlink created)"
+echo "  ./advance_hackpilot.py           # Interactive mode"
+echo "  ./advance_hackpilot.py --web     # Web dashboard"
+echo "  ./advance_hackpilot.py --voice   # Voice command mode"
+echo "  hackpilot                        # Global command (if symlink created)"
 echo ""
 echo "Set OpenAI API key (optional):"
 echo "  export OPENAI_API_KEY='your-api-key-here'"

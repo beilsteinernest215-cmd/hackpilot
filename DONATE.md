@@ -1,9 +1,9 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 <div align="center">
-  <img src="public/hackgpt-logo.png" alt="HackGPT Enterprise Logo" width="250" height="auto">
+  <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="250" height="auto">
 </div>
 
-# 💰 Support HackGPT Enterprise Development
+# 💰 Support HackPilot Enterprise Development
 
 ![Version](https://img.shields.io/badge/version-2026.09.26-green.svg)
 ![Donations](https://img.shields.io/badge/donations-welcome-brightgreen.svg)
@@ -14,11 +14,11 @@
 
 ## 🙏 Why Your Support Matters
 
-**HackGPT Enterprise** is an advanced open-source cybersecurity platform created by **Yashab Alam**, dedicated to revolutionizing penetration testing with AI-powered automation, intelligent exploit generation, and enterprise-grade security assessments. Your donations help us:
+**HackPilot Enterprise** is an advanced open-source cybersecurity platform created by **Yashab Alam**, dedicated to revolutionizing penetration testing with AI-powered automation, intelligent exploit generation, and enterprise-grade security assessments. Your donations help us:
 
 - 🚀 **Accelerate Development** - AI-powered vulnerability assessment, intelligent exploitation automation, and advanced enterprise penetration testing
 - 🔒 **Enhanced Security** - Machine learning-driven threat detection, automated payload generation, and advanced evasion techniques
-- 📚 **Educational Resources** - HackGPT tutorials, AI penetration testing guides, and ethical hacking training materials
+- 📚 **Educational Resources** - HackPilot tutorials, AI penetration testing guides, and ethical hacking training materials
 - 🌍 **Community Growth** - Supporting contributors and maintaining cybersecurity research infrastructure
 - 🛠️ **Cross-Platform Support** - Ensuring compatibility across Linux, Windows, and macOS for comprehensive testing
 - 💻 **Professional Tools** - Advanced web interface, CLI automation, and AI-driven exploitation frameworks
@@ -30,13 +30,13 @@
 
 <div align="center">
   <a href="https://github.com/sponsors/yashab-cyber">
-    <img src="https://img.shields.io/badge/Sponsor%20HackGPT-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github-sponsors&logoColor=white" alt="Sponsor HackGPT on GitHub Sponsors" height="42">
+    <img src="https://img.shields.io/badge/Sponsor%20HackPilot-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github-sponsors&logoColor=white" alt="Sponsor HackPilot on GitHub Sponsors" height="42">
   </a>
 </div>
 
 <br>
 
-GitHub Sponsorship is **officially active**! You can now sponsor HackGPT Enterprise development directly on GitHub with flexible monthly or one-time tiers:
+GitHub Sponsorship is **officially active**! You can now sponsor HackPilot Enterprise development directly on GitHub with flexible monthly or one-time tiers:
 
 👉 **[Sponsor @yashab-cyber on GitHub Sponsors](https://github.com/sponsors/yashab-cyber)**
 
@@ -48,7 +48,7 @@ GitHub Sponsorship is **officially active**! You can now sponsor HackGPT Enterpr
 To make a cryptocurrency donation (**Solana, Bitcoin, Ethereum, USDT, USDC, or any other cryptocurrency**), please send an email to:
 
 📧 **Email:** [yashabalam707@gmail.com](mailto:yashabalam707@gmail.com)  
-📌 **Subject:** `HackGPT Crypto Donation Request`
+📌 **Subject:** `HackPilot Crypto Donation Request`
 
 > **🔒 Security Notice:**
 > Specific cryptocurrency wallet addresses are provided strictly via email inquiry (**yashabalam707@gmail.com**) to prevent address tampering, phishing, and spoofing, and to provide you with the correct verified network address for your transfer.
@@ -182,7 +182,7 @@ All payment methods are verified and legitimate. For security concerns:
 
 ### 💬 **Donation Questions**
 - **Email:** yashabalam707@gmail.com
-- **GitHub Issues:** [HackGPT Repository](https://github.com/yashab-cyber/HackGPT)
+- **GitHub Issues:** [HackPilot Repository](https://github.com/yashab-cyber/hackpilot)
 - **WhatsApp:** [Business Channel](https://whatsapp.com/channel/0029Vaoa1GfKLaHlL0Kc8k1q)
 - **Discord:** [Discussion Server](https://discord.gg/eXPjM3Hxwb)
 
@@ -228,7 +228,7 @@ All payment methods are verified and legitimate. For security concerns:
 
 ### 📋 **Terms & Conditions**
 - Donations are voluntary and non-refundable (except within 30-day period)
-- HackGPT Enterprise project reserves the right to allocate funds as needed for project development
+- HackPilot Enterprise project reserves the right to allocate funds as needed for project development
 - Contributors may be recognized publicly unless anonymity is requested
 - Tax implications vary by jurisdiction - consult your tax advisor
 
@@ -240,15 +240,15 @@ All payment methods are verified and legitimate. For security concerns:
 
 ## 🎉 **Thank You!**
 
-Every contribution, no matter the size, helps make HackGPT Enterprise better for everyone. Your support directly impacts:
+Every contribution, no matter the size, helps make HackPilot Enterprise better for everyone. Your support directly impacts:
 
-- 🔒 **Security professionals** conducting advanced penetration testing with HackGPT Enterprise
-- 🎓 **Students** learning AI and cybersecurity through HackGPT platform
+- 🔒 **Security professionals** conducting advanced penetration testing with HackPilot Enterprise
+- 🎓 **Students** learning AI and cybersecurity through HackPilot platform
 - 🏢 **Organizations** improving their security testing capabilities with enterprise features
 - 🌍 **The global open-source security community**
-- 🧠 **AI researchers** advancing exploitation automation through HackGPT
+- 🧠 **AI researchers** advancing exploitation automation through HackPilot
 
-**Together, we're building the future of AI-powered penetration testing with HackGPT!**
+**Together, we're building the future of AI-powered penetration testing with HackPilot!**
 
 ---
 
@@ -261,15 +261,15 @@ Every contribution, no matter the size, helps make HackGPT Enterprise better for
 | **Total Raised** | $0 (Starting Goal) |
 | **Active Supporters** | 0 |
 | **Countries Represented** | 0 |
-| **GitHub Stars** | ⭐ [Check Live Count](https://github.com/yashab-cyber/HackGPT) |
+| **GitHub Stars** | ⭐ [Check Live Count](https://github.com/yashab-cyber/hackpilot) |
 
 ---
 
 <div align="center">
-  <img src="public/hackgpt-logo.png" alt="HackGPT Enterprise" width="150" height="auto">
+  <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise" width="150" height="auto">
   
-  <h3>**Made with ❤️ by Yashab Alam and the HackGPT development team**</h3>
-  <p><strong>Repository:</strong> <a href="https://github.com/yashab-cyber/HackGPT">github.com/yashab-cyber/HackGPT</a></p>
+  <h3>**Made with ❤️ by Yashab Alam and the HackPilot development team**</h3>
+  <p><strong>Repository:</strong> <a href="https://github.com/yashab-cyber/hackpilot">github.com/yashab-cyber/hackpilot</a></p>
   
   <p><em>Last updated: September 2026</em></p>
 </div>

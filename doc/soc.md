@@ -1,7 +1,7 @@
-<!-- HackGPT document -->
-# HackGPT SOC Analysis Console & SIEM Integration Guide
+<!-- HackPilot document -->
+# HackPilot SOC Analysis Console & SIEM Integration Guide
 
-This guide details how to configure, query, and use the Security Operations Center (SOC) Analysis Engine and external SIEM connectors within the HackGPT framework.
+This guide details how to configure, query, and use the Security Operations Center (SOC) Analysis Engine and external SIEM connectors within the HackPilot framework.
 
 ---
 
@@ -12,13 +12,13 @@ The SOC Analysis Engine can be accessed via the interactive command-line interfa
 To launch the SOC Console interactively:
 
 ```bash
-python advance_hackgpt.py
+python advance_hackpilot.py
 ```
 
 From the Main Menu, choose Option **`16` (Advanced SOC Analysis)**:
 
 ```
-HackGPT Enterprise Main Menu
+HackPilot Enterprise Main Menu
 ...
 15 | Web            | Launch Web Dashboard
 16 | SOC            | Advanced SOC Analysis
@@ -53,7 +53,7 @@ Loads a pre-configured multi-stage corporate network attack scenario, demonstrat
 
 ## 3. SIEM Integrations (Splunk, QRadar, and Others)
 
-HackGPT supports active bidirectional SIEM integrations. You can retrieve logs directly via SIEM search APIs and push correlated alerts back to their endpoints.
+HackPilot supports active bidirectional SIEM integrations. You can retrieve logs directly via SIEM search APIs and push correlated alerts back to their endpoints.
 
 Choose Option **`5` (Configure SIEM Connections)** in the SOC Console to register and test connections.
 

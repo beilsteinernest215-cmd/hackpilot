@@ -1,11 +1,11 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 <div align="center">
-  <img src="../public/hackgpt-logo.png" alt="HackGPT Enterprise Logo" width="250" height="auto">
+  <img src="../public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="250" height="auto">
 </div>
 
-# 🤝 Contributing to HackGPT Enterprise
+# 🤝 Contributing to HackPilot Enterprise
 
-Thank you for your interest in contributing to **HackGPT Enterprise**! This document provides guidelines for contributing to our AI-powered penetration testing platform.
+Thank you for your interest in contributing to **HackPilot Enterprise**! This document provides guidelines for contributing to our AI-powered penetration testing platform.
 
 ## 🚀 Quick Start for Contributors
 
@@ -18,8 +18,8 @@ Thank you for your interest in contributing to **HackGPT Enterprise**! This docu
 ### Development Setup
 ```bash
 # Fork and clone the repository
-git clone https://github.com/yourusername/HackGPT.git
-cd HackGPT
+git clone https://github.com/yourusername/HackPilot.git
+cd HackPilot
 
 # Set up development environment
 chmod +x install.sh
@@ -33,8 +33,8 @@ git checkout -b feature/your-feature-name
 
 ### 1. 🐛 Bug Reports
 **Before submitting a bug report:**
-- Check existing [issues](https://github.com/yashab-cyber/HackGPT/issues)
-- Use the latest version of HackGPT
+- Check existing [issues](https://github.com/yashab-cyber/hackpilot/issues)
+- Use the latest version of HackPilot
 - Test in a clean environment
 
 **When submitting:**
@@ -45,7 +45,7 @@ git checkout -b feature/your-feature-name
 
 ### 2. 💡 Feature Requests
 **For new features:**
-- Check [discussions](https://github.com/yashab-cyber/HackGPT/discussions)
+- Check [discussions](https://github.com/yashab-cyber/hackpilot/discussions)
 - Use the feature request template
 - Explain the use case and benefits
 - Consider security implications
@@ -76,7 +76,7 @@ git checkout -b feature/your-feature-name
 ### Vulnerability Reporting
 **For security issues:**
 - Email: yashabalam707@gmail.com
-- Subject: "[SECURITY] HackGPT Vulnerability Report"
+- Subject: "[SECURITY] HackPilot Vulnerability Report"
 - Include detailed technical information
 - Allow time for responsible disclosure
 
@@ -90,14 +90,14 @@ git checkout -b feature/your-feature-name
 ## 💰 Financial Contributions
 
 ### Individual Supporters
-Support HackGPT development through:
+Support HackPilot development through:
 - **GitHub Sponsors**: [Sponsor Yashab Alam](https://github.com/sponsors/yashab-cyber)
 - **Cryptocurrency**: Email [yashabalam707@gmail.com](mailto:yashabalam707@gmail.com) or see [DONATE.md](../DONATE.md)
 
 ### Corporate Sponsorship
 **For companies interested in sponsoring:**
 - **Email**: yashabalam707@gmail.com
-- **Subject**: "HackGPT Enterprise Sponsorship Inquiry"
+- **Subject**: "HackPilot Enterprise Sponsorship Inquiry"
 - **Include**: Company info, sponsorship goals, budget range
 
 **Sponsorship Benefits:**
@@ -141,7 +141,7 @@ If applicable, add screenshots to help explain your problem.
 **Environment:**
  - OS: [e.g. Ubuntu 20.04]
  - Python Version: [e.g. 3.9]
- - HackGPT Version: [e.g. 2.0.0]
+ - HackPilot Version: [e.g. 2.0.0]
 
 **Additional Context**
 Add any other context about the problem here.
@@ -274,7 +274,7 @@ Currently seeking translators for:
 ## 📞 Getting Help
 
 ### For Contributors
-- **Technical Questions**: [GitHub Discussions](https://github.com/yashab-cyber/HackGPT/discussions)
+- **Technical Questions**: [GitHub Discussions](https://github.com/yashab-cyber/hackpilot/discussions)
 - **Development Help**: yashabalam707@gmail.com
 - **Real-time Chat**: [WhatsApp Business Channel](https://whatsapp.com/channel/0029Vaoa1GfKLaHlL0Kc8k1q)
 
@@ -288,6 +288,6 @@ Currently seeking translators for:
 
 ---
 
-**Thank you for contributing to HackGPT Enterprise! Together, we're building the future of AI-powered cybersecurity.**
+**Thank you for contributing to HackPilot Enterprise! Together, we're building the future of AI-powered cybersecurity.**
 
-*Made with ❤️ by the HackGPT Enterprise community*
+*Made with ❤️ by the HackPilot Enterprise community*

@@ -1,4 +1,4 @@
-<!-- HackGPT document -->
+<!-- HackPilot document -->
 ---
 name: 💰 Sponsorship & Investment Inquiry
 about: Partnership, sponsorship, or investment opportunities
@@ -8,7 +8,7 @@ assignees: 'yashab-cyber'
 ---
 
 <div align="center">
-  <img src="../../public/hackgpt-logo.png" alt="HackGPT Enterprise Logo" width="200" height="auto">
+  <img src="../../public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="200" height="auto">
 </div>
 
 ## 🏢 Organization Information
@@ -44,7 +44,7 @@ assignees: 'yashab-cyber'
 - [ ] Other: ___________
 
 ## 💡 Specific Interests
-**Which aspects of HackGPT interest you most?**
+**Which aspects of HackPilot interest you most?**
 - [ ] AI-powered penetration testing
 - [ ] Enterprise security assessments
 - [ ] Automated vulnerability detection
@@ -160,7 +160,7 @@ Please provide any additional context, specific requirements, or questions you h
 ## ✅ Next Steps
 **What would you like to happen next?**
 - [ ] Initial phone/video call discussion
-- [ ] Detailed proposal from HackGPT team
+- [ ] Detailed proposal from HackPilot team
 - [ ] Technical demonstration
 - [ ] Contract/agreement review
 - [ ] Pilot program or proof of concept
@@ -168,9 +168,9 @@ Please provide any additional context, specific requirements, or questions you h
 
 ---
 
-## 🚀 About HackGPT Enterprise
+## 🚀 About HackPilot Enterprise
 
-HackGPT Enterprise is an AI-powered penetration testing platform that combines advanced artificial intelligence with enterprise-grade security assessment capabilities. Created by Yashab Alam, it represents the cutting edge of automated cybersecurity testing.
+HackPilot Enterprise is an AI-powered penetration testing platform that combines advanced artificial intelligence with enterprise-grade security assessment capabilities. Created by Yashab Alam, it represents the cutting edge of automated cybersecurity testing.
 
 **Key Features:**
 - AI-powered vulnerability detection
@@ -186,4 +186,4 @@ HackGPT Enterprise is an AI-powered penetration testing platform that combines a
 
 ---
 
-**Thank you for your interest in partnering with HackGPT Enterprise! We look forward to exploring how we can work together to advance cybersecurity innovation.**
+**Thank you for your interest in partnering with HackPilot Enterprise! We look forward to exploring how we can work together to advance cybersecurity innovation.**

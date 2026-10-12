@@ -1,12 +1,12 @@
-<!-- HackGPT document -->
-# HackGPT Project Summary
+<!-- HackPilot document -->
+# HackPilot Project Summary
 
 ## 🎯 Project Overview
-HackGPT is a production-ready AI-powered penetration testing automation tool designed for Kali Linux. It implements the complete 6-phase penetration testing methodology with intelligent AI decision-making.
+HackPilot is a production-ready AI-powered penetration testing automation tool designed for Kali Linux. It implements the complete 6-phase penetration testing methodology with intelligent AI decision-making.
 
 ## 📁 Project Structure
 ```
-HackGPT/
+HackPilot/
 ├── advance_hackgpt.py              # Main application (2,000+ lines)
 ├── requirements.txt        # Python dependencies
 ├── install.sh             # Automated installation script
@@ -71,7 +71,7 @@ HackGPT/
 3. **PentestingPhases**: Implements 6-phase methodology
 4. **VoiceInterface**: Speech recognition and TTS
 5. **WebDashboard**: Flask web interface
-6. **HackGPT**: Main orchestrator class
+6. **HackPilot**: Main orchestrator class
 
 ### Key Technologies
 - **Python 3.8+**: Core language
@@ -91,7 +91,7 @@ HackGPT/
 ### Quick Setup
 ```bash
 git clone <repository-url>
-cd HackGPT
+cd HackPilot
 chmod +x install.sh
 ./install.sh
 ```
@@ -232,7 +232,7 @@ docker-compose run hackgpt-cli            # CLI mode
 
 ## 🎉 Conclusion
 
-HackGPT represents a complete, production-ready AI-powered penetration testing solution that successfully combines:
+HackPilot represents a complete, production-ready AI-powered penetration testing solution that successfully combines:
 
 - **Advanced AI Integration** for intelligent decision-making
 - **Complete Pentesting Framework** following industry standards
