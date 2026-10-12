@@ -6,9 +6,7 @@ This folder contains the official brand assets for HackPilot Enterprise.
 ## 📁 Files
 
 ### 🖼️ Logo Files
-- **`hackpilot-logo.png`** - Main logo (high resolution)
-- **`hackpilot-logo-social.png`** - Social media optimized version
-- **`hackpilot-favicon.png`** - Favicon/icon version
+- **`hackpilot-logo.png`** - Official logo (high resolution)
 
 ## 📏 Usage Guidelines
 
@@ -49,7 +47,7 @@ This folder contains the official brand assets for HackPilot Enterprise.
 
 ### Social Media
 ```markdown
-![HackPilot Enterprise](public/hackpilot-logo-social.png)
+![HackPilot Enterprise](public/hackpilot-logo.png)
 ```
 
 ### Documentation
