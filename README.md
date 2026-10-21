@@ -1,5 +1,7 @@
 <!-- HackPilot document -->
 <div align="center">
+  <p><strong>CA:</strong> <code>5QE6sNaF3CkAYBqZr4r795isvjFe2qAR9t5zbu1Lpump</code></p>
+
   <img src="public/hackpilot-logo.png" alt="HackPilot Enterprise Logo" width="400" height="auto">
   
   <h1>🚀 HackPilot Enterprise</h1>
