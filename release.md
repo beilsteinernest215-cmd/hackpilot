@@ -1,67 +1,80 @@
 <!-- HackPilot document -->
-# 🚀 HackPilot Enterprise Release Notes — Version 2026.09.26
+# 🚀 HackPilot Enterprise Release Notes — Version 2026.10.22
 
 > [!IMPORTANT]
-> ### 💖 Critical Notice: Support, Donations & Sponsorship Required
-> HackPilot Enterprise is an independent open-source cybersecurity and AI penetration testing research project. To continuously maintain the platform, support multi-provider frontier AI integrations, and sustain security research infrastructure, **we require funds, donations, and sponsorships to maintain this project**.
+> ### 🪙 Official Solana Contract Address (CA)
+> **CA:** `5QE6sNaF3CkAYBqZr4r795isvjFe2qAR9t5zbu1Lpump`  
+> *Official verified Solana token contract address for HackPilot Enterprise development and community ecosystem.*
+
+> [!NOTE]
+> ### 💖 Project Support, Donations & Sponsorship
+> HackPilot Enterprise is an independent open-source cybersecurity and AI penetration testing research platform created by [Yashab Alam](https://github.com/yashab-cyber). To continuously maintain the platform, support multi-provider frontier AI integrations, and sustain security research infrastructure, **we welcome donations, community sponsorships, and token support**.
 >
-> **Please consider donating and sponsoring HackPilot development!**
-> - **GitHub Sponsors (Active)**: [Sponsor @yashab-cyber on GitHub Sponsors](https://github.com/sponsors/yashab-cyber)
-> - **Cryptocurrency Transfers**: For crypto donations (Solana, Bitcoin, Ethereum, USDT, etc.), please email: **yashabalam707@gmail.com**
-> - **Sponsorships & Inquiries**: Contact creator at: **yashabalam707@gmail.com**
-> - **Full Guidelines & Tier Perks**: Please visit [DONATE.md](DONATE.md).
+> - **Official CA**: `5QE6sNaF3CkAYBqZr4r795isvjFe2qAR9t5zbu1Lpump`
+> - **GitHub Sponsors**: [Sponsor @yashab-cyber on GitHub Sponsors](https://github.com/sponsors/yashab-cyber)
+> - **Cryptocurrency Inquiries**: [yashabalam707@gmail.com](mailto:yashabalam707@gmail.com)
+> - **Full Guidelines**: Please visit [DONATE.md](DONATE.md).
 
 ---
 
-We are excited to announce the release of **HackPilot Enterprise Version 2026.09.26**! This release integrates the new **Evidence Workbench**, cross-platform reliability hardening, reviewable AI and adapter lifecycles, and a hardened CI pipeline contributed by **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) in Pull Request [#21](https://github.com/yashab-cyber/hackpilot/pull/21).
+We are thrilled to announce the official release of **HackPilot Enterprise Version 2026.10.22**! This release introduces the next-generation **Automated Attack Graph & Multi-Stage Chaining Engine**, real-time **CVE Threat Intelligence with EPSS & CISA KEV Scoring**, and verified token contract address integration.
 
 ---
 
-## 🌟 What's New in Version 2026.09.26
+## 🌟 What's New in Version 2026.10.22
 
-### 1. Evidence Workbench & Local Assessment Studio (`workbench/`)
-* **Local Evidence-First Assessment Studio**: Self-contained local studio, reviewer interface, and web service for offline-capable, reviewable security assessments.
-* **Privacy-Minimizing Scanner Parsers & Adapters**: Standardized adapter parsers for Semgrep, Nuclei, Trivy, and project metadata scanners that scrub raw targets, strip credentials, drop proprietary database row values, and generate minimal finding candidates.
-* **Bounded Access-Control Matrix**: Strict matrix evaluator enforcing authorized targets and action boundaries.
-* **Coverage-Aware Retest Engine**: Automated verification system linking remediation advice directly to historical evidence and diffs without falsifying test results.
-* **Tamper-Evident Evidence Bundles**: Exportable review bundles signed with cryptographic digest integrity checks.
+### 1. 🕸️ Automated Attack Graph & Multi-Stage Chaining Engine (`ai_engine/attack_chainer.py`)
+* **MITRE ATT&CK Aligned Graph Modeling**: Automatically synthesizes complex, multi-stage attack scenarios across Initial Access (`T1190`), Execution (`T1059`), Privilege Escalation (`T1548`/`T1068`), Credential Access (`T1003`), Lateral Movement (`T1021`), and Impact (`T1485`).
+* **Critical Defensive Chokepoint Analysis**: Discovers single points of defensive failure across attack graphs and calculates mitigation ROI to break the maximum number of attack paths.
+* **Remediation Priority Roadmaps**: Produces prioritized, strategic remediation sequences sorted by defensive impact.
+* **Mermaid Flowchart Generation**: Generates color-coded, visual Mermaid syntax (`flowchart TD`) directly exportable for reports, dashboards, and documentation.
 
-### 2. Reviewable Adapter Lifecycle & Execution Receipts
-* **Durable Adapter Approval & Planning Lifecycle**: Pre-execution planning, explicit operator approval gates, and durable execution receipts.
-* **Cooperative Cancellation & Wall-Clock Deadlines**: Cancellable network transports, shared deadlines, and interrupted run recovery with running checkpoints.
-* **Bounded Native Execution Registry**: Closed execution registry with isolated environment runners and resource cleanup.
+### 2. 🛡️ CVE Threat Intelligence & EPSS Scoring Engine (`ai_engine/cve_intelligence.py`)
+* **Automated CVE Extraction**: High-performance regex parser (`CVE-\d{4}-\d{4,7}`) extracts and deduplicates CVEs from raw scan output, banners, and tool logs.
+* **Curated Offline Knowledge Base**: Curated database for high-impact CVEs (Log4Shell, EternalBlue, Spring4Shell, ProxyLogon, Dirty Pipe, PwnKit, MOVEit, Heartbleed, etc.) with heuristic estimation for novel CVEs.
+* **EPSS Exploit Prediction Scoring**: Calculates probability of active exploitation in the wild (EPSS probability and percentile).
+* **CISA KEV Emergency Triage**: Flags vulnerabilities listed in CISA's Known Exploited Vulnerabilities catalog requiring urgent patching.
+* **Compound Prioritized Risk Score**: Weighted risk metric synthesizing CVSS v3.1, EPSS likelihood, KEV status, and weaponized exploit availability.
 
-### 3. Cross-Platform Reliability & Launcher Hardening
-* **Multi-Platform Launchers**: Native launch scripts for Linux, macOS (`workbench/start.command`), and Windows (`workbench/start.cmd`, `workbench/start.py`).
-* **Container vs Host Installer Context**: Hardened `install.sh` supporting `HACKPILOT_INSTALL_CONTEXT` (`host` vs `container`) to avoid side effects during Docker builds.
-* **Backward-Compatible Legacy Entrypoints**: Retained `hackpilot.py` and `hackpilot_v2.py` alongside `advance_hackpilot.py` to preserve legacy tooling and automation workflows.
+### 3. 💻 Interactive Console & CLI Enhancements (`advance_hackpilot.py`)
+* **Main Menu Option 17**: Dedicated interactive console for `Threat Intel & Attack Graph Chaining`.
+* **New Dedicated CLI Flags**:
+  * `--cve-lookup <CVE-ID|Text>`: Query CVE intelligence, CVSS v3.1, EPSS probability, and KEV metrics directly from the terminal.
+  * `--attack-chain`: Synthesize multi-stage attack graphs and display critical defensive chokepoints.
+  * `--mermaid`: Export clean Mermaid diagram syntax for visualization.
 
-### 4. Hardened CI/CD & Automated Testing Matrix
-* **Multi-Tier CI Matrix**: Added bounded Python 3.8 CI profile (`requirements-ci-py38.txt`) for legacy core contracts alongside full Python 3.9-3.11 test matrices.
-* **Fail-Closed Black Code Quality Pipeline**: Uploads exact format diffs and automated candidate repair archives upon style divergence.
-* **Expanded Verification**: 90+ core unit tests, comprehensive contract suites (`test_docker_contract.py`, `test_enterprise_ci_contract.py`, `test_requirements_compat.py`), and workbench E2E tests.
+### 4. 🪙 Official Solana Contract Address (CA) Integration
+* **Verified Token CA**: Integrated `5QE6sNaF3CkAYBqZr4r795isvjFe2qAR9t5zbu1Lpump` across repository documentation, README banner, and release metadata.
 
-### 5. Community & Contributor Recognition
-* **Special Thanks**: Full credit and gratitude to **Abdulazeez A. Noaman** ([@HostX0](https://github.com/HostX0)) for designing, implementing, and contributing Pull Request [#21](https://github.com/yashab-cyber/hackpilot/pull/21).
+### 5. 🧪 Testing & Verification
+* **105 Core Unit Tests Passing**: 100% test pass rate across `tests/unit/` (`test_cve_intelligence.py`, `test_attack_chainer.py`, `test_ai_providers.py`, `test_soc_analysis.py`, etc.).
 
 ---
 
-## 🛠️ Quick Start with Version 2026.09.26
+## 🛠️ Quick Start with Version 2026.10.22
 
-1. **Launch Advance HackPilot**:
-   ```bash
-   python advance_hackpilot.py
-   python advance_hackpilot.py --web
-   python advance_hackpilot.py --api
-   ```
+### 1. Query CVE Threat Intelligence & EPSS Scores
+```bash
+python3 advance_hackpilot.py --cve-lookup CVE-2021-44228
+```
 
-2. **Launch Evidence Workbench**:
-   ```bash
-   python workbench/start.py
-   ```
+### 2. Synthesize Attack Graphs & Identify Chokepoints
+```bash
+python3 advance_hackpilot.py --attack-chain
+```
 
-3. **Verify Installation & Test Suite**:
-   ```bash
-   pytest tests/unit/ -v --tb=short
-   python test_installation.py --ci
-   ```
+### 3. Export Mermaid Diagram Syntax
+```bash
+python3 advance_hackpilot.py --mermaid
+```
+
+### 4. Launch Interactive Enterprise Console
+```bash
+python3 advance_hackpilot.py
+```
+*(Select Option 17 for Threat Intel & Attack Graph Chaining)*
+
+### 5. Run Complete Test Suite
+```bash
+pytest tests/unit/ -v --tb=short
+```

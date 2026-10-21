@@ -17,6 +17,42 @@ This document logs the release updates, bug fixes, and feature integrations for 
 
 ---
 
+## 🚀 Version 2026.10.22
+
+*Release Date: October 22, 2026*
+
+> [!IMPORTANT]
+> **Official Solana Contract Address (CA):** `5QE6sNaF3CkAYBqZr4r795isvjFe2qAR9t5zbu1Lpump`
+
+We are proud to present **HackPilot Enterprise Version 2026.10.22**! This release introduces the next-generation **Automated Attack Graph & Multi-Stage Chaining Engine**, **CVE Threat Intelligence with EPSS & CISA KEV Scoring**, and official Solana token contract address integration.
+
+### 🌟 What's New in Version 2026.10.22
+
+#### 1. Automated Attack Graph & Multi-Stage Chaining Engine (`ai_engine/attack_chainer.py`)
+* **MITRE ATT&CK Aligned Graph Modeling**: Automatically synthesizes complex, multi-stage attack scenarios across Initial Access (`T1190`), Execution (`T1059`), Privilege Escalation (`T1548`/`T1068`), Credential Access (`T1003`), Lateral Movement (`T1021`), and Impact (`T1485`).
+* **Critical Defensive Chokepoint Analysis**: Discovers single points of defensive failure across attack graphs and calculates mitigation ROI to break the maximum number of attack paths.
+* **Remediation Priority Roadmaps**: Produces prioritized, strategic remediation sequences sorted by defensive impact.
+* **Mermaid Flowchart Generation**: Generates color-coded, visual Mermaid syntax (`flowchart TD`) directly exportable for reports, dashboards, and documentation.
+
+#### 2. CVE Threat Intelligence & EPSS Scoring Engine (`ai_engine/cve_intelligence.py`)
+* **Automated CVE Extraction**: High-performance regex parser (`CVE-\d{4}-\d{4,7}`) extracts and deduplicates CVEs from raw scan output, banners, and tool logs.
+* **Curated Offline Knowledge Base**: Curated database for high-impact CVEs (Log4Shell, EternalBlue, Spring4Shell, ProxyLogon, Dirty Pipe, PwnKit, MOVEit, Heartbleed, etc.) with heuristic estimation for novel CVEs.
+* **EPSS Exploit Prediction Scoring**: Calculates probability of active exploitation in the wild (EPSS probability and percentile).
+* **CISA KEV Emergency Triage**: Flags vulnerabilities listed in CISA's Known Exploited Vulnerabilities catalog requiring urgent patching.
+* **Compound Prioritized Risk Score**: Weighted risk metric synthesizing CVSS v3.1, EPSS likelihood, KEV status, and weaponized exploit availability.
+
+#### 3. Interactive Console & CLI Enhancements (`advance_hackpilot.py`)
+* **Main Menu Option 17**: Dedicated interactive console for `Threat Intel & Attack Graph Chaining`.
+* **New Dedicated CLI Flags**:
+  * `--cve-lookup <CVE-ID|Text>`: Query CVE intelligence, CVSS v3.1, EPSS probability, and KEV metrics directly from the terminal.
+  * `--attack-chain`: Synthesize multi-stage attack graphs and display critical defensive chokepoints.
+  * `--mermaid`: Export clean Mermaid diagram syntax for visualization.
+
+#### 4. Official Solana Contract Address (CA) Integration
+* **Verified Token CA**: Integrated `5QE6sNaF3CkAYBqZr4r795isvjFe2qAR9t5zbu1Lpump` across repository documentation, README banner, and release metadata.
+
+---
+
 ## 🚀 Version 2026.09.26
 
 *Release Date: September 26, 2026*
