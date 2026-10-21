@@ -29,6 +29,22 @@ try:
 except ImportError as e:
     logging.warning(f"Multi-provider modules not available: {e}")
 
+# CVE Intelligence and Attack Chaining imports
+try:
+    from .cve_intelligence import CVEIntelligenceEngine, CVEInfo
+    from .attack_chainer import (
+        AttackChainingEngine, AttackGraph, AttackNode, AttackEdge, AttackStage
+    )
+except ImportError as e:
+    CVEIntelligenceEngine = None
+    CVEInfo = None
+    AttackChainingEngine = None
+    AttackGraph = None
+    AttackNode = None
+    AttackEdge = None
+    AttackStage = None
+    logging.warning(f"CVE Intelligence or Attack Chaining modules not available: {e}")
+
 # ML and AI imports
 try:
     import openai
@@ -279,32 +295,63 @@ class ContextManager:
         return relevant_context
 
 class VulnerabilityCorrelator:
-    """Correlates vulnerabilities to identify attack chains"""
+    """Correlates vulnerabilities to identify attack chains with graph modeling and CVE enrichment"""
     
     def __init__(self):
         self.db = get_db_manager()
+        self.cve_intel = CVEIntelligenceEngine() if CVEIntelligenceEngine else None
+        self.attack_chainer = AttackChainingEngine() if AttackChainingEngine else None
         
     def correlate_findings(self, session_id: str, vulnerabilities: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Correlate vulnerabilities to find attack chains"""
-        attack_chains = self._build_attack_chains(vulnerabilities)
+        """Correlate vulnerabilities to find attack chains, graph paths, and chokepoints"""
+        # Enrich findings with CVE threat intelligence if available
+        enriched_vulns = vulnerabilities
+        cisa_kev_summary = {"total_kev_count": 0, "requires_immediate_action": False, "vulnerabilities": []}
+        if self.cve_intel:
+            enriched_vulns = self.cve_intel.enrich_findings(vulnerabilities)
+            cisa_kev_summary = self.cve_intel.get_cisa_kev_summary(enriched_vulns)
+
+        # Build directed attack graph with multi-stage attack chaining
+        attack_graph_dict = {}
+        critical_chokepoints = []
+        remediation_roadmap = []
+        mermaid_diagram = ""
+        if self.attack_chainer:
+            graph = self.attack_chainer.synthesize_attack_graph(enriched_vulns)
+            attack_graph_dict = graph.to_dict()
+            critical_chokepoints = graph.find_critical_chokepoints()
+            remediation_roadmap = self.attack_chainer.generate_remediation_roadmap(graph)
+            mermaid_diagram = graph.to_mermaid()
+
+        # Build traditional attack chains for backward compatibility
+        attack_chains = self._build_attack_chains(enriched_vulns)
         compound_risks = self._calculate_compound_risk(attack_chains)
         exploitation_priority = self._prioritize_exploits(attack_chains, compound_risks)
         
         # Save attack chains to database
         for i, chain in enumerate(attack_chains):
-            self.db.create_attack_chain(
-                session_id=session_id,
-                vulnerability_id=chain.get('primary_vulnerability_id', ''),
-                chain_sequence=i,
-                exploit_path=chain['steps'],
-                risk_score=compound_risks.get(i, 0.0),
-                impact_description=chain.get('impact', '')
-            )
+            try:
+                self.db.create_attack_chain(
+                    session_id=session_id,
+                    vulnerability_id=chain.get('primary_vulnerability_id', ''),
+                    chain_sequence=i,
+                    exploit_path=chain['steps'],
+                    risk_score=compound_risks.get(i, 0.0),
+                    impact_description=chain.get('impact', '')
+                )
+            except Exception as e:
+                logging.debug(f"Could not persist chain {i} to db: {e}")
         
         return {
             'attack_chains': attack_chains,
             'risk_assessment': compound_risks,
-            'exploitation_priority': exploitation_priority
+            'exploitation_priority': exploitation_priority,
+            'attack_graph': attack_graph_dict,
+            'critical_chokepoints': critical_chokepoints,
+            'remediation_roadmap': remediation_roadmap,
+            'mermaid_diagram': mermaid_diagram,
+            'cisa_kev_summary': cisa_kev_summary,
+            'enriched_vulnerabilities': enriched_vulns
         }
     
     def _build_attack_chains(self, vulnerabilities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -445,6 +492,8 @@ class AdvancedAIEngine:
         # Initialize components
         self.pattern_recognizer = PatternRecognizer()
         self.vulnerability_correlator = VulnerabilityCorrelator()
+        self.cve_intelligence = CVEIntelligenceEngine() if CVEIntelligenceEngine else None
+        self.attack_chainer = AttackChainingEngine() if AttackChainingEngine else None
         
         if session_id:
             self.context_manager = ContextManager(session_id)
@@ -872,3 +921,53 @@ Format your response as clear, actionable insights for penetration testers.
         except Exception as e:
             self.logger.error(f"Error listing models: {e}")
             return []
+
+    # ==================== CVE Intelligence & Attack Chaining ====================
+
+    def lookup_cve(self, cve_id: str) -> Optional[Any]:
+        """Look up threat intelligence for a specific CVE ID."""
+        if not self.cve_intelligence:
+            return None
+        return self.cve_intelligence.lookup_cve(cve_id)
+
+    def extract_cves(self, text: str) -> List[str]:
+        """Extract all CVE identifiers from arbitrary text or scan output."""
+        if not self.cve_intelligence:
+            import re
+            return re.findall(r'\bCVE-\d{4}-\d{4,7}\b', text, re.IGNORECASE)
+        return self.cve_intelligence.extract_cves(text)
+
+    def enrich_with_cve_intelligence(self, findings: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Enrich vulnerability findings with CVE, CVSS, EPSS, and CISA KEV data."""
+        if not self.cve_intelligence:
+            return findings
+        return self.cve_intelligence.enrich_findings(findings)
+
+    def build_attack_graph(self, vulnerabilities: List[Dict[str, Any]], target_assets: Optional[List[Dict[str, Any]]] = None) -> Any:
+        """Synthesize a directed multi-stage attack graph from vulnerabilities."""
+        if not self.attack_chainer:
+            return None
+        # Enrich before chaining if CVE intelligence is available
+        enriched = self.enrich_with_cve_intelligence(vulnerabilities)
+        return self.attack_chainer.synthesize_attack_graph(enriched, target_assets)
+
+    def generate_attack_mermaid(self, vulnerabilities: List[Dict[str, Any]]) -> str:
+        """Generate a Mermaid flowchart visualizing the synthesized attack chains."""
+        graph = self.build_attack_graph(vulnerabilities)
+        if graph and hasattr(graph, 'to_mermaid'):
+            return graph.to_mermaid()
+        return "```mermaid\nflowchart TD\n    A[No attack paths synthesized]\n```"
+
+    def get_defensive_chokepoints(self, vulnerabilities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Compute critical defensive chokepoints across all synthesized attack paths."""
+        graph = self.build_attack_graph(vulnerabilities)
+        if graph and hasattr(graph, 'find_critical_chokepoints'):
+            return graph.find_critical_chokepoints()
+        return []
+
+    def get_cisa_kev_report(self, findings: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Generate a focused CISA KEV compliance and threat triage report."""
+        if not self.cve_intelligence:
+            return {"total_kev_count": 0, "requires_immediate_action": False, "vulnerabilities": []}
+        enriched = self.enrich_with_cve_intelligence(findings)
+        return self.cve_intelligence.get_cisa_kev_summary(enriched)

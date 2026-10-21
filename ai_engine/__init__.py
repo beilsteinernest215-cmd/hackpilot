@@ -6,6 +6,17 @@ from .advanced_engine import (
     VulnerabilityCorrelator,
     ContextManager,
 )
+from .cve_intelligence import (
+    CVEIntelligenceEngine,
+    CVEInfo,
+)
+from .attack_chainer import (
+    AttackChainingEngine,
+    AttackGraph,
+    AttackNode,
+    AttackEdge,
+    AttackStage,
+)
 from .model_registry import (
     ModelProvider,
     ModelInfo,
@@ -51,6 +62,13 @@ __all__ = [
     "PatternRecognizer",
     "VulnerabilityCorrelator",
     "ContextManager",
+    "CVEIntelligenceEngine",
+    "CVEInfo",
+    "AttackChainingEngine",
+    "AttackGraph",
+    "AttackNode",
+    "AttackEdge",
+    "AttackStage",
     "get_advanced_ai_engine",
     "ModelProvider",
     "ModelInfo",

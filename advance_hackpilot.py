@@ -81,7 +81,12 @@ pandas = safe_import('pandas')
 # Import our custom modules
 try:
     from database import get_db_manager, PentestSession, Vulnerability, User, AuditLog
-    from ai_engine import get_advanced_ai_engine
+    from ai_engine import (
+        get_advanced_ai_engine,
+        CVEIntelligenceEngine,
+        AttackChainingEngine,
+        AttackGraph,
+    )
     from security import (
         EnterpriseAuth, ComplianceFrameworkMapper, get_soc_analyzer,
         SIEMConnectorManager, SplunkConnector, QRadarConnector,
@@ -358,6 +363,21 @@ class EnterpriseHackPilot:
                 self.siem_manager = None
                 self.console.print("[yellow]⚠[/yellow] Advanced SOC Analysis Engine not available")
             
+            # Threat Intelligence & Attack Graph Chaining
+            if MODULES_AVAILABLE:
+                try:
+                    self.cve_intel = CVEIntelligenceEngine()
+                    self.attack_chainer = AttackChainingEngine()
+                    self.console.print("[green]✓[/green] CVE Threat Intelligence Engine initialized")
+                    self.console.print("[green]✓[/green] Automated Attack Graph Chainer initialized")
+                except Exception as e:
+                    self.cve_intel = None
+                    self.attack_chainer = None
+                    self.console.print(f"[yellow]⚠[/yellow] Threat intelligence engines unavailable: {e}")
+            else:
+                self.cve_intel = None
+                self.attack_chainer = None
+            
         except Exception as e:
             self.logger.error(f"Error initializing components: {e}")
             self.console.print(f"[red]Error initializing components: {e}[/red]")
@@ -502,6 +522,7 @@ class EnterpriseHackPilot:
             ("14", "Voice", "Voice Command Mode"),
             ("15", "Web", "Launch Web Dashboard"),
             ("16", "SOC", "Advanced SOC Analysis"),
+            ("17", "AI & Intel", "Threat Intel & Attack Graph Chaining"),
             ("0", "System", "Exit Application")
         ]
         
@@ -1690,6 +1711,241 @@ class EnterpriseHackPilot:
             if cmd:
                 self.console.print(f"[cyan]Heard command: {cmd}[/cyan]")
 
+    # ==================== Threat Intelligence & Attack Graph Chaining ====================
+
+    def run_threat_intelligence_and_attack_chaining(self):
+        """Interactive Threat Intelligence & Attack Graph Chaining Console"""
+        self.console.print(Panel(
+            "[bold cyan]AI Threat Intelligence & Attack Graph Chaining Engine[/bold cyan]\n"
+            "Query CVEs, compute EPSS probabilities, evaluate CISA KEV active exploitation, "
+            "synthesize multi-stage attack graphs, identify critical defensive chokepoints, and generate Mermaid diagrams."
+        ))
+
+        intel_menu = Table(title="Threat Intelligence & Attack Chaining Options")
+        intel_menu.add_column("Option", style="cyan")
+        intel_menu.add_column("Description", style="white")
+
+        intel_options = [
+            ("1", "CVE Threat Intelligence Lookup & EPSS Scoring"),
+            ("2", "Automated Attack Graph & Chaining (Sample Scenario)"),
+            ("3", "Generate Mermaid Attack Graph Diagram"),
+            ("4", "CISA KEV (Known Exploited Vulnerabilities) Triage"),
+            ("0", "Return to Main Menu")
+        ]
+
+        for option, desc in intel_options:
+            intel_menu.add_row(option, desc)
+
+        self.console.print(intel_menu)
+        choice = Prompt.ask("[cyan]Select option[/cyan]", choices=[o[0] for o in intel_options])
+
+        if choice == "0":
+            return
+        elif choice == "1":
+            self.cve_intelligence_lookup()
+        elif choice == "2":
+            self.attack_chain_analysis(sample_mode=True)
+        elif choice == "3":
+            self.attack_chain_analysis(sample_mode=True, mermaid_only=True)
+        elif choice == "4":
+            self.cisa_kev_triage()
+
+    def cve_intelligence_lookup(self, query=None):
+        """Look up CVE threat intelligence with CVSS, EPSS, and KEV metrics."""
+        if not self.cve_intel:
+            self.console.print("[red]CVE Intelligence Engine is not initialized.[/red]")
+            return
+
+        if not query:
+            query = Prompt.ask("[cyan]Enter CVE ID or search text (e.g. CVE-2021-44228 or Apache Log4j)[/cyan]", default="CVE-2021-44228")
+
+        detected = self.cve_intel.extract_cves(query)
+        lookup_ids = detected if detected else [query.strip().upper()]
+
+        intel_table = Table(title="CVE Threat Intelligence & EPSS Scores", show_header=True)
+        intel_table.add_column("CVE ID", style="bold cyan")
+        intel_table.add_column("Title", style="white")
+        intel_table.add_column("CVSS v3.1", style="bold red")
+        intel_table.add_column("Severity", style="magenta")
+        intel_table.add_column("EPSS Exploit Prob", style="yellow")
+        intel_table.add_column("CISA KEV", style="bold red")
+        intel_table.add_column("Weaponized", style="bold yellow")
+        intel_table.add_column("Prioritized Risk", style="bold red")
+
+        found_any = False
+        for cid in lookup_ids:
+            info = self.cve_intel.lookup_cve(cid)
+            if info:
+                found_any = True
+                sev_color = "bold red" if info.severity == "CRITICAL" else "red" if info.severity == "HIGH" else "yellow"
+                kev_display = "[bold red]YES[/bold red]" if info.in_cisa_kev else "[green]NO[/green]"
+                weap_display = "[bold red]YES[/bold red]" if info.weaponized else "[green]NO[/green]"
+                intel_table.add_row(
+                    info.cve_id,
+                    info.title[:45] + ("..." if len(info.title) > 45 else ""),
+                    f"{info.cvss_score:.1f}",
+                    f"[{sev_color}]{info.severity}[/{sev_color}]",
+                    f"{info.epss_score * 100:.1f}% (top {100 - (info.epss_percentile * 100):.1f}%)",
+                    kev_display,
+                    weap_display,
+                    f"{info.prioritized_risk_score:.2f}/10.0"
+                )
+
+        if found_any:
+            self.console.print(intel_table)
+        else:
+            self.console.print(f"[yellow]No threat intelligence records matched '{query}'.[/yellow]")
+
+    def attack_chain_analysis(self, sample_mode=True, mermaid_only=False, findings=None):
+        """Synthesize and display automated multi-stage attack graphs and chokepoints."""
+        if not self.attack_chainer:
+            self.console.print("[red]Attack Chaining Engine is not initialized.[/red]")
+            return
+
+        if not findings:
+            # High-impact representative multi-stage enterprise assessment scenario
+            findings = [
+                {
+                    "id": "vuln-01",
+                    "title": "Apache Path Traversal and File Read",
+                    "cve": "CVE-2021-41773",
+                    "category": "web",
+                    "severity": "high",
+                    "target": "web.internal.corp",
+                    "description": "Path traversal allowing arbitrary file disclosure and potential RCE."
+                },
+                {
+                    "id": "vuln-02",
+                    "title": "Log4Shell JNDI Remote Code Execution",
+                    "cve": "CVE-2021-44228",
+                    "category": "web",
+                    "severity": "critical",
+                    "target": "api.internal.corp",
+                    "description": "Remote code execution via unauthenticated JNDI LDAP lookup."
+                },
+                {
+                    "id": "vuln-03",
+                    "title": "Polkit PwnKit Local Privilege Escalation",
+                    "cve": "CVE-2021-4034",
+                    "category": "system",
+                    "severity": "high",
+                    "target": "api.internal.corp",
+                    "description": "Local privilege escalation to root via pkexec."
+                },
+                {
+                    "id": "vuln-04",
+                    "title": "Exposed Kerberos Ticket Hashes in Memory",
+                    "category": "system",
+                    "severity": "high",
+                    "target": "dc01.internal.corp",
+                    "description": "Credential access via LSASS memory dumping."
+                },
+                {
+                    "id": "vuln-05",
+                    "title": "SMB Lateral Pivot via Pass-the-Hash",
+                    "category": "network",
+                    "severity": "critical",
+                    "target": "finance-sql.internal.corp",
+                    "description": "Lateral movement across segmented enterprise network."
+                }
+            ]
+
+        # Enrich with CVE intelligence if available
+        if self.cve_intel:
+            findings = self.cve_intel.enrich_findings(findings)
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=self.console
+        ) as progress:
+            task = progress.add_task("[cyan]Synthesizing Multi-Stage Attack Graph...", total=100)
+            graph = self.attack_chainer.synthesize_attack_graph(findings)
+            progress.update(task, completed=100)
+
+        if mermaid_only:
+            mermaid_syntax = graph.to_mermaid("HackPilot Attack Chain Graph")
+            self.console.print(Panel(mermaid_syntax, title="[bold green]Mermaid Attack Graph Flowchart[/bold green]"))
+            return
+
+        # Display Summary
+        paths = graph.find_all_paths()
+        chokepoints = graph.find_critical_chokepoints()
+        roadmap = self.attack_chainer.generate_remediation_roadmap(graph)
+
+        self.console.print(f"\n[bold green]✓ Synthesized Attack Graph:[/bold green] {len(graph.nodes)} Nodes | {len(graph.edges)} Edges | {len(paths)} Complete Attack Paths")
+
+        # Critical Chokepoints Table
+        if chokepoints:
+            chk_table = Table(title="🛡️ Critical Defensive Chokepoints (Highest Mitigation ROI)", show_header=True)
+            chk_table.add_column("Rank", style="bold cyan")
+            chk_table.add_column("Chokepoint Node", style="white")
+            chk_table.add_column("MITRE Technique", style="yellow")
+            chk_table.add_column("Stage", style="magenta")
+            chk_table.add_column("Paths Severed", style="bold red")
+            chk_table.add_column("Mitigation ROI", style="bold green")
+
+            for idx, chk in enumerate(chokepoints[:5], 1):
+                chk_table.add_row(
+                    str(idx),
+                    chk["label"][:40],
+                    chk["mitre_technique"],
+                    chk["stage"],
+                    f"{chk['affected_chains_count']}/{chk['total_chains']} ({chk['coverage_percentage']}%)",
+                    f"{chk['mitigation_roi']:.2f}"
+                )
+            self.console.print(chk_table)
+
+        # Strategic Remediation Roadmap
+        if roadmap:
+            road_table = Table(title="📋 Strategic Remediation Priority Roadmap", show_header=True)
+            road_table.add_column("Priority", style="bold cyan")
+            road_table.add_column("Action Summary", style="white")
+            road_table.add_column("Urgency", style="bold red")
+
+            for item in roadmap[:4]:
+                road_table.add_row(
+                    f"#{item['priority_rank']}",
+                    item["strategic_action"],
+                    item["urgency"]
+                )
+            self.console.print(road_table)
+
+        # Mermaid Diagram
+        mermaid_syntax = graph.to_mermaid("HackPilot Synthesized Attack Graph")
+        self.console.print(Panel(mermaid_syntax, title="[bold green]Mermaid Attack Graph Syntax[/bold green]"))
+
+    def cisa_kev_triage(self):
+        """Display known exploited vulnerabilities requiring immediate compliance attention."""
+        if not self.cve_intel:
+            self.console.print("[red]CVE Intelligence Engine is not initialized.[/red]")
+            return
+
+        # Check known high profile CVEs in knowledge base
+        kev_items = [
+            info for info in [self.cve_intel.lookup_cve(c) for c in self.cve_intel.database.keys()]
+            if info and info.in_cisa_kev
+        ]
+
+        table = Table(title="🚨 CISA KEV (Known Exploited Vulnerabilities) Emergency Triage", show_header=True)
+        table.add_column("CVE ID", style="bold cyan")
+        table.add_column("Vulnerability Name", style="white")
+        table.add_column("CVSS", style="bold red")
+        table.add_column("EPSS Score", style="bold yellow")
+        table.add_column("Recommended Remediation", style="green")
+
+        for item in kev_items:
+            table.add_row(
+                item.cve_id,
+                item.title[:45] + ("..." if len(item.title) > 45 else ""),
+                f"{item.cvss_score:.1f}",
+                f"{item.epss_score * 100:.1f}%",
+                item.remediation[:50] + ("..." if len(item.remediation) > 50 else "")
+            )
+
+        self.console.print(table)
+        self.console.print("[bold red]Note: Any asset matching CISA KEV vulnerabilities must be prioritized for emergency patching.[/bold red]\n")
+
     def run(self):
         """Main application loop"""
         self.show_banner()
@@ -1698,7 +1954,7 @@ class EnterpriseHackPilot:
             try:
                 self.show_main_menu()
                 choice = Prompt.ask("[cyan]Select option[/cyan]", 
-                                  choices=[str(i) for i in range(17)])
+                                  choices=[str(i) for i in range(18)])
                 
                 if choice == "0":
                     self.console.print("[green]Shutting down HackPilot Enterprise...[/green]")
@@ -1736,6 +1992,8 @@ class EnterpriseHackPilot:
                     self.launch_web_dashboard()
                 elif choice == "16":
                     self.run_soc_analysis()
+                elif choice == "17":
+                    self.run_threat_intelligence_and_attack_chaining()
                     
             except KeyboardInterrupt:
                 self.console.print("\n[yellow]Use option 0 to exit properly[/yellow]")
@@ -1950,7 +2208,12 @@ EnterpriseToolManager = EnterpriseToolManager
 class AIEngine:
     """Wrapper AI Engine for backward compatibility"""
     def __init__(self):
-        from ai_engine import get_advanced_ai_engine
+        from ai_engine import (
+        get_advanced_ai_engine,
+        CVEIntelligenceEngine,
+        AttackChainingEngine,
+        AttackGraph,
+    )
         self.engine = get_advanced_ai_engine()
         
     def analyze(self, context, data, phase="general"):
@@ -2449,6 +2712,9 @@ def main():
     parser.add_argument('--custom-route', help='Custom router base URL endpoint (e.g. http://localhost:8000/v1 or https://openrouter.ai/api/v1)')
     parser.add_argument('--fetch-models', action='store_true', help='Auto-fetch and discover models from configured AI providers')
     parser.add_argument('--list-models', action='store_true', help='List all available AI models (catalog + dynamic)')
+    parser.add_argument('--cve-lookup', help='Lookup CVE threat intelligence by ID or search text (e.g. CVE-2021-44228)')
+    parser.add_argument('--attack-chain', action='store_true', help='Synthesize and display automated multi-stage attack graph')
+    parser.add_argument('--mermaid', action='store_true', help='Output Mermaid flowchart diagram for synthesized attack graph')
     
     args = parser.parse_args()
     
@@ -2472,6 +2738,14 @@ def main():
     elif args.list_models:
         hackpilot.show_banner()
         hackpilot.list_and_show_models()
+        return
+    elif args.cve_lookup:
+        hackpilot.show_banner()
+        hackpilot.cve_intelligence_lookup(args.cve_lookup)
+        return
+    elif args.attack_chain or args.mermaid:
+        hackpilot.show_banner()
+        hackpilot.attack_chain_analysis(sample_mode=True, mermaid_only=args.mermaid)
         return
     elif args.api:
         hackpilot.start_api_server()

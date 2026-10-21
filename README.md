@@ -30,14 +30,16 @@
 
 ## 🏢 Enterprise Features
 
-### 🤖 Advanced AI Engine — Multi-Provider Support
+### 🤖 Advanced AI Engine — Multi-Provider Support & Threat Intelligence
 - **7 AI Providers**: OpenAI, Anthropic (Claude), Google (Gemini), DeepSeek, GLM (Zhipu), Local LLMs (Ollama), OpenRouter
 - **26+ AI Models**: GPT-5, GPT-5.6, o3, o4-mini, Claude Sonnet 5, Opus 4.8, Gemini 3.5 Flash, 3.1 Pro, DeepSeek R1, and more
 - **Runtime Model Switching**: Change AI models on-the-fly with automatic provider fallback
+- **Automated Attack Graph Chaining**: Multi-stage exploit sequence synthesis, MITRE ATT&CK mapping, critical defensive chokepoints, and Mermaid diagram generation
+- **CVE Threat Intelligence & EPSS Scoring**: Real-time CVE metadata, EPSS exploit probability prediction, CISA KEV active exploitation tracking, and CVSS v3.1 vector analysis
 - **Machine Learning**: Pattern recognition, anomaly detection, behavioral analysis
 - **Zero-Day Detection**: ML-powered vulnerability discovery and correlation
-- **Risk Intelligence**: CVSS scoring, impact assessment, exploit prioritization
-- **Automated Reporting**: Executive summaries, technical details, compliance mapping
+- **Risk Intelligence**: CVSS scoring, compound risk calculation, exploit prioritization
+- **Automated Reporting**: Executive summaries, technical details, remediation roadmaps, compliance mapping
 
 ### 🛡️ Advanced SOC Analysis & SIEM Integration
 - **Advanced SOC Engine**: Multi-format log parser/normalizer, IOC extraction, MITRE ATT&CK technique mapping
@@ -400,6 +402,18 @@ python3 advance_hackpilot.py --voice
 # "Show compliance dashboard"
 # "Generate executive report"
 # "Scale worker pool to 10"
+```
+
+### 5. Threat Intelligence & Automated Attack Graph Chaining
+```bash
+# Look up CVE threat intelligence & EPSS exploit probability
+python3 advance_hackpilot.py --cve-lookup CVE-2021-44228
+
+# Synthesize automated multi-stage attack graph and identify defensive chokepoints
+python3 advance_hackpilot.py --attack-chain
+
+# Export Mermaid flowchart syntax for visualization in documentation & PRs
+python3 advance_hackpilot.py --mermaid
 ```
 
 ## 🔐 Enterprise Security
