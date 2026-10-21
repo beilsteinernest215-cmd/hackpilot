@@ -180,7 +180,7 @@ HackPilot has been successfully transformed from a basic pentesting tool into a 
 ## 🔗 Connect with Developer & Founder
 Yashab Alam
 - **Instagram**: [https://www.instagram.com/yashabcyber](https://www.instagram.com/yashabcyber)
-- **X (Twitter)**: [https://x.com/Yashab_cyber](https://x.com/Yashab_cyber)
+- **X (Twitter)**: [https://x.com/_gh0st0fs0l](https://x.com/_gh0st0fs0l)
 - **LinkedIn**: [https://www.linkedin.com/in/yashab-alam](https://www.linkedin.com/in/yashab-alam)
 - **Threads**: [https://www.threads.com/@yashabcyber](https://www.threads.com/@yashabcyber)
 - **Discord**: [https://discord.gg/eXPjM3Hxwb](https://discord.gg/eXPjM3Hxwb)

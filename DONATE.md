@@ -191,7 +191,7 @@ All payment methods are verified and legitimate. For security concerns:
 ### 👨‍💻 **Connect with Yashab Alam**
 - 💻 **GitHub:** [@yashab-cyber](https://github.com/yashab-cyber)
 - 📸 **Instagram:** [@yashabcyber](https://www.instagram.com/yashabcyber)
-- 🐦 **X (Twitter):** [@Yashab_cyber](https://x.com/Yashab_cyber)
+- 🐦 **X (Twitter):** [@_gh0st0fs0l](https://x.com/_gh0st0fs0l)
 - 💼 **LinkedIn:** [Yashab Alam](https://www.linkedin.com/in/yashab-alam)
 - 🧵 **Threads:** [@yashabcyber](https://www.threads.com/@yashabcyber)
 - 📧 **Emails:** [yashabalam9@gmail.com](mailto:yashabalam9@gmail.com) | [yashabalam707@gmail.com](mailto:yashabalam707@gmail.com)

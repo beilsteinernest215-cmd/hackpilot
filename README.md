@@ -777,7 +777,7 @@ HackPilot Enterprise is designed for authorized security testing only:
     <strong>Founder & Lead Developer:</strong> Yashab Alam<br>
     <a href="https://github.com/yashab-cyber">🔧 GitHub</a> |
     <a href="https://www.instagram.com/yashabcyber">📸 Instagram</a> |
-    <a href="https://x.com/Yashab_cyber">🐦 X (Twitter)</a> |
+    <a href="https://x.com/_gh0st0fs0l">🐦 X (Twitter)</a> |
     <a href="https://www.linkedin.com/in/yashab-alam">💼 LinkedIn</a> |
     <a href="https://www.threads.com/@yashabcyber">🧵 Threads</a>
   </p>

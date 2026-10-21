@@ -14,7 +14,7 @@ Thank you to all the amazing people who have contributed to making HackPilot Ent
 - 🏢 **Role**: Founder, CEO & Lead Developer
 - 🏛️ **Company**: HackPilot
 - 💡 **Contributions**: Project architecture, AI integration, security frameworks, enterprise features
-- 🌐 **Connect**: [LinkedIn](https://linkedin.com/in/yashab-alam) | [Instagram](https://instagram.com/yashabcyber) | [X (Twitter)](https://x.com/Yashab_cyber) | [Threads](https://www.threads.com/@yashabcyber) | [Email](mailto:yashabalam9@gmail.com)
+- 🌐 **Connect**: [LinkedIn](https://linkedin.com/in/yashab-alam) | [Instagram](https://instagram.com/yashabcyber) | [X (Twitter)](https://x.com/_gh0st0fs0l) | [Threads](https://www.threads.com/@yashabcyber) | [Email](mailto:yashabalam9@gmail.com)
 - 🎯 **Specialties**: AI/ML, Cybersecurity, Penetration Testing, Enterprise Architecture
 
 
@@ -247,7 +247,7 @@ Thank you to all the amazing people who have contributed to making HackPilot Ent
 ### 🌐 Social Media
 - **LinkedIn**: [Yashab Alam](https://linkedin.com/in/yashab-alam)
 - **Instagram**: [@yashabcyber](https://instagram.com/yashabcyber)
-- **Twitter/X**: [@Yashab_cyber](https://x.com/Yashab_cyber)
+- **Twitter/X**: [@_gh0st0fs0l](https://x.com/_gh0st0fs0l)
 - **Threads**: [@yashabcyber](https://www.threads.com/@yashabcyber)
 
 ## 📈 Contribution Guidelines
