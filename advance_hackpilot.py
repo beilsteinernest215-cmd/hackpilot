@@ -3,7 +3,7 @@
 """
 HackPilot - Enterprise AI-Powered Penetration Testing Platform
 Author: HackPilot Team
-Version: 2026.10.22 (Production-Ready)
+Version: 2026.10.22.1 (Production-Ready)
 Description: Enterprise-grade pentesting automation platform with advanced AI, microservices architecture,
             and cloud-native capabilities for professional security assessments.
 
@@ -86,11 +86,13 @@ try:
         CVEIntelligenceEngine,
         AttackChainingEngine,
         AttackGraph,
+        LLMRedTeamEngine,
     )
     from security import (
         EnterpriseAuth, ComplianceFrameworkMapper, get_soc_analyzer,
         SIEMConnectorManager, SplunkConnector, QRadarConnector,
-        ElasticsearchConnector, WebhookConnector, SIEMConnectorType
+        ElasticsearchConnector, WebhookConnector, SIEMConnectorType,
+        APISecurityScanner,
     )
     from exploitation import AdvancedExploitationEngine, ZeroDayDetector
     from reporting import DynamicReportGenerator, get_realtime_dashboard
@@ -211,7 +213,7 @@ BANNER = """
     ██║  ██║██║  ██║╚██████╗██║  ██╗██║     ██║███████╗╚██████╔╝   ██║   
     ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝ ╚═════╝    ╚═╝   
 [/bold red]
-[bold cyan]      Enterprise AI-Powered Penetration Testing Platform v2026.10.22[/bold cyan]
+[bold cyan]      Enterprise AI-Powered Penetration Testing Platform v2026.10.22.1[/bold cyan]
 [bold green]        Production-Ready | Cloud-Native | AI-Enhanced[/bold green]
 [dim]                    Advanced Security Assessment Platform[/dim]
 """
@@ -246,6 +248,8 @@ class EnterpriseHackPilot:
         self.db = None
         self.soc_analyzer = None
         self.siem_manager = None
+        self.llm_red_team = None
+        self.api_scanner = None
         
         try:
             # Database
@@ -368,15 +372,23 @@ class EnterpriseHackPilot:
                 try:
                     self.cve_intel = CVEIntelligenceEngine()
                     self.attack_chainer = AttackChainingEngine()
+                    self.llm_red_team = LLMRedTeamEngine()
+                    self.api_scanner = APISecurityScanner()
                     self.console.print("[green]✓[/green] CVE Threat Intelligence Engine initialized")
                     self.console.print("[green]✓[/green] Automated Attack Graph Chainer initialized")
+                    self.console.print("[green]✓[/green] AI Red Teaming & LLM Security Engine initialized")
+                    self.console.print("[green]✓[/green] API Security & OpenAPI Scanner initialized")
                 except Exception as e:
                     self.cve_intel = None
                     self.attack_chainer = None
-                    self.console.print(f"[yellow]⚠[/yellow] Threat intelligence engines unavailable: {e}")
+                    self.llm_red_team = None
+                    self.api_scanner = None
+                    self.console.print(f"[yellow]⚠[/yellow] Threat intelligence / Red Team / API Scanner unavailable: {e}")
             else:
                 self.cve_intel = None
                 self.attack_chainer = None
+                self.llm_red_team = None
+                self.api_scanner = None
             
         except Exception as e:
             self.logger.error(f"Error initializing components: {e}")
@@ -490,7 +502,9 @@ class EnterpriseHackPilot:
             ("Cloud Services", "✓ Ready" if self.docker_manager else "⚠ Not Available", "Docker+K8s"),
             ("Compliance", "✓ Integrated" if self.compliance else "⚠ Manual", "OWASP+NIST"),
             ("Real-time Dashboard", "✓ Active" if self.realtime_dashboard else "⚠ Disabled", "WebSocket"),
-            ("SOC Analysis", "✓ Active" if self.soc_analyzer else "⚠ Disabled", "ATT&CK+Rules")
+            ("SOC Analysis", "✓ Active" if self.soc_analyzer else "⚠ Disabled", "ATT&CK+Rules"),
+            ("AI Red Teaming", "✓ Active" if self.llm_red_team else "⚠ Disabled", "OWASP LLM v2026"),
+            ("API Scanner", "✓ Active" if self.api_scanner else "⚠ Disabled", "OWASP API Top 10")
         ]
         
         for name, status, version in components:
@@ -523,6 +537,8 @@ class EnterpriseHackPilot:
             ("15", "Web", "Launch Web Dashboard"),
             ("16", "SOC", "Advanced SOC Analysis"),
             ("17", "AI & Intel", "Threat Intel & Attack Graph Chaining"),
+            ("18", "AI Red Team", "AI Red Teaming & LLM Assessment (OWASP Top 10)"),
+            ("19", "API Security", "API Security Assessment & OpenAPI Audit"),
             ("0", "System", "Exit Application")
         ]
         
@@ -829,7 +845,7 @@ class EnterpriseHackPilot:
         def health_check():
             return jsonify({
                 "status": "healthy",
-                "version": "2026.10.22",
+                "version": "2026.10.22.1",
                 "timestamp": datetime.utcnow().isoformat()
             })
 
@@ -1730,6 +1746,9 @@ class EnterpriseHackPilot:
             ("2", "Automated Attack Graph & Chaining (Sample Scenario)"),
             ("3", "Generate Mermaid Attack Graph Diagram"),
             ("4", "CISA KEV (Known Exploited Vulnerabilities) Triage"),
+            ("5", "MITRE D3FEND Countermeasure Defense Matrix"),
+            ("6", "Export Detection-as-Code (Sigma Rules & Splunk SPL)"),
+            ("7", "Generate Automated Hardening Playbooks (Ansible & Bash)"),
             ("0", "Return to Main Menu")
         ]
 
@@ -1749,6 +1768,12 @@ class EnterpriseHackPilot:
             self.attack_chain_analysis(sample_mode=True, mermaid_only=True)
         elif choice == "4":
             self.cisa_kev_triage()
+        elif choice == "5":
+            self.show_d3fend_matrix()
+        elif choice == "6":
+            self.export_sigma_detection_rules()
+        elif choice == "7":
+            self.generate_remediation_playbooks()
 
     def cve_intelligence_lookup(self, query=None):
         """Look up CVE threat intelligence with CVSS, EPSS, and KEV metrics."""
@@ -1946,6 +1971,277 @@ class EnterpriseHackPilot:
         self.console.print(table)
         self.console.print("[bold red]Note: Any asset matching CISA KEV vulnerabilities must be prioritized for emergency patching.[/bold red]\n")
 
+    def _get_sample_findings(self):
+        """Standard high-impact multi-stage enterprise assessment findings."""
+        return [
+            {
+                "id": "vuln-01",
+                "title": "Apache Path Traversal and File Read",
+                "cve": "CVE-2021-41773",
+                "category": "web",
+                "severity": "high",
+                "target": "web.internal.corp",
+                "description": "Path traversal allowing arbitrary file disclosure and potential RCE."
+            },
+            {
+                "id": "vuln-02",
+                "title": "Log4Shell JNDI Remote Code Execution",
+                "cve": "CVE-2021-44228",
+                "category": "web",
+                "severity": "critical",
+                "target": "api.internal.corp",
+                "description": "Remote code execution via unauthenticated JNDI LDAP lookup."
+            },
+            {
+                "id": "vuln-03",
+                "title": "Polkit PwnKit Local Privilege Escalation",
+                "cve": "CVE-2021-4034",
+                "category": "system",
+                "severity": "high",
+                "target": "api.internal.corp",
+                "description": "Local privilege escalation to root via pkexec."
+            },
+            {
+                "id": "vuln-04",
+                "title": "Exposed Kerberos Ticket Hashes in Memory",
+                "category": "system",
+                "severity": "high",
+                "target": "dc01.internal.corp",
+                "description": "Credential access via LSASS memory dumping."
+            },
+            {
+                "id": "vuln-05",
+                "title": "SMB Lateral Pivot via Pass-the-Hash",
+                "category": "network",
+                "severity": "critical",
+                "target": "finance-sql.internal.corp",
+                "description": "Lateral movement across segmented enterprise network."
+            }
+        ]
+
+    def show_d3fend_matrix(self, findings=None):
+        """Map synthesized attack paths to official MITRE D3FEND defensive countermeasures."""
+        if not self.attack_chainer:
+            self.console.print("[red]Attack Chaining Engine is not initialized.[/red]")
+            return
+
+        findings = findings or self._get_sample_findings()
+        if self.cve_intel:
+            findings = self.cve_intel.enrich_findings(findings)
+
+        graph = self.attack_chainer.synthesize_attack_graph(findings)
+        d3fend_items = graph.to_d3fend_matrix()
+
+        table = Table(title="🛡️ MITRE D3FEND Defensive Countermeasure Matrix", show_header=True)
+        table.add_column("D3FEND ID", style="bold cyan")
+        table.add_column("Countermeasure Name", style="white")
+        table.add_column("Tactic", style="yellow")
+        table.add_column("Target Technique", style="bold red")
+        table.add_column("Strength", style="green")
+        table.add_column("Implementation Guidance", style="dim white")
+
+        for item in d3fend_items:
+            table.add_row(
+                item["d3fend_id"],
+                item["d3fend_name"],
+                item["defensive_tactic"],
+                item["mitre_technique"],
+                f"{item['mitigation_strength'] * 100:.0f}%",
+                item["description"][:55] + ("..." if len(item["description"]) > 55 else "")
+            )
+
+        self.console.print(table)
+
+    def export_sigma_detection_rules(self, findings=None):
+        """Generate and display Detection-as-Code Sigma Rules & Splunk SPL queries."""
+        if not self.attack_chainer:
+            self.console.print("[red]Attack Chaining Engine is not initialized.[/red]")
+            return
+
+        findings = findings or self._get_sample_findings()
+        graph = self.attack_chainer.synthesize_attack_graph(findings)
+        rules = graph.export_sigma_rules()
+
+        table = Table(title="🔍 Detection-as-Code: Sigma Rules & SIEM Queries", show_header=True)
+        table.add_column("Rule ID", style="cyan")
+        table.add_column("Threat Target", style="white")
+        table.add_column("ATT&CK Tech", style="bold red")
+        table.add_column("Stage", style="magenta")
+        table.add_column("Splunk SPL Query", style="yellow")
+
+        for r in rules:
+            table.add_row(
+                r["rule_id"][:12] + "...",
+                r["label"][:35],
+                r["technique"],
+                r["stage"],
+                r["splunk_spl"][:60] + ("..." if len(r["splunk_spl"]) > 60 else "")
+            )
+
+        self.console.print(table)
+        if rules:
+            self.console.print(Panel(rules[0]["sigma_yaml"], title=f"[bold green]Sample Sigma YAML Rule ({rules[0]['label']})[/bold green]"))
+
+    def generate_remediation_playbooks(self, findings=None):
+        """Generate automated Ansible and Bash remediation playbooks for defensive chokepoints."""
+        if not self.attack_chainer:
+            self.console.print("[red]Attack Chaining Engine is not initialized.[/red]")
+            return
+
+        findings = findings or self._get_sample_findings()
+        graph = self.attack_chainer.synthesize_attack_graph(findings)
+        ansible_code = graph.generate_ansible_playbook()
+        bash_code = graph.generate_hardening_script()
+
+        self.console.print(Panel(ansible_code, title="[bold green]Automated Remediation Ansible Playbook (YAML)[/bold green]"))
+        self.console.print(Panel(bash_code, title="[bold cyan]Automated Defense Hardening Script (Bash)[/bold cyan]"))
+
+    def run_llm_red_team(self, model_id=None, mock=False):
+        """Execute AI Red Teaming & LLM Security Assessment against OWASP Top 10 for LLMs."""
+        if not self.llm_red_team:
+            self.console.print("[red]AI Red Teaming Engine is not initialized.[/red]")
+            return
+
+        target_model = model_id or self.model_id or "gpt-4o"
+        self.console.print(Panel(
+            f"[bold cyan]AI Red Teaming & LLM Security Assessment[/bold cyan]\n"
+            f"Target Model: [bold yellow]{target_model}[/bold yellow] | Framework: [bold green]OWASP Top 10 for LLM Applications (2025/2026)[/bold green]\n"
+            "Testing adversarial prompt injection, jailbreaks, output handling, excessive agency, and sensitive disclosure."
+        ))
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=self.console
+        ) as progress:
+            task = progress.add_task("[cyan]Executing adversarial red team probes...", total=100)
+            if mock or not config.OPENAI_API_KEY:
+                report = self.llm_red_team.scan_mock(simulate_safe=True)
+            else:
+                provider_inst = getattr(self.ai_engine, "active_provider", None) if hasattr(self, "ai_engine") else None
+                report = self.llm_red_team.scan_model(model_id=target_model, provider_instance=provider_inst)
+            progress.update(task, completed=100)
+
+        # Print Scorecard
+        score_color = "bold green" if report.robustness_score >= 85 else "bold yellow" if report.robustness_score >= 65 else "bold red"
+        scorecard = Table(title="🎯 AI Red Teaming Robustness Scorecard", show_header=True)
+        scorecard.add_column("Target Model", style="cyan")
+        scorecard.add_column("Probes Tested", style="white")
+        scorecard.add_column("Vulnerabilities", style="bold red")
+        scorecard.add_column("Robustness Score", style=score_color)
+        scorecard.add_column("Risk Grade", style=score_color)
+
+        scorecard.add_row(
+            report.target_model,
+            str(report.total_probes),
+            str(report.vulnerabilities_detected),
+            f"{report.robustness_score:.1f}%",
+            report.risk_grade
+        )
+        self.console.print(scorecard)
+
+        # Print Category Breakdown
+        cat_table = Table(title="📊 OWASP LLM Category Breakdown", show_header=True)
+        cat_table.add_column("OWASP LLM Category", style="cyan")
+        cat_table.add_column("Probes", style="white")
+        cat_table.add_column("Violations", style="bold red")
+        cat_table.add_column("Pass Rate", style="green")
+
+        for cat_name, cat_data in report.category_breakdown.items():
+            if cat_data["probes_tested"] > 0:
+                pass_rate = cat_data["pass_rate_pct"]
+                pr_color = "green" if pass_rate >= 80 else "yellow" if pass_rate >= 50 else "red"
+                cat_table.add_row(
+                    cat_name,
+                    str(cat_data["probes_tested"]),
+                    str(cat_data["vulnerabilities"]),
+                    f"[{pr_color}]{pass_rate:.1f}%[/{pr_color}]"
+                )
+        self.console.print(cat_table)
+
+        # Print Recommendations & Guardrails
+        if report.hardening_recommendations:
+            rec_panel = "\n".join([f"• {r}" for r in report.hardening_recommendations])
+            self.console.print(Panel(rec_panel, title="[bold yellow]Strategic Hardening Directives[/bold yellow]"))
+
+        self.console.print(Panel(
+            report.system_prompt_guardrails[:600] + "\n... [truncated]",
+            title="[bold green]Compiled System Prompt Defensive Guardrails[/bold green]"
+        ))
+
+    def run_api_security_scan(self, spec_input=None, mock=False):
+        """Execute API Security & OpenAPI Audit against OWASP API Security Top 10."""
+        if not self.api_scanner:
+            self.console.print("[red]API Security Scanner is not initialized.[/red]")
+            return
+
+        self.console.print(Panel(
+            "[bold cyan]API Security Assessment & OpenAPI / Swagger Auditor[/bold cyan]\n"
+            "Framework: [bold green]OWASP API Security Top 10 (2023-2026)[/bold green]\n"
+            "Auditing BOLA / IDOR, Broken Authentication, Mass Assignment (BOPLA), BFLA, SSRF, and Misconfigurations."
+        ))
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=self.console
+        ) as progress:
+            task = progress.add_task("[cyan]Analyzing OpenAPI endpoints & schemas...", total=100)
+            if spec_input:
+                report = self.api_scanner.scan_spec(spec_input)
+            else:
+                report = self.api_scanner.scan_mock()
+            progress.update(task, completed=100)
+
+        # Print Scorecard
+        score_color = "bold green" if report.security_score >= 80 else "bold yellow" if report.security_score >= 60 else "bold red"
+        scorecard = Table(title="🛡️ API Security Scorecard", show_header=True)
+        scorecard.add_column("API Title", style="cyan")
+        scorecard.add_column("Version", style="yellow")
+        scorecard.add_column("Endpoints Scanned", style="white")
+        scorecard.add_column("Findings", style="bold red")
+        scorecard.add_column("Security Score", style=score_color)
+        scorecard.add_column("Risk Rating", style=score_color)
+
+        scorecard.add_row(
+            report.api_title,
+            report.api_version,
+            str(report.endpoints_scanned),
+            f"{report.total_findings} (Crit: {report.critical_count}, High: {report.high_count})",
+            f"{report.security_score:.1f}/100",
+            report.risk_rating
+        )
+        self.console.print(scorecard)
+
+        # Print Findings Table
+        if report.findings:
+            find_table = Table(title="⚠️ Detected API Security Vulnerabilities", show_header=True)
+            find_table.add_column("ID", style="cyan")
+            find_table.add_column("Title", style="white")
+            find_table.add_column("Method", style="magenta")
+            find_table.add_column("Endpoint", style="bold yellow")
+            find_table.add_column("Severity", style="bold red")
+            find_table.add_column("CVSS", style="bold red")
+            find_table.add_column("Remediation", style="green")
+
+            for f in report.findings[:8]:
+                sev_color = "bold red" if f.severity in ("critical", "high") else "yellow"
+                find_table.add_row(
+                    f.finding_id[:16],
+                    f.title[:30],
+                    f.http_method,
+                    f.endpoint[:28],
+                    f"[{sev_color}]{f.severity.upper()}[/{sev_color}]",
+                    f"{f.cvss_score:.1f}",
+                    f.remediation[:45] + ("..." if len(f.remediation) > 45 else "")
+                )
+            self.console.print(find_table)
+
+        # Print Recommendations
+        if report.hardening_recommendations:
+            rec_text = "\n".join([f"• {r}" for r in report.hardening_recommendations])
+            self.console.print(Panel(rec_text, title="[bold yellow]API Hardening Recommendations[/bold yellow]"))
+
     def run(self):
         """Main application loop"""
         self.show_banner()
@@ -1954,7 +2250,7 @@ class EnterpriseHackPilot:
             try:
                 self.show_main_menu()
                 choice = Prompt.ask("[cyan]Select option[/cyan]", 
-                                  choices=[str(i) for i in range(18)])
+                                  choices=[str(i) for i in range(20)])
                 
                 if choice == "0":
                     self.console.print("[green]Shutting down HackPilot Enterprise...[/green]")
@@ -1994,6 +2290,10 @@ class EnterpriseHackPilot:
                     self.run_soc_analysis()
                 elif choice == "17":
                     self.run_threat_intelligence_and_attack_chaining()
+                elif choice == "18":
+                    self.run_llm_red_team()
+                elif choice == "19":
+                    self.run_api_security_scan()
                     
             except KeyboardInterrupt:
                 self.console.print("\n[yellow]Use option 0 to exit properly[/yellow]")
@@ -2715,6 +3015,11 @@ def main():
     parser.add_argument('--cve-lookup', help='Lookup CVE threat intelligence by ID or search text (e.g. CVE-2021-44228)')
     parser.add_argument('--attack-chain', action='store_true', help='Synthesize and display automated multi-stage attack graph')
     parser.add_argument('--mermaid', action='store_true', help='Output Mermaid flowchart diagram for synthesized attack graph')
+    parser.add_argument('--llm-redteam', action='store_true', help='Run AI Red Teaming & LLM vulnerability assessment (OWASP Top 10 for LLMs)')
+    parser.add_argument('--api-scan', nargs='?', const='mock', help='Run API Security assessment on OpenAPI spec path or run benchmark scan')
+    parser.add_argument('--export-sigma', action='store_true', help='Export Detection-as-Code Sigma rules and Splunk SPL queries')
+    parser.add_argument('--export-ansible', action='store_true', help='Generate automated Ansible remediation playbooks')
+    parser.add_argument('--d3fend-matrix', action='store_true', help='Display MITRE D3FEND defensive countermeasure matrix')
     
     args = parser.parse_args()
     
@@ -2746,6 +3051,30 @@ def main():
     elif args.attack_chain or args.mermaid:
         hackpilot.show_banner()
         hackpilot.attack_chain_analysis(sample_mode=True, mermaid_only=args.mermaid)
+        return
+    elif args.llm_redteam:
+        hackpilot.show_banner()
+        hackpilot.run_llm_red_team(mock=(not bool(config.OPENAI_API_KEY)))
+        return
+    elif args.api_scan:
+        hackpilot.show_banner()
+        spec_content = None
+        if args.api_scan != 'mock' and os.path.exists(args.api_scan):
+            with open(args.api_scan, 'r', encoding='utf-8') as f:
+                spec_content = f.read()
+        hackpilot.run_api_security_scan(spec_input=spec_content)
+        return
+    elif args.export_sigma:
+        hackpilot.show_banner()
+        hackpilot.export_sigma_detection_rules()
+        return
+    elif args.export_ansible:
+        hackpilot.show_banner()
+        hackpilot.generate_remediation_playbooks()
+        return
+    elif args.d3fend_matrix:
+        hackpilot.show_banner()
+        hackpilot.show_d3fend_matrix()
         return
     elif args.api:
         hackpilot.start_api_server()

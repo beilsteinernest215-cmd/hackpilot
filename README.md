@@ -16,7 +16,7 @@
   <p>
     <img src="https://img.shields.io/badge/Architecture-Microservices-red.svg" alt="Microservices">
     <img src="https://img.shields.io/badge/Cloud-Docker%20%7C%20Kubernetes-lightblue.svg" alt="Cloud Native">
-    <img src="https://img.shields.io/badge/Version-2026.10.22-success.svg" alt="Version 2026.10.22">
+    <img src="https://img.shields.io/badge/Version-2026.10.22.1-success.svg" alt="Version 2026.10.22.1">
     <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg" alt="Production Ready">
     <a href="https://discord.gg/eXPjM3Hxwb"><img src="https://img.shields.io/badge/Discord-Join%20Server-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord Server"></a>
   </p>
@@ -39,7 +39,21 @@
 - **Machine Learning**: Pattern recognition, anomaly detection, behavioral analysis
 - **Zero-Day Detection**: ML-powered vulnerability discovery and correlation
 - **Risk Intelligence**: CVSS scoring, compound risk calculation, exploit prioritization
+- **MITRE D3FEND Countermeasure Defense Matrix**: Bi-directional mapping of synthesized attack paths directly to official MITRE D3FEND defensive countermeasures (WAF, Inbound Filtering, System Call Analysis, Least Privilege, Memory Hardening)
+- **Detection-as-Code & Sigma Rules Export**: Automated export of production-ready Sigma Rules (YAML) and Splunk SPL queries for detected adversary techniques
+- **Automated Remediation Playbooks**: Instant generation of Ansible Playbooks (YAML) and Bash Hardening scripts tailored to sever critical defensive chokepoints
 - **Automated Reporting**: Executive summaries, technical details, remediation roadmaps, compliance mapping
+
+### 🎯 AI Red Teaming & LLM Security Assessment (OWASP LLM Top 10)
+- **OWASP Top 10 for LLMs (2025/2026)**: Full coverage of Prompt Injection (Direct, Indirect, Delimiter Smuggling), Insecure Output Handling, Sensitive Information Disclosure (PII, API keys), Model DoS, and Excessive Agency
+- **Adversarial Evaluation Probes**: Library of 25+ real-world probe tests evaluating jailbreaks, roleplay escapes, and meta-prompt extraction
+- **Robustness Scoring & Risk Grading**: Automated calculation of robustness percentage (0-100%) and letter grades (A+, A, B, C, F)
+- **System Prompt Defensive Guardrails**: Automated compilation of customized defensive system prompts neutralizing identified injection vectors
+
+### 🛡️ Enterprise API Security & OpenAPI Auditor (OWASP API Top 10)
+- **OWASP API Security Top 10 (2023-2026)**: Deep contract and schema inspection covering BOLA/IDOR (API1), Broken Authentication (API2), Mass Assignment/BOPLA (API3), Unrestricted Resource Consumption (API4), BFLA (API5), Sensitive Business Flows (API6), SSRF (API7), Misconfigurations (API8), and Shadow/Deprecated APIs (API9)
+- **OpenAPI & Swagger Support**: Seamless ingestion and analysis of OpenAPI v2, v3, and v3.1 definitions in JSON and YAML
+- **API Risk Scorecard & Remediation**: Detailed vulnerability findings with CVSS scores, remediation code snippets, and DTO whitelist recommendations
 
 ### 🛡️ Advanced SOC Analysis & SIEM Integration
 - **Advanced SOC Engine**: Multi-format log parser/normalizer, IOC extraction, MITRE ATT&CK technique mapping
@@ -414,6 +428,33 @@ python3 advance_hackpilot.py --attack-chain
 
 # Export Mermaid flowchart syntax for visualization in documentation & PRs
 python3 advance_hackpilot.py --mermaid
+
+# Display MITRE D3FEND defensive countermeasure matrix
+python3 advance_hackpilot.py --d3fend-matrix
+
+# Export Detection-as-Code (Sigma Rules YAML & Splunk SPL queries)
+python3 advance_hackpilot.py --export-sigma
+
+# Generate automated Ansible & Bash hardening playbooks
+python3 advance_hackpilot.py --export-ansible
+```
+
+### 6. AI Red Teaming & LLM Security Assessment (OWASP LLM Top 10)
+```bash
+# Execute automated adversarial red team probes against configured LLM model
+python3 advance_hackpilot.py --llm-redteam
+
+# Test specific model endpoint with custom route
+python3 advance_hackpilot.py --llm-redteam --model gpt-4o --custom-route http://localhost:8080/v1
+```
+
+### 7. API Security Assessment & OpenAPI Audit (OWASP API Top 10)
+```bash
+# Execute API Security scan using benchmark microservice spec
+python3 advance_hackpilot.py --api-scan
+
+# Audit custom OpenAPI / Swagger spec file (JSON or YAML)
+python3 advance_hackpilot.py --api-scan path/to/openapi.yaml
 ```
 
 ## 🔐 Enterprise Security

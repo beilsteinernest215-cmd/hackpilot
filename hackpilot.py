@@ -225,10 +225,12 @@ class Config:
 config = Config()
 
 # Setup logging
+log_dir = Path("logs")
+log_dir.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=getattr(logging, config.LOG_LEVEL),
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("logs/hackpilot.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler(log_dir / "hackpilot.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger("hackpilot")
 

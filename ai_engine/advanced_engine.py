@@ -52,15 +52,11 @@ except ImportError as e:
     openai = None
     logging.warning(f"openai not available: {e}")
 
-try:
-    from transformers import pipeline, AutoTokenizer, AutoModel
-    import torch
-except ImportError as e:
-    pipeline = None
-    AutoTokenizer = None
-    AutoModel = None
-    torch = None
-    logging.warning(f"transformers or torch not available: {e}")
+# Lazy-load transformers and torch on demand to eliminate heavy module startup latency
+pipeline = None
+AutoTokenizer = None
+AutoModel = None
+torch = None
 
 try:
     from sklearn.feature_extraction.text import TfidfVectorizer
@@ -531,13 +527,19 @@ class AdvancedAIEngine:
         
         # Final fallback: local models
         self.local_mode = True
-        self.logger.info("Setting up local AI models...")
-        self._setup_local_models()
+        self.local_analyzer = None
+        self._local_analyzer_failed = False
+        self.logger.info("Configured for local AI models fallback")
     
     def _setup_local_models(self):
         """Setup local AI models"""
+        if getattr(self, "_local_analyzer_failed", False):
+            return
         try:
-            # Try to use a local model or Hugging Face transformers
+            # Try to use a local model or Hugging Face transformers on demand
+            global pipeline
+            if pipeline is None:
+                from transformers import pipeline
             self.local_analyzer = pipeline(
                 "text-classification", 
                 model="distilbert-base-uncased-finetuned-sst-2-english",
@@ -547,6 +549,7 @@ class AdvancedAIEngine:
         except Exception as e:
             self.logger.warning(f"Could not setup local AI models: {e}")
             self.local_analyzer = None
+            self._local_analyzer_failed = True
     
     def analyze_with_context(self, data: str, phase: str, context_type: str = "general") -> AnalysisResult:
         """Perform context-aware analysis"""
@@ -676,6 +679,8 @@ Format your response as clear, actionable insights for penetration testers.
     def _analyze_local(self, prompt: str) -> str:
         """Analyze using local models"""
         try:
+            if self.local_analyzer is None and not getattr(self, "_local_analyzer_failed", False):
+                self._setup_local_models()
             if self.local_analyzer:
                 # This is a simplified local analysis - in production you'd use a more sophisticated model
                 sentiment = self.local_analyzer(prompt[:512])[0]
@@ -971,3 +976,27 @@ Format your response as clear, actionable insights for penetration testers.
             return {"total_kev_count": 0, "requires_immediate_action": False, "vulnerabilities": []}
         enriched = self.enrich_with_cve_intelligence(findings)
         return self.cve_intelligence.get_cisa_kev_summary(enriched)
+
+    def get_d3fend_countermeasures(self, vulnerabilities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Map synthesized attack paths to official MITRE D3FEND defensive countermeasures."""
+        graph = self.build_attack_graph(vulnerabilities)
+        if graph and hasattr(graph, 'to_d3fend_matrix'):
+            return graph.to_d3fend_matrix()
+        return []
+
+    def export_sigma_rules(self, vulnerabilities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Generate Detection-as-Code Sigma Rules and Splunk SPL queries for detected attack paths."""
+        graph = self.build_attack_graph(vulnerabilities)
+        if graph and hasattr(graph, 'export_sigma_rules'):
+            return graph.export_sigma_rules()
+        return []
+
+    def generate_remediation_playbooks(self, vulnerabilities: List[Dict[str, Any]]) -> Dict[str, str]:
+        """Generate automated Ansible and Bash remediation playbooks for critical defensive chokepoints."""
+        graph = self.build_attack_graph(vulnerabilities)
+        if graph and hasattr(graph, 'generate_ansible_playbook') and hasattr(graph, 'generate_hardening_script'):
+            return {
+                "ansible": graph.generate_ansible_playbook(),
+                "bash": graph.generate_hardening_script()
+            }
+        return {"ansible": "", "bash": ""}

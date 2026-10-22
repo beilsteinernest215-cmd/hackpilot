@@ -16,6 +16,10 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+# Ensure we operate from repository root directory
+SCRIPT_DIR="$(cd -- "$(case "${BASH_SOURCE[0]}" in */*) echo "${BASH_SOURCE[0]%/*}" ;; *) echo "." ;; esac)" >/dev/null 2>&1 && pwd)"
+cd "$SCRIPT_DIR"
+
 # Logging function
 log() {
     echo -e "${GREEN}[$(date +'%Y-%m-%d %H:%M:%S')]${NC} $1"
@@ -36,7 +40,15 @@ info() {
 INSTALL_CONTEXT="${HACKPILOT_INSTALL_CONTEXT:-host}"
 case "$INSTALL_CONTEXT" in
     host)
-        ROOT=(sudo)
+        if [ "$(id -u)" -eq 0 ]; then
+            ROOT=()
+        elif command -v sudo >/dev/null 2>&1; then
+            ROOT=(sudo)
+        else
+            error "'sudo' command not found and script is not running as root."
+            error "Please install 'sudo' or run this script as root."
+            exit 1
+        fi
         ;;
     container)
         ROOT=()
@@ -66,6 +78,11 @@ echo
 
 # Update package metadata. A full host upgrade remains an explicit host-install action;
 # container images should be reproducible from their declared base image instead.
+if ! command -v apt-get >/dev/null 2>&1; then
+    error "'apt-get' package manager not found. HackPilot installation requires a Debian/Ubuntu/Kali-based system."
+    exit 1
+fi
+
 echo "[+] Updating system packages..."
 run_root apt-get update
 if [ "$INSTALL_CONTEXT" = "host" ]; then
@@ -78,7 +95,26 @@ fi
 # Keep the historical host installer behavior unchanged for direct installations.
 if [ "$INSTALL_CONTEXT" = "host" ]; then
     echo "[+] Installing Python dependencies..."
-    pip install -r requirements.txt --break-system-packages
+    PIP_CMD=""
+    if command -v pip3 >/dev/null 2>&1; then
+        PIP_CMD="pip3"
+    elif command -v pip >/dev/null 2>&1; then
+        PIP_CMD="pip"
+    elif command -v python3 >/dev/null 2>&1; then
+        PIP_CMD="python3 -m pip"
+    fi
+
+    if [ -n "$PIP_CMD" ]; then
+        BREAK_FLAG=""
+        if [ -z "$VIRTUAL_ENV" ]; then
+            if $PIP_CMD install --help 2>&1 | grep -q -- '--break-system-packages'; then
+                BREAK_FLAG="--break-system-packages"
+            fi
+        fi
+        $PIP_CMD install -r requirements.txt $BREAK_FLAG || warn "Some Python packages failed to install"
+    else
+        warn "pip/pip3 not found. Please install Python dependencies manually: pip install -r requirements.txt"
+    fi
 else
     info "Container install: Python dependencies are provided by the Docker requirements layer"
 fi
@@ -122,7 +158,7 @@ run_root apt-get install -y \
 # image builds impossible. The Workbench remains usable in deterministic no-AI mode.
 if [ "$INSTALL_CONTEXT" = "host" ]; then
     echo "[+] Installing ollama for local AI support..."
-    curl -fsSL https://ollama.ai/install.sh | sh
+    curl -fsSL https://ollama.ai/install.sh | sh || warn "Failed to install Ollama - you can install it manually from https://ollama.com"
 
     echo "[+] Starting ollama service..."
     ollama serve &
@@ -194,17 +230,14 @@ EOF
 fi
 
 # Make scripts executable
-chmod +x hackpilot.py hackpilot_v2.py install.sh usage_examples.sh test_installation.py
-[ -f hackpilot.py ] && chmod +x hackpilot.py || true
-[ -f hackpilot_v2.py ] && chmod +x hackpilot_v2.py || true
-[ -f advance_hackpilot.py ] && chmod +x advance_hackpilot.py || true
-[ -f advance_hackpilot.py ] && chmod +x advance_hackpilot.py || true
+for script in hackpilot.py hackpilot_v2.py advance_hackpilot.py demo.py install.sh usage_examples.sh test_installation.py; do
+    [ -f "$script" ] && chmod +x "$script" || true
+done
 
 # Host installs keep the historical global command. Container entrypoints are declared
 # by the image itself and do not need a host-style symlink.
 if [ "$INSTALL_CONTEXT" = "host" ]; then
     echo "[+] Creating global command..."
-    run_root ln -sf "$(pwd)/hackpilot.py" /usr/local/bin/hackpilot || warn "Failed to create global symlink"
     run_root ln -sf "$(pwd)/hackpilot.py" /usr/local/bin/hackpilot || warn "Failed to create global symlink"
 else
     info "Container install: using the Docker entrypoint instead of a global symlink"

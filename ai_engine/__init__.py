@@ -17,6 +17,13 @@ from .attack_chainer import (
     AttackEdge,
     AttackStage,
 )
+from .llm_red_team import (
+    LLMRedTeamEngine,
+    OWASPLLMCategory,
+    RedTeamProbe,
+    ProbeResult,
+    LLMRedTeamReport,
+)
 from .model_registry import (
     ModelProvider,
     ModelInfo,
@@ -69,6 +76,11 @@ __all__ = [
     "AttackNode",
     "AttackEdge",
     "AttackStage",
+    "LLMRedTeamEngine",
+    "OWASPLLMCategory",
+    "RedTeamProbe",
+    "ProbeResult",
+    "LLMRedTeamReport",
     "get_advanced_ai_engine",
     "ModelProvider",
     "ModelInfo",

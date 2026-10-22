@@ -35,6 +35,12 @@ from .soc_analysis import (
     WebhookConnector,
     SIEMConnectorManager,
 )
+from .api_scanner import (
+    APISecurityScanner,
+    OWASPAPICategory,
+    APIFinding,
+    APISecurityReport,
+)
 
 __all__ = [
     "EnterpriseAuth",
@@ -67,4 +73,8 @@ __all__ = [
     "ElasticsearchConnector",
     "WebhookConnector",
     "SIEMConnectorManager",
+    "APISecurityScanner",
+    "OWASPAPICategory",
+    "APIFinding",
+    "APISecurityReport",
 ]
