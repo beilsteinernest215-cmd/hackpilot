@@ -31,7 +31,7 @@
 ## 🏢 Enterprise Features
 
 ### 🤖 Advanced AI Engine — Multi-Provider Support & Threat Intelligence
-- **7 AI Providers**: OpenAI, Anthropic (Claude), Google (Gemini), DeepSeek, GLM (Zhipu), Local LLMs (Ollama), OpenRouter
+- **8 AI Providers**: OpenAI, Anthropic (Claude), Google (Gemini), DeepSeek, GLM (Zhipu), Local LLMs (Ollama), OpenRouter, OrcaRouter Cyber Inference
 - **26+ AI Models**: GPT-5, GPT-5.6, o3, o4-mini, Claude Sonnet 5, Opus 4.8, Gemini 3.5 Flash, 3.1 Pro, DeepSeek R1, and more
 - **Runtime Model Switching**: Change AI models on-the-fly with automatic provider fallback
 - **Automated Attack Graph Chaining**: Multi-stage exploit sequence synthesis, MITRE ATT&CK mapping, critical defensive chokepoints, and Mermaid diagram generation
@@ -288,6 +288,7 @@ GOOGLE_API_KEY=your_google_api_key
 DEEPSEEK_API_KEY=your_deepseek_api_key
 GLM_API_KEY=your_glm_api_key
 OPENROUTER_API_KEY=your_openrouter_api_key
+ORCAROUTER_API_KEY=your_orcarouter_api_key
 LOCAL_LLM_ENDPOINT=http://localhost:11434
 
 # Security
@@ -513,7 +514,6 @@ http://localhost:3000
 ### Multi-Provider AI Models
 ```python
 from ai_engine import get_advanced_ai_engine, list_all_models, get_available_providers
-
 # Initialize with a specific model
 engine = get_advanced_ai_engine(model_id='claude-sonnet-5')
 
@@ -529,6 +529,23 @@ for model in engine.list_available_models():
 for provider in get_available_providers():
     print(f"{provider['name']}: {provider['model_count']} models")
 ```
+
+### OrcaRouter Cyber Inference
+[OrcaRouter](https://www.orcarouter.ai) is an OpenAI-compatible gateway for authorized
+security teams. It routes scoped security reasoning to the OrcaCyber models and carries
+the gateway's blue-team controls on the same endpoint. Select the `orcarouter` provider
+(base URL `https://api.orcarouter.ai/v1`) and set `ORCAROUTER_API_KEY`, or
+`[ai] orcarouter_api_key` in `config.ini`.
+
+- Recommended default: `orca/orcacyber-ultra-1.0` (OrcaCyber Ultra); `orca/orcacyber-zero-1.5`
+  is the harness-driven alternative. Both require the cyber tier to be unlocked for
+  your workspace during business verification.
+- When the cyber tier is not unlocked, use `orcarouter/fusion`.
+- Provider page: https://www.orcarouter.ai/cyber
+- Cyber model catalog: https://www.orcarouter.ai/models?tier=cyber
+
+The dashboard's **AI Providers** view accepts the key and loads models from the live
+`GET https://api.orcarouter.ai/v1/models?capability=chat` catalog.
 
 ### Custom Compliance Frameworks
 ```python

@@ -46,6 +46,10 @@
                     <i class="fa-solid fa-terminal"></i>
                     <span>Live Console</span>
                 </a>
+                <a class="nav-item" data-view="ai-providers">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>AI Providers</span>
+                </a>
             </nav>
             
             <div class="sidebar-footer">
@@ -360,6 +364,84 @@
                     </div>
                 </section>
 
+                <!-- VIEW: AI Providers -->
+                <section class="view-section" id="view-ai-providers">
+                    <div class="table-card" style="max-width: 960px; margin: 0 auto;">
+                        <div class="table-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 25px;">
+                            <h3>AI Provider Configuration</h3>
+                        </div>
+
+                        <div class="cyber-form">
+                            <div class="form-group full-width">
+                                <label class="form-label" for="ai-provider-select">Provider</label>
+                                <select id="ai-provider-select" class="form-select" onchange="onProviderChanged()">
+                                    <option value="orcarouter">OrcaRouter Cyber Inference</option>
+                                </select>
+                                <div class="orca-hint" id="ai-provider-description">
+                                    Cyber inference for authorized security teams on one OpenAI-compatible endpoint.
+                                </div>
+                            </div>
+
+                            <div class="orca-card" id="orca-provider-card">
+                                <div class="orca-card-title">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>OrcaRouter Cyber Inference</span>
+                                    <span class="orca-tag">cyber</span>
+                                </div>
+                                <p class="orca-card-text">
+                                    Routes <strong>authorized, scoped</strong> security reasoning for teams that have
+                                    completed business verification. Red teams use the cyber models; blue teams use the
+                                    gateway controls on the same endpoint. See
+                                    <a href="https://www.orcarouter.ai/cyber" target="_blank" rel="noopener">OrcaRouter for security teams</a>
+                                    and the
+                                    <a href="https://www.orcarouter.ai/models?tier=cyber" target="_blank" rel="noopener">cyber model catalog</a>.
+                                </p>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="orcarouter-api-key">OrcaRouter API key</label>
+                                    <input type="password" id="orcarouter-api-key" class="form-input"
+                                           placeholder="sk-orca-..." autocomplete="off" spellcheck="false">
+                                    <div class="orca-hint" id="orcarouter-key-status">
+                                        Checking credential status...
+                                    </div>
+                                </div>
+
+                                <div class="orca-actions">
+                                    <button id="orcarouter-save-key" class="btn btn-primary" type="button" onclick="saveOrcaRouterKey()">
+                                        <i class="fa-solid fa-key"></i> Save API key
+                                    </button>
+                                    <button id="orcarouter-clear-key" class="btn btn-secondary" type="button" onclick="clearOrcaRouterKey()">
+                                        <i class="fa-solid fa-eraser"></i> Clear
+                                    </button>
+                                    <a class="orca-link" href="https://www.orcarouter.ai/console" target="_blank" rel="noopener">
+                                        Manage keys in the OrcaRouter console
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width" style="margin-top: 22px;">
+                                <label class="form-label" for="ai-model-trigger">Model</label>
+                                <div class="orca-model-row">
+                                    <div class="orca-select" id="ai-model-select-wrap">
+                                        <button id="ai-model-trigger" class="orca-select-trigger" type="button"
+                                                aria-haspopup="listbox" aria-expanded="false"
+                                                onclick="toggleModelDropdown()">
+                                            <span id="ai-model-label">No models loaded</span>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </button>
+                                        <div class="orca-select-panel" id="ai-model-panel" role="listbox" hidden></div>
+                                    </div>
+                                    <button id="ai-model-refresh" class="btn btn-secondary" type="button" onclick="loadModels(true)">
+                                        <i class="fa-solid fa-rotate"></i> Refresh
+                                    </button>
+                                </div>
+                                <input type="hidden" id="ai-model-value" value="">
+                                <div class="orca-hint" id="ai-model-status">Select a provider to load its model catalog.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         </main>
     </div>
@@ -443,7 +525,13 @@
 
         // Fetch all data on load
         window.addEventListener('DOMContentLoaded', () => {
-            initCharts();
+            // Provider configuration must not depend on optional chart assets.
+            loadProviderDirectory();
+            try {
+                initCharts();
+            } catch (err) {
+                console.warn('Charts unavailable:', err);
+            }
             fetchDashboardData();
             // Start polling status
             setInterval(pollActiveScanStatus, 2500);
@@ -1033,6 +1121,236 @@
 
         function closeVulnModal() {
             document.getElementById('vuln-modal').classList.remove('active');
+        }
+
+        // ------------------------------------------------------------------
+        // AI provider configuration (OrcaRouter Cyber Inference)
+        // ------------------------------------------------------------------
+        let modelOptions = [];
+        let catalogStatusText = '';
+
+        function setOrcaHint(id, text, tone) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.innerText = text;
+            el.className = 'orca-hint' + (tone ? ' ' + tone : '');
+        }
+
+        function renderCredentialStatus(credential) {
+            const clearBtn = document.getElementById('orcarouter-clear-key');
+            if (!credential || !credential.configured) {
+                setOrcaHint('orcarouter-key-status',
+                    'No OrcaRouter API key configured. Paste an sk-orca-… key to load the cyber catalog.',
+                    'warn');
+                if (clearBtn) clearBtn.disabled = true;
+                return;
+            }
+            let text = 'Configured (' + credential.masked + ') from ' + credential.source + '.';
+            if (credential.needs_reauth) {
+                text += ' OrcaRouter rejected this key - enter a new one to continue.';
+            }
+            setOrcaHint('orcarouter-key-status', text, credential.needs_reauth ? 'error' : 'ok');
+            if (clearBtn) clearBtn.disabled = false;
+        }
+
+        function loadProviderDirectory() {
+            fetch('/api/ai/providers', { cache: 'no-store' })
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById('ai-provider-select');
+                    const current = select.value || 'orcarouter';
+                    const providers = (data.providers || []).slice();
+                    providers.sort((a, b) => {
+                        if (a.id === 'orcarouter') return -1;
+                        if (b.id === 'orcarouter') return 1;
+                        return (a.name || '').localeCompare(b.name || '');
+                    });
+                    select.innerHTML = '';
+                    providers.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p.id;
+                        opt.textContent = p.id === 'orcarouter' ? 'OrcaRouter Cyber Inference' : p.name;
+                        select.appendChild(opt);
+                    });
+                    if (!select.querySelector('option[value="orcarouter"]')) {
+                        const opt = document.createElement('option');
+                        opt.value = 'orcarouter';
+                        opt.textContent = 'OrcaRouter Cyber Inference';
+                        select.appendChild(opt);
+                    }
+                    select.value = current;
+                    if (data.orcarouter) {
+                        renderCredentialStatus(data.orcarouter.credential);
+                    }
+                    loadModels(false);
+                })
+                .catch(() => {
+                    setOrcaHint('orcarouter-key-status',
+                        'Provider registry unavailable while the dashboard starts up.', 'error');
+                });
+        }
+
+        function onProviderChanged() {
+            const provider = document.getElementById('ai-provider-select').value;
+            const card = document.getElementById('orca-provider-card');
+            if (card) card.style.display = provider === 'orcarouter' ? '' : 'none';
+            closeModelDropdown();
+            loadModels(false);
+        }
+
+        function closeModelDropdown() {
+            const panel = document.getElementById('ai-model-panel');
+            const trigger = document.getElementById('ai-model-trigger');
+            if (panel) panel.setAttribute('hidden', 'hidden');
+            if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        }
+
+        function toggleModelDropdown() {
+            const panel = document.getElementById('ai-model-panel');
+            const trigger = document.getElementById('ai-model-trigger');
+            if (!panel || !trigger) return;
+            if (panel.hasAttribute('hidden')) {
+                panel.removeAttribute('hidden');
+                trigger.setAttribute('aria-expanded', 'true');
+            } else {
+                closeModelDropdown();
+            }
+        }
+
+        function selectModel(modelId, label) {
+            document.getElementById('ai-model-value').value = modelId;
+            document.getElementById('ai-model-label').textContent = label;
+            document.querySelectorAll('#ai-model-panel .orca-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.modelId === modelId);
+            });
+            closeModelDropdown();
+        }
+
+        function renderModelOptions(models, statusText, tone) {
+            const panel = document.getElementById('ai-model-panel');
+            const trigger = document.getElementById('ai-model-trigger');
+            const label = document.getElementById('ai-model-label');
+            const hiddenValue = document.getElementById('ai-model-value');
+            const previous = hiddenValue.value;
+            panel.innerHTML = '';
+
+            models.forEach(model => {
+                const item = document.createElement('div');
+                item.className = 'orca-option';
+                item.dataset.modelId = model.id;
+                item.setAttribute('role', 'option');
+                item.innerHTML = '<strong></strong><span class="orca-option-id"></span>';
+                item.querySelector('strong').textContent = model.name;
+                item.querySelector('.orca-option-id').textContent =
+                    model.id + ' · ' + Math.round((model.context_window || 0) / 1000) + 'k ctx';
+                item.addEventListener('click', () => selectModel(model.id, model.name));
+                panel.appendChild(item);
+            });
+
+            if (!models.length) {
+                const empty = document.createElement('div');
+                empty.className = 'orca-option-empty';
+                empty.textContent = 'No compatible models available.';
+                panel.appendChild(empty);
+            }
+
+            const stillValid = previous && models.some(m => m.id === previous);
+            if (!stillValid && previous) {
+                hiddenValue.value = '';
+                label.textContent = 'Select a model';
+                tone = 'warn';
+                statusText = 'Previously selected model ' + previous +
+                    ' is no longer available for this provider; choose another.';
+            } else if (stillValid) {
+                const match = models.find(m => m.id === previous);
+                label.textContent = match.name;
+            } else if (models.length) {
+                label.textContent = 'Select a model (' + models.length + ')';
+            } else {
+                label.textContent = 'No compatible models';
+            }
+
+            trigger.disabled = models.length === 0;
+            setOrcaHint('ai-model-status', statusText, tone);
+        }
+
+        function loadModels(forceRefresh) {
+            const provider = document.getElementById('ai-provider-select').value || 'orcarouter';
+            closeModelDropdown();
+            setOrcaHint('ai-model-status', 'Loading model catalog...', '');
+            const url = '/api/ai/models?provider=' + encodeURIComponent(provider) +
+                '&capability=chat' + (forceRefresh ? '&refresh=1' : '');
+            fetch(url, { cache: 'no-store' })
+                .then(async res => {
+                    const data = await res.json().catch(() => ({}));
+                    if (res.status === 401) {
+                        if (data.credential) renderCredentialStatus(data.credential);
+                        renderModelOptions([], data.message || 'Reauthentication required.', 'error');
+                        return;
+                    }
+                    if (!res.ok) {
+                        renderModelOptions([], data.error || 'Model catalog unavailable.', 'error');
+                        return;
+                    }
+                    const models = data.models || [];
+                    modelOptions = models;
+                    let text = 'Live catalog · ' + models.length + ' chat models.';
+                    let tone = 'ok';
+                    if (data.degraded) {
+                        text = 'Degraded catalog (' + (data.reason || 'unavailable') + ') · showing ' +
+                            models.length + ' verified fallback models.';
+                        tone = 'warn';
+                    } else if (data.source === 'static') {
+                        text = 'Static catalog · ' + models.length + ' models.';
+                        tone = '';
+                    }
+                    catalogStatusText = text;
+                    renderModelOptions(models, text, tone);
+                })
+                .catch(() => {
+                    renderModelOptions([], 'Network error while loading the model catalog.', 'error');
+                });
+        }
+
+        function saveOrcaRouterKey() {
+            const input = document.getElementById('orcarouter-api-key');
+            const value = input.value.trim();
+            if (!value) {
+                setOrcaHint('orcarouter-key-status', 'Enter an sk-orca-… API key first.', 'warn');
+                return;
+            }
+            const button = document.getElementById('orcarouter-save-key');
+            button.disabled = true;
+            fetch('/api/ai/providers/orcarouter/credential', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ api_key: value })
+            })
+                .then(async res => {
+                    const data = await res.json().catch(() => ({}));
+                    if (!res.ok) {
+                        setOrcaHint('orcarouter-key-status',
+                            data.message || 'Could not save the OrcaRouter API key.', 'error');
+                        return;
+                    }
+                    input.value = '';
+                    renderCredentialStatus(data.status);
+                    loadModels(true);
+                })
+                .catch(() => setOrcaHint('orcarouter-key-status',
+                    'Network error while saving the OrcaRouter API key.', 'error'))
+                .finally(() => { button.disabled = false; });
+        }
+
+        function clearOrcaRouterKey() {
+            fetch('/api/ai/providers/orcarouter/credential', { method: 'DELETE' })
+                .then(res => res.json())
+                .then(data => {
+                    renderCredentialStatus(data.status);
+                    loadModels(true);
+                })
+                .catch(() => setOrcaHint('orcarouter-key-status',
+                    'Network error while clearing the OrcaRouter API key.', 'error'));
         }
 
         // HTML escaping helper

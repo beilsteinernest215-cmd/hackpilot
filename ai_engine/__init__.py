@@ -38,6 +38,12 @@ from .model_registry import (
     fetch_all_provider_models,
     normalize_provider,
 )
+from .orcarouter import (
+    DISPLAY_NAME as ORCAROUTER_DISPLAY_NAME,
+    OrcaRouterAuthError,
+    credential_store as orca_credential_store,
+    discover_models as discover_orcarouter_models,
+)
 from .providers import (
     ProviderFactory,
     BaseProvider,

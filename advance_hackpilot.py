@@ -133,6 +133,8 @@ class Config:
         self.HACKPILOT_CUSTOM_ROUTE = self.HACKPILOT_CUSTOM_ROUTE
         self.OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", self.config.get("ai", "openrouter_base_url", fallback="https://openrouter.ai/api/v1"))
         self.OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", self.config.get("ai", "openrouter_api_key", fallback=""))
+        self.ORCAROUTER_BASE_URL = os.getenv("ORCAROUTER_BASE_URL", self.config.get("ai", "orcarouter_base_url", fallback="https://api.orcarouter.ai/v1"))
+        self.ORCAROUTER_API_KEY = os.getenv("ORCAROUTER_API_KEY", self.config.get("ai", "orcarouter_api_key", fallback=""))
         self.NINEBROUTER_BASE_URL = os.getenv("NINEBROUTER_BASE_URL", self.config.get("ai", "ninebrouter_base_url", fallback="http://localhost:8000/v1"))
         self.NINEBROUTER_API_KEY = os.getenv("NINEBROUTER_API_KEY", self.config.get("ai", "ninebrouter_api_key", fallback=""))
         self.CUSTOM_ROUTER_BASE_URL = os.getenv("CUSTOM_ROUTER_BASE_URL", self.config.get("ai", "custom_router_base_url", fallback="http://localhost:8080/v1"))
@@ -186,6 +188,17 @@ class Config:
 
 # Initialize configuration
 config = Config()
+
+# OrcaRouter credentials follow the project's existing conventions: the
+# environment variable first, then the operator-managed config.ini entry.
+try:
+    from ai_engine.orcarouter import credential_store as _orca_credential_store
+
+    _orca_credential_store.set_config_reader(
+        lambda: getattr(config, "ORCAROUTER_API_KEY", "") or ""
+    )
+except Exception:  # pragma: no cover - optional dependency guard
+    pass
 
 # Setup logging
 log_dir = Path("/var/log")
@@ -264,6 +277,7 @@ class EnterpriseHackPilot:
             has_ai_credentials = bool(
                 config.OPENAI_API_KEY
                 or os.getenv("OPENROUTER_API_KEY")
+                or os.getenv("ORCAROUTER_API_KEY")
                 or os.getenv("NINEBROUTER_BASE_URL")
                 or os.getenv("CUSTOM_ROUTER_BASE_URL")
                 or os.getenv("HACKPILOT_CUSTOM_ROUTE")
@@ -2970,12 +2984,179 @@ class EnterpriseWebDashboard:
         def cancel_pentest(session_id):
             if not self.hackpilot.db:
                 return jsonify({"error": "Database not initialized"}), 500
-            
+
             try:
                 self.hackpilot.db.update_session_status(session_id, 'cancelled', 'system')
                 return jsonify({"status": "cancelled", "session_id": session_id})
             except Exception as e:
                 return jsonify({"error": str(e)}), 500
+
+        # ------------------------------------------------------------------
+        # AI provider configuration (OrcaRouter Cyber Inference)
+        # ------------------------------------------------------------------
+
+        def _orcarouter_registry():
+            """Import the provider registry late so optional deps stay soft."""
+            from ai_engine import orcarouter
+            from ai_engine.model_registry import (
+                ModelProvider,
+                get_available_providers,
+                get_models_by_provider,
+                normalize_provider,
+            )
+
+            return (
+                orcarouter,
+                ModelProvider,
+                get_available_providers,
+                get_models_by_provider,
+                normalize_provider,
+            )
+
+        def _model_payload(model):
+            return {
+                "id": model.model_id,
+                "name": model.display_name,
+                "context_window": model.context_window,
+                "description": model.description,
+                "input_modalities": list(model.input_modalities),
+                "reasoning_efforts": list(model.reasoning_efforts),
+            }
+
+        @app.route('/api/ai/providers', methods=['GET'])
+        def ai_providers():
+            try:
+                (
+                    orcarouter,
+                    _provider_enum,
+                    get_available_providers,
+                    _models_for,
+                    _normalize,
+                ) = _orcarouter_registry()
+            except Exception as e:
+                return jsonify({"error": "AI registry unavailable", "detail": str(e)}), 503
+
+            return jsonify({
+                "providers": get_available_providers(),
+                "orcarouter": {
+                    "id": orcarouter.PROVIDER_ID,
+                    "name": orcarouter.DISPLAY_NAME,
+                    "base_url": orcarouter.resolve_api_base(config.ORCAROUTER_BASE_URL),
+                    "brand_url": orcarouter.BRAND_URL,
+                    "cyber_url": orcarouter.CYBER_URL,
+                    "models_url": orcarouter.CYBER_MODELS_URL,
+                    "key_dashboard_url": orcarouter.KEY_DASHBOARD_URL,
+                    "recommended_model": orcarouter.DEFAULT_CYBER_MODEL,
+                    "recommended_models": list(orcarouter.CYBER_MODEL_IDS),
+                    "fallback_model": orcarouter.FALLBACK_MODEL_ID,
+                    "credential": orcarouter.credential_store.status(),
+                },
+            })
+
+        @app.route('/api/ai/models', methods=['GET'])
+        def ai_models():
+            """Return a capability-filtered model list for the selected provider.
+
+            The OrcaRouter credential never leaves the server: discovery runs
+            here and only minimal model metadata is returned to the browser.
+            """
+            try:
+                (
+                    orcarouter,
+                    provider_enum,
+                    _available,
+                    get_models_by_provider,
+                    normalize_provider,
+                ) = _orcarouter_registry()
+            except Exception as e:
+                return jsonify({"error": "AI registry unavailable", "detail": str(e)}), 503
+
+            provider_id = (request.args.get('provider') or orcarouter.PROVIDER_ID).lower()
+            capability = (request.args.get('capability') or 'chat').lower()
+            modality_arg = (
+                request.args.get('input_modalities')
+                or request.args.get('modalities')
+                or ''
+            )
+            required = [m.strip().lower() for m in modality_arg.split(',') if m.strip()]
+
+            provider = normalize_provider(provider_id)
+            if provider is None:
+                return jsonify({"error": "unknown_provider"}), 400
+
+            if provider is not provider_enum.ORCAROUTER:
+                if capability != 'chat':
+                    return jsonify({
+                        "provider": provider.value,
+                        "capability": capability,
+                        "source": "static",
+                        "degraded": False,
+                        "reason": "capability_not_registered",
+                        "models": [],
+                    })
+                models = [_model_payload(m) for m in get_models_by_provider(provider)]
+                return jsonify({
+                    "provider": provider.value,
+                    "capability": capability,
+                    "source": "static",
+                    "degraded": False,
+                    "reason": "",
+                    "models": models,
+                })
+
+            credential = orcarouter.credential_store.resolve()
+            try:
+                result = orcarouter.discover_models(
+                    credential.key if credential else None,
+                    capability=capability,
+                    base_url=config.ORCAROUTER_BASE_URL,
+                    required_input_modalities=required,
+                )
+            except orcarouter.OrcaRouterAuthError:
+                orcarouter.credential_store.mark_needs_reauth()
+                return jsonify({
+                    "error": "reauthentication_required",
+                    "message": (
+                        "OrcaRouter rejected the stored credential. Update the "
+                        "API key to continue."
+                    ),
+                    "credential": orcarouter.credential_store.status(),
+                }), 401
+
+            return jsonify({
+                "provider": orcarouter.PROVIDER_ID,
+                "capability": capability,
+                "source": result.source,
+                "degraded": result.degraded,
+                "reason": result.reason,
+                "models": [_model_payload(m) for m in result.models],
+            })
+
+        @app.route('/api/ai/providers/orcarouter/credential', methods=['POST'])
+        def set_orcarouter_credential():
+            try:
+                orcarouter, _p, _a, _m, _n = _orcarouter_registry()
+            except Exception as e:
+                return jsonify({"error": "AI registry unavailable", "detail": str(e)}), 503
+
+            data = request.json or {}
+            secret = data.get('api_key') or ''
+            try:
+                orcarouter.credential_store.set_runtime_key(secret)
+            except ValueError as e:
+                return jsonify({"error": "invalid_key", "message": str(e)}), 400
+            # Only the masked status is returned; the key stays server-side.
+            return jsonify({"status": orcarouter.credential_store.status()})
+
+        @app.route('/api/ai/providers/orcarouter/credential', methods=['DELETE'])
+        def clear_orcarouter_credential():
+            try:
+                orcarouter, _p, _a, _m, _n = _orcarouter_registry()
+            except Exception as e:
+                return jsonify({"error": "AI registry unavailable", "detail": str(e)}), 503
+
+            orcarouter.credential_store.clear()
+            return jsonify({"status": orcarouter.credential_store.status()})
 
         self.app = app
         

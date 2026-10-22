@@ -45,6 +45,7 @@ class ModelProvider(Enum):
     LITELLM = "litellm"
     NINEBROUTER = "9brouter"
     CUSTOM_ROUTER = "custom_router"
+    ORCAROUTER = "orcarouter"
 
 
 # ---------------------------------------------------------------------------
@@ -66,6 +67,11 @@ class ModelInfo:
         supports_tools: Whether the model supports tool / function calling.
         context_window: Total context window size (input + output) in tokens.
         description: Optional free-text description of the model.
+        input_modalities: Modalities the model accepts, as advertised by the
+            provider catalog.  Defaults to text only so unknown models fail
+            closed for multimodal entries.
+        reasoning_efforts: Verified reasoning-effort levels, when the provider
+            advertises them.
     """
 
     model_id: str
@@ -76,6 +82,8 @@ class ModelInfo:
     supports_tools: bool = False
     context_window: int = 128_000
     description: str = ""
+    input_modalities: tuple = ("text",)
+    reasoning_efforts: tuple = ()
 
 
 # ---------------------------------------------------------------------------
@@ -494,6 +502,97 @@ MODEL_CATALOG: Dict[str, ModelInfo] = {
         context_window=1_000_000,
         description="Google Gemini 2.5 Flash routed through the LiteLLM AI gateway.",
     ),
+
+    # ----- OrcaRouter Cyber Inference ------------------------------------
+    # Recommended defaults for authorized security teams. OrcaCyber Ultra and
+    # Zero require the cyber tier to be unlocked for the workspace; the live
+    # catalog from /v1/models is authoritative once a key is configured.
+    "orca/orcacyber-ultra-1.0": ModelInfo(
+        model_id="orca/orcacyber-ultra-1.0",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="OrcaCyber Ultra 1.0 (via OrcaRouter)",
+        max_tokens=16_384,
+        supports_tools=True,
+        context_window=200_000,
+        description="Security-code scanning model tuned for multi-step reasoning over large codebases.",
+        reasoning_efforts=("low", "medium", "high"),
+    ),
+    "orca/orcacyber-zero-1.5": ModelInfo(
+        model_id="orca/orcacyber-zero-1.5",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="OrcaCyber Zero 1.5 (via OrcaRouter)",
+        max_tokens=8_192,
+        supports_tools=True,
+        context_window=128_000,
+        description="OrcaCyber-harness-driven security model for scoped authorized tasks.",
+    ),
+    "orca/orcacyber-zero-1.0": ModelInfo(
+        model_id="orca/orcacyber-zero-1.0",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="OrcaCyber Zero 1.0 (via OrcaRouter)",
+        max_tokens=8_192,
+        supports_tools=True,
+        context_window=128_000,
+        description="Previous OrcaCyber Zero release for scoped authorized tasks.",
+    ),
+    "orcarouter/fusion": ModelInfo(
+        model_id="orcarouter/fusion",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="OrcaRouter Fusion (via OrcaRouter)",
+        max_tokens=8_192,
+        supports_tools=True,
+        context_window=128_000,
+        description="General routing model used when the cyber tier is not unlocked.",
+    ),
+    "orcarouter/auto": ModelInfo(
+        model_id="orcarouter/auto",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="OrcaRouter Auto (via OrcaRouter)",
+        max_tokens=8_192,
+        supports_tools=True,
+        context_window=128_000,
+        description="Automatic model routing across the OrcaRouter catalog.",
+    ),
+    "openai/gpt-5.5": ModelInfo(
+        model_id="openai/gpt-5.5",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="GPT-5.5 (via OrcaRouter)",
+        max_tokens=16_384,
+        supports_tools=True,
+        context_window=400_000,
+        description="OpenAI GPT-5.5 routed through the OrcaRouter gateway.",
+        reasoning_efforts=("low", "medium", "high", "xhigh"),
+    ),
+    "anthropic/claude-opus-4.8": ModelInfo(
+        model_id="anthropic/claude-opus-4.8",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="Claude Opus 4.8 (via OrcaRouter)",
+        max_tokens=16_384,
+        supports_tools=True,
+        context_window=200_000,
+        description="Anthropic Claude Opus 4.8 routed through the OrcaRouter gateway.",
+        input_modalities=("text", "image"),
+    ),
+    "google/gemini-3.5-flash": ModelInfo(
+        model_id="google/gemini-3.5-flash",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="Gemini 3.5 Flash (via OrcaRouter)",
+        max_tokens=65_536,
+        supports_tools=True,
+        context_window=1_000_000,
+        description="Google Gemini 3.5 Flash routed through the OrcaRouter gateway.",
+        input_modalities=("text", "image"),
+    ),
+    "deepseek/deepseek-v4-pro": ModelInfo(
+        model_id="deepseek/deepseek-v4-pro",
+        provider=ModelProvider.ORCAROUTER,
+        display_name="DeepSeek V4 Pro (via OrcaRouter)",
+        max_tokens=8_192,
+        supports_tools=True,
+        context_window=128_000,
+        description="DeepSeek V4 Pro reasoning model routed through the OrcaRouter gateway.",
+        reasoning_efforts=("low", "high"),
+    ),
 }
 
 
@@ -552,6 +651,15 @@ _PROVIDER_META: Dict[ModelProvider, Dict[str, Any]] = {
         "description": "Custom user-defined OpenAI-compatible router, reverse proxy, or API gateway.",
         "required_env_vars": ["CUSTOM_ROUTER_BASE_URL"],
     },
+    ModelProvider.ORCAROUTER: {
+        "name": "OrcaRouter Cyber Inference",
+        "description": (
+            "Cyber inference provider for authorized security teams: OrcaCyber models "
+            "for red-team work plus gateway controls for blue-team work, all behind one "
+            "OpenAI-compatible endpoint."
+        ),
+        "required_env_vars": ["ORCAROUTER_API_KEY"],
+    },
 }
 
 
@@ -586,6 +694,9 @@ def normalize_provider(val: Any) -> Optional[ModelProvider]:
         "9b": ModelProvider.NINEBROUTER,
         "custom": ModelProvider.CUSTOM_ROUTER,
         "custom_router": ModelProvider.CUSTOM_ROUTER,
+        "orcarouter": ModelProvider.ORCAROUTER,
+        "orca": ModelProvider.ORCAROUTER,
+        "orca_router": ModelProvider.ORCAROUTER,
     }
     return alias_map.get(val_clean)
 
@@ -641,6 +752,20 @@ def get_model_info(model_id: str) -> Optional[ModelInfo]:
 
     if model_id in DYNAMIC_MODEL_CATALOG:
         return DYNAMIC_MODEL_CATALOG[model_id]
+
+    # OrcaCyber compatibility aliases: the live catalog exposes the cyber
+    # models under the ``orca/`` namespace, and those ids are authoritative.
+    if model_id in ("orcacyber-ultra-1.0", "orcacyber-zero-1.5", "orcacyber-zero-1.0"):
+        return ModelInfo(
+            model_id=f"orca/{model_id}",
+            provider=ModelProvider.ORCAROUTER,
+            display_name=f"{model_id} (via OrcaRouter)",
+            max_tokens=8_192,
+            supports_streaming=True,
+            supports_tools=True,
+            context_window=128_000,
+            description=f"OrcaCyber model '{model_id}' routed through OrcaRouter.",
+        )
 
     # Dynamic OpenRouter routing prefix (e.g. openrouter/mistralai/mistral-large)
     if model_id.startswith("openrouter/"):
@@ -765,6 +890,7 @@ def get_available_providers() -> List[Dict[str, Any]]:
         meta = _PROVIDER_META[member]
         providers.append(
             {
+                "id": member.value,
                 "name": meta["name"],
                 "description": meta["description"],
                 "required_env_vars": meta["required_env_vars"],

@@ -11,7 +11,7 @@ DeepSeek, GLM (Zhipu), Ollama (local), and OpenRouter.
 import logging
 import os
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 # Third-party imports — wrapped so the module loads even when
 # optional dependencies are missing.
@@ -32,6 +32,14 @@ except ImportError:
     _HAS_REQUESTS = False
 
 from .model_registry import ModelProvider, ModelInfo, MODEL_CATALOG, get_model_info
+from .orcarouter import (
+    CAPABILITY_CHAT,
+    OrcaRouterAccessError,
+    OrcaRouterAuthError,
+    credential_store,
+    discover_models,
+    resolve_api_base,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +52,7 @@ __all__ = [
     "GLMProvider",
     "OllamaProvider",
     "OpenRouterProvider",
+    "OrcaRouterProvider",
     "LiteLLMProvider",
     "NineBRouterProvider",
     "CustomRouterProvider",
@@ -80,6 +89,52 @@ def _safe_http_get(
     except Exception as exc:
         logger.debug("GET %s via urllib failed: %s", url, exc)
     return None
+
+
+def _safe_http_post_json(
+    url: str,
+    headers: Dict[str, str],
+    payload: Dict[str, Any],
+    timeout: int = 60,
+) -> Tuple[int, Any]:
+    """POST JSON with a bounded response, returning ``(status, decoded body)``.
+
+    The HTTP status is returned instead of raised so callers can distinguish a
+    terminal credential rejection (401/403) from a transient failure.
+    """
+    import json
+
+    body_bytes = json.dumps(payload).encode("utf-8")
+    if _HAS_REQUESTS and requests is not None and hasattr(requests, "post"):
+        try:
+            response = requests.post(
+                url, headers=headers, data=body_bytes, timeout=timeout
+            )
+            status = getattr(response, "status_code", 0)
+            try:
+                data = response.json()
+            except Exception:
+                data = None
+            return status, data
+        except Exception as exc:
+            raise RuntimeError(f"OrcaRouter request failed: {type(exc).__name__}")
+
+    import urllib.error
+    import urllib.request
+
+    request = urllib.request.Request(url, data=body_bytes, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return int(getattr(response, "status", 200)), json.loads(
+                response.read().decode("utf-8")
+            )
+    except urllib.error.HTTPError as exc:
+        try:
+            data = json.loads(exc.read().decode("utf-8"))
+        except Exception:
+            data = None
+        return int(exc.code), data
+
 
 
 # ---------------------------------------------------------------------------
@@ -926,6 +981,149 @@ class OpenRouterProvider(BaseProvider):
 
 
 # ---------------------------------------------------------------------------
+# OrcaRouter Cyber Inference (OpenAI-compatible cyber gateway)
+# ---------------------------------------------------------------------------
+
+
+class OrcaRouterProvider(BaseProvider):
+    """Provider client for OrcaRouter Cyber Inference.
+
+    OrcaRouter is an OpenAI-compatible gateway aimed at authorized security
+    teams: the OrcaCyber models serve red-team reasoning while the same
+    endpoint carries the gateway's blue-team controls.  Inference lives on
+    ``https://api.orcarouter.ai/v1``; the credential is a normal
+    ``sk-orca-...`` API key resolved through
+    :data:`ai_engine.orcarouter.credential_store`.
+
+    A ``401``/``403`` from the gateway is terminal: OrcaRouter issues durable
+    API keys, so the exact credential generation is marked for
+    re-authentication instead of attempting a refresh.
+    """
+
+    _DEFAULT_BASE_URL = "https://api.orcarouter.ai/v1"
+
+    def __init__(self, api_key: str = None, base_url: str = None):
+        credential = credential_store.resolve(api_key) if api_key else credential_store.resolve()
+        super().__init__(
+            api_key=credential.key if credential else None,
+            base_url=resolve_api_base(base_url),
+        )
+        self._client: Optional[object] = None
+
+    def _get_client(self) -> "openai.OpenAI":
+        """Lazily create and cache the OpenAI-compatible client."""
+        if self._client is None:
+            if not _HAS_OPENAI:
+                raise ImportError(
+                    "The 'openai' package is required for OrcaRouterProvider. "
+                    "Install it with: pip install openai"
+                )
+            self._client = openai.OpenAI(
+                api_key=self.api_key,
+                base_url=self.base_url,
+                default_headers={"X-Title": "HackPilot"},
+            )
+        return self._client  # type: ignore[return-value]
+
+    def _mark_rejected_credential(self) -> None:
+        credential_store.mark_needs_reauth_for_key(self.api_key)
+
+    def chat_completion(
+        self,
+        model_id: str,
+        messages: List[Dict[str, str]],
+        max_tokens: int = 4096,
+        temperature: float = 0.7,
+    ) -> str:
+        """Call OrcaRouter chat completions via the OpenAI-compatible API."""
+        payload = {
+            "model": model_id,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+        }
+        if _HAS_OPENAI:
+            client = self._get_client()
+            try:
+                response = client.chat.completions.create(**payload)
+                return response.choices[0].message.content
+            except Exception as exc:
+                status = getattr(exc, "status_code", None)
+                if status == 401:
+                    self._mark_rejected_credential()
+                    raise OrcaRouterAuthError(
+                        f"OrcaRouter rejected the credential (HTTP {status})"
+                    ) from None
+                if status == 403:
+                    raise OrcaRouterAccessError(
+                        "OrcaRouter denied this model for the workspace "
+                        f"(HTTP {status}); the cyber tier may not be unlocked"
+                    ) from None
+                logger.error("OrcaRouter chat completion failed: %s", exc)
+                raise
+
+        status, body = _safe_http_post_json(
+            f"{self.base_url}/chat/completions",
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+                "X-Title": "HackPilot",
+            },
+            payload=payload,
+        )
+        if status == 401:
+            self._mark_rejected_credential()
+            raise OrcaRouterAuthError(
+                f"OrcaRouter rejected the credential (HTTP {status})"
+            )
+        if status == 403:
+            raise OrcaRouterAccessError(
+                "OrcaRouter denied this model for the workspace "
+                f"(HTTP {status}); the cyber tier may not be unlocked"
+            )
+        if status != 200:
+            raise RuntimeError(f"OrcaRouter chat completion failed: HTTP {status}")
+        try:
+            return body["choices"][0]["message"]["content"]
+        except (KeyError, IndexError, TypeError):
+            raise RuntimeError("OrcaRouter returned an unexpected chat response")
+
+    def is_available(self) -> bool:
+        return bool(self.api_key)
+
+    @property
+    def provider_name(self) -> str:
+        return "OrcaRouter Cyber Inference"
+
+    def fetch_remote_models(self) -> List[ModelInfo]:
+        """Fetch the live OrcaRouter chat catalog (authoritative when it works)."""
+        try:
+            result = discover_models(self.api_key, capability=CAPABILITY_CHAT)
+        except OrcaRouterAuthError:
+            self._mark_rejected_credential()
+            return []
+        if result.degraded:
+            # The registry falls back to the verified static catalog; never
+            # merge seed entries into a live result.
+            return []
+        return [
+            ModelInfo(
+                model_id=model.model_id,
+                provider=ModelProvider.ORCAROUTER,
+                display_name=model.display_name,
+                max_tokens=8_192,
+                supports_streaming=True,
+                supports_tools=True,
+                context_window=model.context_window,
+                description=model.description,
+                input_modalities=model.input_modalities,
+                reasoning_efforts=model.reasoning_efforts,
+            )
+            for model in result.models
+        ]
+
+
+# ---------------------------------------------------------------------------
 # LiteLLM (unified AI gateway)
 # ---------------------------------------------------------------------------
 
@@ -1357,6 +1555,7 @@ _PROVIDER_CLASS_MAP: Dict[ModelProvider, type] = {
     ModelProvider.GLM: GLMProvider,
     ModelProvider.LOCAL: OllamaProvider,
     ModelProvider.OPENROUTER: OpenRouterProvider,
+    ModelProvider.ORCAROUTER: OrcaRouterProvider,
     ModelProvider.LITELLM: LiteLLMProvider,
     ModelProvider.NINEBROUTER: NineBRouterProvider,
     ModelProvider.CUSTOM_ROUTER: CustomRouterProvider,
@@ -1471,6 +1670,19 @@ class ProviderFactory:
                     supports_tools=True,
                     context_window=128_000,
                     description=f"Model '{model_id}' dispatched via OpenRouter.",
+                )
+            elif custom_provider_name in ("orcarouter", "orca", "orca_router"):
+                model_info = ModelInfo(
+                    model_id=model_id,
+                    provider=ModelProvider.ORCAROUTER,
+                    display_name=f"{model_id} (via OrcaRouter Cyber Inference)",
+                    max_tokens=8192,
+                    supports_streaming=True,
+                    supports_tools=True,
+                    context_window=128_000,
+                    description=(
+                        f"Model '{model_id}' dispatched via OrcaRouter Cyber Inference."
+                    ),
                 )
             else:
                 raise ValueError(f"Model '{model_id}' not found in MODEL_CATALOG")
